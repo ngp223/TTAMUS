@@ -20,3 +20,4 @@ def step_creo_usuario(context):
 @then("el administrador esta en el restaurante") 
 def step_el_administrador_esta_en_el_restaurante(context): 
     context.register_page.comprobar_administrador_en_restaurante()
+    

@@ -6,4 +6,5 @@ Feature: Registro de usuario
     When relleno campos obligatorios
     Then creo usuario
     And el administrador esta en el restaurante
+    
 

@@ -26,3 +26,4 @@ def before_all(context):
 def after_all(context):
     if hasattr(context, "driver") and context.driver:
         context.driver.quit()
+        
