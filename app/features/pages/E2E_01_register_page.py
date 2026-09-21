@@ -29,7 +29,7 @@ class RegisterPage:
         fecha_hora = datetime.now().strftime('%d%m%Y%H%M%S')
         usuario = f"UsuarioQA{fecha_hora}"
         email = f"{usuario}@sharklasers.com"
-        password = f"{usuario}123"
+        password = f"QA1234"
         restaurante = f"RestauranteQA{fecha_hora}"
         administrador = f"Administrador{fecha_hora}"
         self.usuario_creado = usuario
@@ -44,7 +44,7 @@ class RegisterPage:
         self.wait.until(EC.visibility_of_element_located(self.restaurante)).send_keys(restaurante)
         self.wait.until(EC.element_to_be_clickable(self.continuar)).click()
         self.wait.until(EC.visibility_of_element_located(self.administrador)).send_keys(administrador)
-        self.wait.until(EC.visibility_of_element_located(self.pin)).send_keys("1234")
+        self.wait.until(EC.visibility_of_element_located(self.pin)).send_keys("QA1234")
         self.wait.until(EC.element_to_be_clickable(self.continuar)).click()
         self.wait.until(EC.element_to_be_clickable(self.crear_cuenta_entrar)).click()
         self.wait.until(EC.visibility_of_element_located(self.ventas))
