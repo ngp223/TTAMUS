@@ -1,4 +1,5 @@
 from appium.webdriver.common.appiumby import AppiumBy
+import time
 
 
 class HomePage:
@@ -9,4 +10,5 @@ class HomePage:
 
     def logout(self):
         self.driver.find_element(*self.menu_usuario).click()
+        time.sleep(2)
         self.driver.find_element(*self.salir).click()
