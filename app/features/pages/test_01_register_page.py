@@ -2,7 +2,7 @@ from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from features.config.test_config import TEST_PASSWORD
+from features.config.test_config import TEST_PASSWORD,TEST_EMAIL
 
 class RegisterPage:
     def __init__(self, driver):
@@ -36,6 +36,10 @@ class RegisterPage:
         email = f"{usuario}@sharklasers.com"
         restaurante = f"RestauranteQA_{fecha_hora}"
         administrador = f"AdministradorQA_{fecha_hora}"
+        #usuario = f"UsuarioQA"
+        #email = TEST_EMAIL
+        #restaurante = f"RestauranteQA"
+        #administrador = f"AdministradorQA"
         self.usuario_creado = usuario
         self.email_creado = email
         self.password_creado = password
