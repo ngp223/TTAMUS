@@ -25,6 +25,7 @@ class RegisterPage(BasePage):
         self.administrador_inicial = None
 
     def click_crear_cuenta(self):
+        self.scroll_hasta_texto("Crear cuenta")
         self.click(self.crear_cuenta)
 
     def rellenar_campos_obligatorios(self):
