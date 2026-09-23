@@ -1,14 +1,13 @@
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from features.pages.base_page import BasePage
 
-class LogoutPage:
+
+class LogoutPage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+        super().__init__(driver)
 
     def logout(self, user_initial):
         inicial = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{user_initial}")')
         salir = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salir")')
-        self.wait.until(EC.element_to_be_clickable(inicial)).click()
-        self.wait.until(EC.element_to_be_clickable(salir)).click()
+        self.click(inicial)
+        self.click(salir)

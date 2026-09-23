@@ -1,14 +1,13 @@
 from appium.webdriver.common.appiumby import AppiumBy
-import time
+from features.pages.base_page import BasePage
 
 
-class HomePage:
+class HomePage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
         self.menu_usuario = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("A")')
         self.salir = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salir")')
 
     def logout(self):
-        self.driver.find_element(*self.menu_usuario).click()
-        time.sleep(2)
-        self.driver.find_element(*self.salir).click()
+        self.click(self.menu_usuario)
+        self.click(self.salir)
