@@ -1,5 +1,5 @@
 from behave import given, when, then
-from features.pages.test_01_register_page import RegisterPage
+from features.pages.E2E_00_register_page import RegisterPage
 
 @given('pulso crear cuenta')
 def step_pulso_crear_cuenta(context):

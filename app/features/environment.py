@@ -29,7 +29,7 @@ def before_all(context):
     options.full_reset = False
     context.driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
 
-def before_scenario(context, scenario):
+def before_scenario(context,scenario):
     context.logged_in = False
     context.driver.terminate_app(APP_PACKAGE)
     context.driver.activate_app(APP_PACKAGE)
@@ -44,7 +44,7 @@ def cerrar_sesion_si_existe(context):
     except TimeoutException:
         pass
 
-def after_scenario(context, scenario):
+def after_scenario(context,scenario):
     if context.logged_in:
         try:
             wait = WebDriverWait(context.driver, 10)

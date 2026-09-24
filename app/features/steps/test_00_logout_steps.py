@@ -1,5 +1,5 @@
 from behave import given, when, then
-from features.pages.E2E_00_logout_page import LogoutPage
+from features.pages.test_00_logout_page import LogoutPage
 
 @when('hago logout')
 def step_hago_logout(context):

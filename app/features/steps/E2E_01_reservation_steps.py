@@ -1,6 +1,5 @@
 from behave import when, then
 from features.pages.E2E_01_reservation_page import ReservationPage
-from features.pages.E2E_00_logout_page import LogoutPage
 
 
 def reservation_page(context):

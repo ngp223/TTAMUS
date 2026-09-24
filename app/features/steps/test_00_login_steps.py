@@ -1,5 +1,5 @@
 from behave import given
-from features.pages.E2E_00_login_page import LoginPage
+from features.pages.test_00_login_page import LoginPage
 
 
 @given("estoy logueado en el POS")
