@@ -7,7 +7,7 @@ class ReservationPage(BasePage):
     SALON_PRINCIPAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salón principal")')
     MESA_SAL_03 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
     COMENSALES_3 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("3")')
-    ACEPTAR =(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
+    ACEPTAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
     CARNES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Carnes")')
     SOLOMILLO_FOIE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Con opciones Solomillo al foie 24,50 €")')
     VERDURAS_PLANCHA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("radio_button_unchecked Verduras a la plancha")')
@@ -54,4 +54,3 @@ class ReservationPage(BasePage):
 
     def click_confirmar_pago(self):
         self.click(self.COBRAR_40)
-

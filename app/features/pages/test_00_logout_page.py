@@ -40,4 +40,3 @@ class LogoutPage(BasePage):
             self.click(self.CLOSE_COMPANY_SESSION)
             return True
         return False
-
