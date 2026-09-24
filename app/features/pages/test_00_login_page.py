@@ -2,7 +2,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from features.config.test_config import TEST_EMAIL, TEST_PASSWORD, REST1, REST1_PIN, REST1_USUARIO, REST1_USUARIO_PIN
 from features.pages.base_page import BasePage
 
-
 class LoginPage(BasePage):
     EMAIL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-1")')
     PASSWORD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-2")')
@@ -30,3 +29,6 @@ class LoginPage(BasePage):
             pin_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")')
             self.click(pin_button)
         self.click(self.ENTRAR_POS)
+
+    def comprobar_login(self):
+        return self.existe(self.ACTIVAR_TERMINAL)

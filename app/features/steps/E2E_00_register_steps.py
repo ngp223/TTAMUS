@@ -1,10 +1,12 @@
 from behave import given, when, then
 from features.pages.E2E_00_register_page import RegisterPage
 
+
 @given('pulso crear cuenta')
 def step_pulso_crear_cuenta(context):
     context.register_page = RegisterPage(context.driver)
     context.register_page.click_crear_cuenta()
+
 
 @when('relleno campos obligatorios')
 def step_relleno_campos_obligatorios(context):
@@ -12,9 +14,11 @@ def step_relleno_campos_obligatorios(context):
     context.user_initial = context.register_page.administrador_inicial
     context.logged_in = True
 
+
 @then('creo usuario')
 def step_creo_usuario(context):
     context.register_page.crear_usuario()
+
 
 @then('el administrador esta en el restaurante')
 def step_administrador_esta_en_restaurante(context):

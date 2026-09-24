@@ -18,8 +18,9 @@ def step_impl(context):
 
 @when("selecciono comensales")
 def step_impl(context):
-    reservation_page(context).select_guests()
-    reservation_page(context).click_accept_guests()
+    page = reservation_page(context)
+    page.select_guests()
+    page.click_accept_guests()
 
 
 @when("selecciono el producto")
@@ -34,7 +35,6 @@ def step_impl(context):
 
 @then("realizo el pago")
 def step_impl(context):
-    reservation_page(context).click_realizar_pago()
-    reservation_page(context).click_confirmar_pago()
-
-
+    page = reservation_page(context)
+    page.click_realizar_pago()
+    page.click_confirmar_pago()

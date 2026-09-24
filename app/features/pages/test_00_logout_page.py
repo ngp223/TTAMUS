@@ -1,7 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 
-
 class LogoutPage(BasePage):
     EXIT_POS_MODE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salir del modo TPV")')
     CHANGE_USER_BUTTON = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cambiar usuario")')
