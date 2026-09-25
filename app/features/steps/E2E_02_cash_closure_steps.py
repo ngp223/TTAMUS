@@ -1,7 +1,7 @@
 from behave import when, then
-from appium.webdriver.common.appiumby import AppiumBy
+from datetime import datetime
 from features.pages.E2E_02_cash_closure_page import CashClosurePage
-
+from features.utils.tickets_store import save_ticket
 
 @when("accedo al cierre de caja")
 def step_impl(context):
@@ -26,20 +26,10 @@ def step_impl(context):
 
 @then("realizo el cierre de caja")
 def step_impl(context):
-    elements = context.driver.find_elements(AppiumBy.XPATH, "//android.widget.TextView")
-    for element in elements:
-        text = element.text
-        if text and ("/" in text or "€" in text):
-            print(f"DATO: {text}")
-
+    context.last_closure_date = datetime.now().strftime("%d/%m/%Y, %H:%M")
+    context.last_closure_amount = context.cash.get_closure_total()
+    print(f"Fecha cierre: {context.last_closure_date}")
+    print(f"Importe cierre: {context.last_closure_amount}")
     context.cash.finalize_closure()
-
-@when("guardo la fecha del último cierre")
-def step_impl(context):
-    context.last_closure_date = context.cash.get_last_closure_date()
-    print("Fecha cierre:", context.last_closure_date)
-
-@when("guardo el importe del último cierre")
-def step_impl(context):
-    context.last_closure_amount = context.cash.get_last_closure_amount()
-    print("Importe cierre:", context.last_closure_amount)
+    save_ticket(context.last_closure_date, context.last_closure_amount)
+    print("Ticket guardado correctamente")
