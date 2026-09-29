@@ -18,6 +18,12 @@ class BasePage:
         element.send_keys(texto)
         return element
 
+    def escribir_valor(self, locator, texto, timeout=15):
+        element = self.esperar_visible(locator, timeout)
+        element.click()
+        self.driver.execute_script("mobile: type", {"text": str(texto)})
+        return element
+
     def existe(self, locator, timeout=3):
         try:
             WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))

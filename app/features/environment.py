@@ -19,6 +19,7 @@ USUARIO_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textMatches("[A-
 SALIR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salir")')
 
 def before_all(context):
+    context.config.stdout_capture = False
     options = UiAutomator2Options()
     options.platform_name = "Android"
     options.automation_name = "UiAutomator2"
@@ -29,7 +30,7 @@ def before_all(context):
     options.full_reset = False
     context.driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
 
-def before_scenario(context,scenario):
+def before_scenario(context, scenario):
     context.logged_in = False
     context.driver.terminate_app(APP_PACKAGE)
     context.driver.activate_app(APP_PACKAGE)
@@ -40,16 +41,19 @@ def cerrar_sesion_si_existe(context):
     try:
         wait.until(EC.element_to_be_clickable(USUARIO_MENU)).click()
         wait.until(EC.element_to_be_clickable(SALIR)).click()
-        WebDriverWait(context.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Crear cuenta")')))
+        WebDriverWait(context.driver, 5).until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Crear cuenta")')))
     except TimeoutException:
         pass
 
-def after_scenario(context,scenario):
+def after_scenario(context, scenario):
     if context.logged_in:
         try:
-            wait = WebDriverWait(context.driver, 10)
-            wait.until(EC.element_to_be_clickable(USUARIO_MENU)).click()
+            wait = WebDriverWait(context.driver, 5)
+            usuario = wait.until(EC.presence_of_element_located(USUARIO_MENU))
+            usuario.click()
             wait.until(EC.element_to_be_clickable(SALIR)).click()
+        except TimeoutException:
+            print("[WARN] No se encontró el menú de usuario para cerrar sesión")
         except Exception as e:
             print(f"[WARN] No se pudo hacer logout: {e}")
     try:
