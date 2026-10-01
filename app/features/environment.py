@@ -1,11 +1,13 @@
 import sys
 import os
+import time
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from features.pages.test_00_logout_page import LogoutPage
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if BASE_DIR not in sys.path:
@@ -14,9 +16,9 @@ if BASE_DIR not in sys.path:
 APP_PACKAGE = "com.tamus.pos"
 APP_ACTIVITY = "com.tamus.pos.MainActivity"
 DEVICE_ID = "HA2ATXGT"
-
-USUARIO_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textMatches("[A-Z]{1,2}")')
-SALIR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salir")')
+POPUP_REINTENTAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Reintentar")')
+POPUP_CERRAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Cerrar")')
+ACTIVAR_TERMINAL = (AppiumBy.XPATH, '//android.widget.Button[@text="Activar terminal"]')
 
 def before_all(context):
     context.config.stdout_capture = False
@@ -34,36 +36,54 @@ def before_scenario(context, scenario):
     context.logged_in = False
     context.driver.terminate_app(APP_PACKAGE)
     context.driver.activate_app(APP_PACKAGE)
+    cerrar_popups(context)
     cerrar_sesion_si_existe(context)
 
+def cerrar_popups(context):
+    for _ in range(3):
+        cerrado = False
+        for locator in (POPUP_REINTENTAR, POPUP_CERRAR):
+            elementos = context.driver.find_elements(*locator)
+            if elementos:
+                try:
+                    elementos[0].click()
+                    cerrado = True
+                    time.sleep(0.2)
+                    break
+                except Exception:
+                    pass
+        if not cerrado:
+            break
+
 def cerrar_sesion_si_existe(context):
-    wait = WebDriverWait(context.driver, 3)
     try:
-        wait.until(EC.element_to_be_clickable(USUARIO_MENU)).click()
-        wait.until(EC.element_to_be_clickable(SALIR)).click()
-        WebDriverWait(context.driver, 5).until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Crear cuenta")')))
+        logout_page = LogoutPage(context.driver)
+        if logout_page.logout_if_exists():
+            cerrar_popups(context)
     except TimeoutException:
+        pass
+    except Exception:
         pass
 
 def after_scenario(context, scenario):
     if context.logged_in:
+        cerrar_popups(context)
         try:
-            wait = WebDriverWait(context.driver, 5)
-            usuario = wait.until(EC.presence_of_element_located(USUARIO_MENU))
-            usuario.click()
-            wait.until(EC.element_to_be_clickable(SALIR)).click()
-        except TimeoutException:
-            print("[WARN] No se encontró el menú de usuario para cerrar sesión")
+            logout_page = LogoutPage(context.driver)
+            logout_page.logout()
+            WebDriverWait(context.driver, 5).until(EC.presence_of_element_located(ACTIVAR_TERMINAL))
+            print("ACTIVAR TERMINAL MOSTRADO")
         except Exception as e:
-            print(f"[WARN] No se pudo hacer logout: {e}")
+            print(f"ERROR LOGOUT: {e}")
+            raise
     try:
         context.driver.terminate_app(APP_PACKAGE)
-    except Exception as e:
-        print(f"[WARN] No se pudo cerrar la app: {e}")
+    except Exception:
+        pass
 
 def after_all(context):
     if hasattr(context, "driver") and context.driver:
         try:
             context.driver.quit()
-        except Exception as e:
-            print(f"[WARN] No se pudo cerrar el driver: {e}")
+        except Exception:
+            pass

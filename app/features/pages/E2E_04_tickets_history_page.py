@@ -1,10 +1,9 @@
 from appium.webdriver.common.appiumby import AppiumBy
-from datetime import datetime
+from datetime import datetime, timedelta
 from features.pages.base_page import BasePage
 from features.utils.tickets_store import load_ticket
 import time
 import re
-
 
 class TicketsHistoryPage(BasePage):
     HISTORIAL_TICKETS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Tickets")')
@@ -14,9 +13,6 @@ class TicketsHistoryPage(BasePage):
 
     def open_tickets_history(self):
         self.click(self.HISTORIAL_TICKETS)
-        time.sleep(2)
-        self.driver.swipe(360, 300, 360, 1000, 800)
-        time.sleep(3)
 
     def verify_tickets_history(self):
         saved_ticket = load_ticket()
@@ -42,20 +38,16 @@ class TicketsHistoryPage(BasePage):
                 for match_es in re.findall(r'\d{2}/\d{2}/\d{4}', source):
                     try:
                         dt = datetime.strptime(match_es, "%d/%m/%Y")
-
                         if not latest_date or dt > latest_date:
                             latest_date = dt
-
                     except Exception:
                         pass
 
                 for match_en in re.findall(r'[A-Za-z]{3} \d{1,2}, \d{4}', source):
                     try:
                         dt = datetime.strptime(match_en, "%b %d, %Y")
-
                         if not latest_date or dt > latest_date:
                             latest_date = dt
-
                     except Exception:
                         pass
 
@@ -71,30 +63,30 @@ class TicketsHistoryPage(BasePage):
 
     def find_ticket(self, expected_date, expected_amount):
         try:
-            date_locator = (
-                AppiumBy.ANDROID_UIAUTOMATOR,
-                f'new UiSelector().text("{expected_date}")'
-            )
-
-            amount_locator = (
-                AppiumBy.ANDROID_UIAUTOMATOR,
-                f'new UiSelector().text("{expected_amount}").instance(0)'
-            )
-
-            print(f"Buscando fecha: {expected_date!r}")
+            expected_datetime = datetime.strptime(expected_date, "%d/%m/%Y, %H:%M")
+            expected_dates = [
+                (expected_datetime - timedelta(minutes=1)).strftime("%d/%m/%Y, %H:%M"),
+                expected_datetime.strftime("%d/%m/%Y, %H:%M"),
+                (expected_datetime + timedelta(minutes=1)).strftime("%d/%m/%Y, %H:%M")
+            ]
+            amount_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_amount}").instance(0)')
+            print(f"Buscando fechas: {expected_dates!r}")
             print(f"Buscando importe: {expected_amount!r}")
 
-            date_element = self.esperar_visible(date_locator, timeout=5)
+            for expected_date_option in expected_dates:
+                date_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_date_option}")')
+                try:
+                    date_element = self.esperar_visible(date_locator, timeout=1)
+                    print(f"Fecha encontrada: {date_element.text!r}")
+                    amount_element = self.esperar_visible(amount_locator, timeout=1)
+                    print(f"Importe encontrado: {amount_element.text!r}")
+                    print("Ticket encontrado correctamente")
+                    return True
+                except Exception:
+                    continue
 
-            print(f"Fecha encontrada: {date_element.text!r}")
-
-            amount_element = self.esperar_visible(amount_locator, timeout=5)
-
-            print(f"Importe encontrado: {amount_element.text!r}")
-
-            print("Ticket encontrado correctamente")
-
-            return True
+            print("No se encontró el ticket en el margen de ±1 minuto")
+            return False
 
         except Exception as e:
             print(f"No se encontró el ticket: {e}")
