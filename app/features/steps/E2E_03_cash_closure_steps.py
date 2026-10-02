@@ -1,6 +1,6 @@
 from behave import when, then
 from datetime import datetime
-from features.pages.E2E_02_cash_closure_page import CashClosurePage
+from features.pages.E2E_03_cash_closure_page import CashClosurePage
 from features.utils.tickets_store import save_ticket
 
 @when("accedo al cierre de caja")

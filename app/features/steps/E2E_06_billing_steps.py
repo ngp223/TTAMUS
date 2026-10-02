@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_05_billing_page import BillingPage
+from features.pages.E2E_06_billing_page import BillingPage
 
 
 @when("accedo al módulo de facturación")

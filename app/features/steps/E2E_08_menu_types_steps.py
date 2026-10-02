@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_06_menu_types_page import CardsPage
+from features.pages.E2E_08_menu_types_page import CardsPage
 
 
 @when("accedo al módulo de cartas")

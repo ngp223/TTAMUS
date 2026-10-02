@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_04_tickets_history_page import TicketsHistoryPage
+from features.pages.E2E_05_tickets_history_page import TicketsHistoryPage
 
 @when("accedo al historial de tickets")
 def step_impl(context):

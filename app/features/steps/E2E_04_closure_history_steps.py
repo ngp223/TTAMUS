@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_03_closure_history_page import ClosureHistoryPage
+from features.pages.E2E_04_closure_history_page import ClosureHistoryPage
 
 
 @when("accedo al historial de cierres")

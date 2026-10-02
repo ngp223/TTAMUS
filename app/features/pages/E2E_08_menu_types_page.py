@@ -1,6 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from datetime import datetime
+import time
 
 class CardsPage(BasePage):
     CARTAS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cartas")')
@@ -14,9 +15,7 @@ class CardsPage(BasePage):
     FINALIZAR_Y_GUARDAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Finalizar y Guardar")')
     PAPELERA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")')
     ELIMINAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
-    #DESCRIPCION = (AppiumBy.XPATH, '(//android.widget.EditText)[3]')
-    DESCRIPCION = (AppiumBy.XPATH,
-                   '//android.view.View[@text="DESCRIPCIÓN DE LA CARTA"]/following-sibling::android.view.View/android.widget.EditText')
+    DESCRIPCION = (AppiumBy.XPATH, '//android.view.View[@text="DESCRIPCIÓN DE LA CARTA"]/following-sibling::android.view.View/android.widget.EditText')
     ANTERIOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Anterior")')
     CERRAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Cerrar")')
     EDITAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")')
@@ -76,16 +75,13 @@ class CardsPage(BasePage):
         papelera_correcta = None
         distancia_minima = float("inf")
         for papelera in papeleras:
-            try:
-                if not papelera.is_displayed():
-                    continue
-                papelera_pos = papelera.location
-                distancia = abs(papelera_pos["y"] - carta_pos["y"])
-                if distancia < distancia_minima:
-                    distancia_minima = distancia
-                    papelera_correcta = papelera
-            except Exception:
+            if not papelera.is_displayed():
                 continue
+            papelera_pos = papelera.location
+            distancia = abs(papelera_pos["y"] - carta_pos["y"])
+            if distancia < distancia_minima:
+                distancia_minima = distancia
+                papelera_correcta = papelera
         if papelera_correcta is None:
             raise Exception(f"No encontrada papelera para {self.carta_creada}")
         papelera_correcta.click()
@@ -102,16 +98,13 @@ class CardsPage(BasePage):
         editar_correcto = None
         distancia_minima = float("inf")
         for editar in elementos_editar:
-            try:
-                if not editar.is_displayed():
-                    continue
-                editar_pos = editar.location
-                distancia = abs(editar_pos["y"] - carta_pos["y"])
-                if distancia < distancia_minima:
-                    distancia_minima = distancia
-                    editar_correcto = editar
-            except Exception:
+            if not editar.is_displayed():
                 continue
+            editar_pos = editar.location
+            distancia = abs(editar_pos["y"] - carta_pos["y"])
+            if distancia < distancia_minima:
+                distancia_minima = distancia
+                editar_correcto = editar
         if editar_correcto is None:
             raise Exception(f"No encontrado Editar para {self.carta_creada}")
         editar_correcto.click()
@@ -121,42 +114,38 @@ class CardsPage(BasePage):
         self.click(self.SIGUIENTE)
         self.click(self.SIGUIENTE)
         self.click(self.FINALIZAR_Y_GUARDAR)
+        locator_carta = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.carta_creada}")')
+        self.esperar_visible(locator_carta, timeout=15)
 
     def verify_modification(self):
         if not self.carta_creada:
             raise Exception("No existe carta creada para verificar")
-        locator_carta = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.carta_creada}")')
-        for _ in range(8):
-            try:
-                carta = self.driver.find_element(*locator_carta)
-                carta_pos = carta.location
-                elementos_ver = self.driver.find_elements(*self.VER)
-                if not elementos_ver:
-                    self.scroll_cards_list()
-                    continue
-                ver_correcto = None
-                distancia_minima = float("inf")
-                for ver in elementos_ver:
-                    try:
-                        if not ver.is_displayed():
-                            continue
-                        ver_pos = ver.location
-                        distancia = abs(ver_pos["y"] - carta_pos["y"])
-                        if distancia < distancia_minima:
-                            distancia_minima = distancia
-                            ver_correcto = ver
-                    except Exception:
-                        continue
-                if ver_correcto is None:
-                    self.scroll_cards_list()
-                    continue
-                ver_correcto.click()
-                self.click(self.ANTERIOR)
-                descripcion = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.descripcion_modificada}")')
-                self.esperar_visible(descripcion)
-                print(f"Modificación encontrada: {self.descripcion_modificada}")
-                self.click(self.CERRAR)
-                return
-            except Exception:
-                self.scroll_cards_list()
-        raise Exception(f"No se pudo verificar la modificación de {self.carta_creada}")
+        carta = self.scroll_to_created_card()
+        carta_pos = carta.location
+        elementos_ver = self.driver.find_elements(*self.VER)
+        if not elementos_ver:
+            raise Exception(f"No se encontraron botones Ver para {self.carta_creada}")
+        ver_correcto = None
+        distancia_minima = float("inf")
+        for ver in elementos_ver:
+            if not ver.is_displayed():
+                continue
+            ver_pos = ver.location
+            distancia = abs(ver_pos["y"] - carta_pos["y"])
+            if distancia < distancia_minima:
+                distancia_minima = distancia
+                ver_correcto = ver
+        if ver_correcto is None:
+            raise Exception(f"No encontrado Ver para {self.carta_creada}")
+        ver_correcto.click()
+        self.esperar_visible(self.ANTERIOR, timeout=10)
+        time.sleep(1)
+        self.click(self.ANTERIOR)
+        descripcion = self.esperar_visible(self.DESCRIPCION, timeout=10)
+        valor_descripcion = (descripcion.get_attribute("text") or descripcion.text or "").strip()
+        print(f"Descripción esperada: {self.descripcion_modificada!r}")
+        print(f"Descripción encontrada: {valor_descripcion!r}")
+        if valor_descripcion != self.descripcion_modificada:
+            raise AssertionError(f"La descripción no coincide: esperada={self.descripcion_modificada!r}, encontrada={valor_descripcion!r}")
+        print(f"Modificación encontrada: {self.descripcion_modificada}")
+        self.click(self.CERRAR)
