@@ -25,5 +25,6 @@ class ReportsPage(BasePage):
         self.esperar_visible(self.CONCENTRACION, timeout=15)
         print("Apartado encontrado: CONCENTRACIÓN")
         self.mobile.swipe_up()
+        self.mobile.swipe_up()
         self.esperar_visible(self.CAFES_INFUSIONES, timeout=15)
         print("Categoría encontrada: Cafés e infusiones")

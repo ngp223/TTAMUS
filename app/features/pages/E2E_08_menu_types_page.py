@@ -1,5 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
+from features.utils.mobile_utils import MobileUtils
 from datetime import datetime
 import time
 
@@ -15,7 +16,6 @@ class CardsPage(BasePage):
     FINALIZAR_Y_GUARDAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Finalizar y Guardar")')
     PAPELERA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")')
     ELIMINAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
-    DESCRIPCION = (AppiumBy.XPATH, '//android.view.View[@text="DESCRIPCIÓN DE LA CARTA"]/following-sibling::android.view.View/android.widget.EditText')
     ANTERIOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Anterior")')
     CERRAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Cerrar")')
     EDITAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")')
@@ -23,6 +23,7 @@ class CardsPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
+        self.mobile_utils = MobileUtils(driver)
         self.carta_creada = None
 
     def open_cards(self):
@@ -56,13 +57,7 @@ class CardsPage(BasePage):
         raise Exception(f"No se encontró la carta creada: {self.carta_creada}")
 
     def scroll_cards_list(self):
-        size = self.driver.get_window_size()
-        width = size["width"]
-        height = size["height"]
-        x = width // 2
-        start_y = int(height * 0.80)
-        end_y = int(height * 0.35)
-        self.driver.swipe(x, start_y, x, end_y, 600)
+        self.mobile_utils.swipe_up()
 
     def delete_created_card(self):
         if not self.carta_creada:
@@ -87,9 +82,7 @@ class CardsPage(BasePage):
         papelera_correcta.click()
         self.click(self.ELIMINAR)
 
-    def modify_created_card(self):
-        if not self.carta_creada:
-            raise Exception("No existe carta creada para modificar")
+    def editar_carta_creada(self):
         carta = self.scroll_to_created_card()
         carta_pos = carta.location
         elementos_editar = self.driver.find_elements(*self.EDITAR)
@@ -108,8 +101,22 @@ class CardsPage(BasePage):
         if editar_correcto is None:
             raise Exception(f"No encontrado Editar para {self.carta_creada}")
         editar_correcto.click()
+
+    def campo_bajo_label(self, label):
+        return (
+            AppiumBy.XPATH,
+            f'//*[contains(@text,"{label}")]/following::android.widget.EditText[1]'
+        )
+
+    def campo_descripcion(self):
+        return self.campo_bajo_label("Descripción")
+
+    def modify_created_card(self):
+        if not self.carta_creada:
+            raise Exception("No existe carta creada para modificar")
+        self.editar_carta_creada()
         self.descripcion_modificada = f"DescripcionQA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        self.escribir(self.DESCRIPCION, self.descripcion_modificada)
+        self.escribir(self.campo_descripcion(), self.descripcion_modificada)
         self.click(self.SIGUIENTE)
         self.click(self.SIGUIENTE)
         self.click(self.SIGUIENTE)
@@ -120,7 +127,8 @@ class CardsPage(BasePage):
     def verify_modification(self):
         if not self.carta_creada:
             raise Exception("No existe carta creada para verificar")
-        carta = self.scroll_to_created_card()
+        self.scroll_to_created_card()
+        carta = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.carta_creada}")')
         carta_pos = carta.location
         elementos_ver = self.driver.find_elements(*self.VER)
         if not elementos_ver:
@@ -141,7 +149,7 @@ class CardsPage(BasePage):
         self.esperar_visible(self.ANTERIOR, timeout=10)
         time.sleep(1)
         self.click(self.ANTERIOR)
-        descripcion = self.esperar_visible(self.DESCRIPCION, timeout=10)
+        descripcion = self.esperar_visible(self.campo_descripcion(), timeout=10)
         valor_descripcion = (descripcion.get_attribute("text") or descripcion.text or "").strip()
         print(f"Descripción esperada: {self.descripcion_modificada!r}")
         print(f"Descripción encontrada: {valor_descripcion!r}")

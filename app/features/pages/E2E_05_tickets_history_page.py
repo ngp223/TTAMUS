@@ -63,21 +63,25 @@ class TicketsHistoryPage(BasePage):
             ]
             print(f"Buscando fechas: {expected_dates!r}")
             print(f"Buscando importe: {expected_amount!r}")
+            amount_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_amount}")')
             for expected_date_option in expected_dates:
                 date_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_date_option}")')
                 try:
                     date_element = self.esperar_visible(date_locator, timeout=1)
                     print(f"Fecha encontrada: {date_element.text!r}")
-                    amount_elements = self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_amount}")')
-                    print(f"Importes encontrados: {len(amount_elements)}")
-                    for amount_element in amount_elements:
-                        print(f"Importe encontrado: {amount_element.text!r}")
-                        date_rect = date_element.rect
-                        amount_rect = amount_element.rect
-                        if abs(date_rect["y"] - amount_rect["y"]) < 50:
-                            print("Ticket encontrado correctamente")
-                            print("Fecha e importe pertenecen a la misma fila")
-                            return True
+                    end_time = time.time() + 5
+                    while time.time() < end_time:
+                        amount_elements = self.driver.find_elements(*amount_locator)
+                        print(f"Importes encontrados: {len(amount_elements)}")
+                        for amount_element in amount_elements:
+                            print(f"Importe encontrado: {amount_element.text!r}")
+                            date_rect = date_element.rect
+                            amount_rect = amount_element.rect
+                            if abs(date_rect["y"] - amount_rect["y"]) < 50:
+                                print("Ticket encontrado correctamente")
+                                print("Fecha e importe pertenecen a la misma fila")
+                                return True
+                        time.sleep(0.5)
                 except Exception:
                     continue
             print(f"No se encontró el ticket esperado: fecha={expected_date!r}, importe={expected_amount!r}")

@@ -69,9 +69,11 @@ def after_scenario(context, scenario):
     if context.logged_in:
         cerrar_popups(context)
         try:
+            print("INICIANDO LOGOUT")
             logout_page = LogoutPage(context.driver)
             logout_page.logout()
-            WebDriverWait(context.driver, 5).until(EC.presence_of_element_located(ACTIVAR_TERMINAL))
+            print("SALIR PULSADO")
+            WebDriverWait(context.driver, 15).until(EC.presence_of_element_located(ACTIVAR_TERMINAL))
             print("ACTIVAR TERMINAL MOSTRADO")
         except Exception as e:
             print(f"ERROR LOGOUT: {e}")
@@ -80,7 +82,6 @@ def after_scenario(context, scenario):
         context.driver.terminate_app(APP_PACKAGE)
     except Exception:
         pass
-
 def after_all(context):
     if hasattr(context, "driver") and context.driver:
         try:
