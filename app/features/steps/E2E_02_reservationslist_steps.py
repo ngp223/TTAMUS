@@ -15,9 +15,9 @@ def step_creo_una_nueva_reserva(context):
 def step_veo_la_reserva_creada(context):
     context.reservation_page.comprobar_reserva_creada()
 
-#@when('edito la reserva')
-#def step_edito_la_reserva(context):
-#    context.reservation_page.editar_reserva()
+@when('edito la reserva')
+def step_edito_la_reserva(context):
+    context.reservation_page.editar_reserva()
 
 @when('marco la reserva como llegada')
 def step_marco_la_reserva_como_llegada(context):

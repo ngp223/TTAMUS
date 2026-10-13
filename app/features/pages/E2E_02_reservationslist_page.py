@@ -11,6 +11,8 @@ class ReservationPage(BasePage):
     MARCAR_LLEGADA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-2-div-listbody-1-article-item-1-div-item__bottom-1-div-item__actions-1-button-tam-btn-2")')
     CANCELAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-2-div-listbody-1-article-item-1-div-item__bottom-1-div-item__actions-1-button-tam-btn-3")')
     NO_HAY_RESERVAS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
+    EDITAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
+    COMENSALES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-6")')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -73,6 +75,18 @@ class ReservationPage(BasePage):
         elemento_marcar = self.localizar_accion_reserva(self.MARCAR_LLEGADA)
         elemento_marcar.click()
 
+    def editar_reserva(self):
+        self.localizar_reserva()
+        self.click(self.EDITAR)
+        campo = self.esperar_visible(self.COMENSALES, timeout=15)
+        campo.clear()
+        self.escribir_valor(self.COMENSALES, "3")
+        try:
+            self.driver.hide_keyboard()
+        except Exception:
+            pass
+        self.click(self.GUARDAR_RESERVA)
+        
     def cancelar_reserva(self):
         elemento_cancelar = self.localizar_accion_reserva(self.CANCELAR)
         elemento_cancelar.click()
