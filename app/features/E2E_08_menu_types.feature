@@ -1,4 +1,4 @@
-Feature: Menus POS
+Feature: Menu_types POS
 
   Background:
     Given estoy logueado en el POS
