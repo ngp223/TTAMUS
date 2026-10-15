@@ -4,7 +4,8 @@ Feature: Reservations POS
     Given estoy logueado en el POS
 
   Scenario: Venta completa con pago
-    When selecciono la mesa
+    When accedo a vista de mesas
+    And selecciono la mesa
     And selecciono comensales
     And selecciono el producto
     And aumento la cantidad del producto

@@ -5,7 +5,7 @@ from features.pages.base_page import BasePage
 class ReservationPage(BasePage):
     VISTA_MESAS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Vista de mesas")')
     SALON_PRINCIPAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salón principal")')
-    MESA_SAL_03 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
+    MESA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
     COMENSALES_3 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("3")')
     ACEPTAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
     CARNES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Carnes")')
@@ -23,12 +23,12 @@ class ReservationPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def comprobar_vista_mesas(self):
+    def access_see_tables(self):
         return self.esperar_visible(self.VISTA_MESAS)
 
     def select_table(self):
         self.click(self.SALON_PRINCIPAL)
-        self.click(self.MESA_SAL_03)
+        self.click(self.MESA)
 
     def select_guests(self):
         self.click(self.COMENSALES_3)
@@ -36,7 +36,7 @@ class ReservationPage(BasePage):
     def click_accept_guests(self):
         self.click(self.ACEPTAR)
 
-    def select_product_arroz_bogavante(self):
+    def select_product(self):
         self.click(self.CARNES)
         self.click(self.SOLOMILLO_FOIE)
         self.click(self.VERDURAS_PLANCHA)
@@ -48,9 +48,9 @@ class ReservationPage(BasePage):
     def increase_product(self):
         self.click(self.AUMENTAR_PRODUCTO)
 
-    def click_realizar_pago(self):
+    def click_pay(self):
         self.click(self.ENVIAR_A_COCINA)
         self.click(self.COBRAR_40)
 
-    def click_confirmar_pago(self):
+    def click_verify_pay(self):
         self.click(self.COBRAR_40)
