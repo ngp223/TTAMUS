@@ -18,16 +18,16 @@ class ReservationPage(BasePage):
         super().__init__(driver)
         self.reserva_creada = None
 
-    def acceder_reservas(self):
+    def access_reservation(self):
         self.click(self.RESERVAS_MENU)
 
-    def crear_reserva(self):
+    def create_reservation(self):
         fecha_hora = datetime.now().strftime('%d%m%Y%H%M%S')
         self.reserva_creada = f"ClienteQA_{fecha_hora}"
         self.escribir_valor(self.CLIENTE, self.reserva_creada)
         self.click(self.GUARDAR_RESERVA)
 
-    def comprobar_reserva_creada(self):
+    def verify_create_reservation(self):
         if not self.reserva_creada:
             raise Exception("No existe reserva creada para comprobar")
         self.escribir(self.BUSCAR_RESERVAS, self.reserva_creada)
@@ -38,7 +38,7 @@ class ReservationPage(BasePage):
         locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
         self.esperar_visible(locator_reserva, timeout=15)
 
-    def buscar_reserva(self):
+    def search_reservation(self):
         if not self.reserva_creada:
             raise Exception("No existe reserva creada para buscar")
         self.escribir(self.BUSCAR_RESERVAS, self.reserva_creada)
@@ -47,13 +47,13 @@ class ReservationPage(BasePage):
         except Exception:
             pass
 
-    def localizar_reserva(self):
-        self.buscar_reserva()
+    def find_reservation(self):
+        self.search_reservation()
         locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
         return self.esperar_visible(locator_reserva, timeout=15)
 
     def localizar_accion_reserva(self, locator):
-        reserva = self.localizar_reserva()
+        reserva = self.find_reservation()
         reserva_y = reserva.location["y"]
         elementos = self.driver.find_elements(*locator)
         if not elementos:
@@ -71,12 +71,12 @@ class ReservationPage(BasePage):
             raise Exception(f"No se encontró la acción para la reserva {self.reserva_creada}")
         return elemento_correcto
 
-    def marcar_reserva_como_llegada(self):
+    def check_reservation(self):
         elemento_marcar = self.localizar_accion_reserva(self.MARCAR_LLEGADA)
         elemento_marcar.click()
 
-    def editar_reserva(self):
-        self.localizar_reserva()
+    def edit_reservation(self):
+        self.find_reservation()
         self.click(self.EDITAR)
         campo = self.esperar_visible(self.COMENSALES, timeout=15)
         campo.clear()
@@ -87,13 +87,13 @@ class ReservationPage(BasePage):
             pass
         self.click(self.GUARDAR_RESERVA)
         
-    def cancelar_reserva(self):
+    def cancel_reservation(self):
         elemento_cancelar = self.localizar_accion_reserva(self.CANCELAR)
         elemento_cancelar.click()
 
-    def comprobar_reserva_cancelada(self):
+    def verify_cancel_reservation(self):
         if not self.reserva_creada:
             raise Exception("No existe reserva creada para comprobar")
-        self.buscar_reserva()
+        self.find_reservation()
         time.sleep(2)
         self.esperar_visible(self.NO_HAY_RESERVAS, timeout=10)
