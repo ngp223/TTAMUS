@@ -3,29 +3,35 @@ from datetime import datetime
 from features.pages.E2E_03_cash_closure_page import CashClosurePage
 from features.utils.tickets_store import save_ticket
 
+
 @when("accedo al cierre de caja")
-def step_impl(context):
+def open_cash_closure(context):
     context.cash = CashClosurePage(context.driver)
     context.cash.open_cash_closure()
 
+
 @when("abro normal declarado")
-def step_impl(context):
+def open_declared_section(context):
     context.cash.open_declared_section()
 
+
 @when("copio el esperado primero")
-def step_impl(context):
+def copy_expected_first(context):
     context.cash.copy_expected_first()
 
+
 @when("copio el esperado segundo")
-def step_impl(context):
+def copy_expected_second(context):
     context.cash.copy_expected_second()
 
+
 @when("hago scroll hasta finalizar cierre")
-def step_impl(context):
+def scroll_to_finalize(context):
     context.cash.scroll_to_finalize()
 
+
 @then("realizo el cierre de caja")
-def step_impl(context):
+def finalize_closure(context):
     context.last_closure_date = datetime.now().strftime("%d/%m/%Y, %H:%M")
     context.last_closure_amount = context.cash.get_closure_total()
     print(f"Fecha cierre: {context.last_closure_date}")
