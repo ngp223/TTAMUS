@@ -4,5 +4,6 @@ REST1 = "storefront Sabores del Norte — Centro Gran Vía 45, Bilbao Requiere P
 REST1_PIN = "1111"
 REST1_USUARIO = "E Elena Aguirre Propietario"
 REST1_USUARIO_PIN = "1234"
+INITIAL_USER = "EA"
 REST2_PIN = "2222"
 
