@@ -1,0 +1,685 @@
+--------- beginning of main
+09-22 16:46:26.755  2352  2352 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:am force-stop io.appium.settings'
+09-22 16:46:26.781  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+--------- beginning of system
+09-22 16:46:26.809  1503 13365 I ActivityManager: Force stopping io.appium.settings appid=10282 user=0: from pid 32021
+09-22 16:46:26.809  1503 13365 I START_DEBUG: remove START_TIMEOUT removeProcess    ProcessRecord :ProcessRecord{92488d1 31982:io.appium.settings/u0a282}
+09-22 16:46:26.810  1503 13365 I ActivityManager: Killing 31982:io.appium.settings/u0a282 (adj 250): stop io.appium.settings due to from pid 32021
+09-22 16:46:26.810  1503  1503 D MBrainLocalService: isVendorFreezeConditionPass is false
+09-22 16:46:26.810  1503  1503 D MBrainLocalService: notifyAppLifeCycle failed
+09-22 16:46:26.812 12482 12491 I exvx    : (REDACTED) HDM. appOpsListener %s %s
+09-22 16:46:26.813 12482 12491 I exvx    : (REDACTED) HDM. Ignoring irrelevant audio permission changes for package %s
+09-22 16:46:26.819  1503 13365 D Process : call killProcessQuiet from uid 1000 pid 1503 tid 13365 to kill pid 31982
+09-22 16:46:26.819  1503 13365 D Process : java.lang.Exception: log killProcessQuiet callstack for debug:
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.Process.killProcessQuiet(Process.java:1508)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ProcessRecord.killLocked(ProcessRecord.java:1383)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ProcessRecord.killLocked(ProcessRecord.java:1352)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ProcessList.removeProcessLocked(ProcessList.java:3509)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ProcessList.killPackageProcessesLSP(ProcessList.java:3442)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.forceStopPackageInternalLocked(ActivityManagerService.java:4699)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.forceStopPackageLocked(ActivityManagerService.java:4652)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.forceStopPackageLocked(ActivityManagerService.java:4643)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.forceStopPackage(ActivityManagerService.java:4212)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.forceStopPackage(ActivityManagerService.java:4118)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerShellCommand.runForceStop(ActivityManagerShellCommand.java:1622)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerShellCommand.onCommand(ActivityManagerShellCommand.java:309)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.modules.utils.BasicShellCommandHandler.exec(BasicShellCommandHandler.java:97)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.ShellCommand.exec(ShellCommand.java:38)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.onShellCommand(ActivityManagerService.java:11184)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.Binder.shellCommand(Binder.java:1161)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.Binder.onTransact(Binder.java:963)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:5811)
+09-22 16:46:26.819  1503 13365 D Process : 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:2991)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.Binder.execTransactInternal(Binder.java:1436)
+09-22 16:46:26.819  1503 13365 D Process : 	at android.os.Binder.execTransact(Binder.java:1375)
+09-22 16:46:26.822  1503  1503 V NotificationManagerService.NotificationListeners: 0 notification listener connection lost: ComponentInfo{io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:26.822  1503  1503 W NotificationManagerService.NotificationListeners: 0 notification listener binding died: ComponentInfo{io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:26.822  1503 13365 I START_DEBUG: remove ALL_TIMEOUT cleanup   ProcessRecord :ProcessRecord{92488d1 31982:io.appium.settings/u0a282}
+09-22 16:46:26.823  1503 13365 I ScnModule: [GameDetection] requestedPermissions1/1:: io.appium.settings:: [android.permission.DISABLE_KEYGUARD, android.permission.READ_EXTERNAL_STORAGE, android.permission.READ_MEDIA_IMAGES, android.permission.WAKE_LOCK, android.permission.INTERNET, android.permission.CHANGE_NETWORK_STATE, android.permission.ACCESS_NETWORK_STATE, android.permission.READ_PHONE_STATE, android.permission.WRITE_SETTINGS, android.permission.CHANGE_WIFI_STATE, android.permission.ACCESS_WIFI_STATE, android.permission.ACCESS_FINE_LOCATION, android.permission.ACCESS_COARSE_LOCATION, android.permission.ACCESS_BACKGROUND_LOCATION, android.permission.ACCESS_MOCK_LOCATION, android.permission.SET_ANIMATION_SCALE, android.permission.CHANGE_CONFIGURATION, android.permission.FOREGROUND_SERVICE, android.permission.FOREGROUND_SERVICE_LOCATION, android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION, android.permission.BLUETOOTH_CONNECT, android.permission.BLUETOOTH_SCAN, android.permission.READ_SMS, android.permission.RECORD_AUDIO, android.permission.READ_MEDIA_VISUAL_USER_SELECTED] 
+09-22 16:46:26.824  1503 13365 I ScnModule: [GameDetection] numOfPermissiom:: io.appium.settings:: 25 
+09-22 16:46:26.825  1503 13365 I ScnModule: [GameDetection] inputPermissions:: io.appium.settings:: [0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] 
+09-22 16:46:26.825  1503 13365 I ScnModule: [GameDetection] inputGameFeature:: io.appium.settings:: [-0.84956044, 0.0, 0.0, 0.0] 
+09-22 16:46:26.825  1503 13365 I ScnModule: [GameDetection] GamePredictor:: io.appium.settings:: nonGame:40,1163,isGame:-44,0663 
+09-22 16:46:26.825  1503 13365 I mtkpower_client: [PowerHal_Wrap_notifyAppState] io.appium.settings/io.appium.settings pid=31982 activityId:31982 state:3
+09-22 16:46:26.826  1048  1048 I IPCThreadState: oneway function results for code 2 on binder at 0xb400006f83a0e9c0 will be dropped but finished with status UNKNOWN_TRANSACTION
+09-22 16:46:26.826  1048  1048 I vendor.mediatek.hardware.mtkpower_applist-service.mediatek: packName: io.appium.settings actName: io.appium.settings pid: 31982 uid: 10282 state: 3
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyAPPstate] io.appium.settings/io.appium.settings, pid=31982, uid=10282, state:DEAD, fps:-1, win:1
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyAPPstate] multi_resumed_app_count: 2
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyAPPstate] multi_resumed_app_info[0] com.android.settings/com.android.settings.homepage.DeepLinkHomepageActivity, pid:17201, fps:-1, isMultiWindow:0
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyAPPstate] multi_resumed_app_info[1] com.android.settings/com.android.settings.applications.InstalledAppDetails, pid:17201, fps:-1, isMultiWindow:1
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [getForegroundAPPCount] 2
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyAPPstate] pack:io.appium.settings, pid:31982, STATE_DEAD
+09-22 16:46:26.826  1048  1048 I MTK_APPList: [notifyNetdUID] 1000
+09-22 16:46:26.827  1048  1048 I mtkpower_client: PowerHal_Wrap_setSysInfo, result:0
+09-22 16:46:26.827  1048  1048 I MTK_APPList: [notifyPID] 17201
+09-22 16:46:26.828  1076  1129 I libPowerHal: [perfSetSysInfo] pid type:24, 17201
+09-22 16:46:26.828  1048  1048 I mtkpower_client: PowerHal_Wrap_setSysInfo, result:0
+09-22 16:46:26.835 14191 14191 I Finsky  : [2] Memory trim requested to level 40
+09-22 16:46:26.836 30862 30878 I ForwardSyncCache: reclaimMemory: Clearing caches
+09-22 16:46:26.836 14191 14191 I Finsky  : [2] Flushing in-memory image cache
+09-22 16:46:26.836 14397 14397 I Finsky:background: [2] Memory trim requested to level 40
+09-22 16:46:26.836 30862 30878 I BugleSpam: HadesBitmapStore: Purged 0 images during memory reclamation
+09-22 16:46:26.838  1503 13365 D ActivityManager: forceStopped clearPendingIntentsForStoppedApp:true,packageName:io.appium.settings
+09-22 16:46:26.839 30862 30878 W Bugle   : TextClassifierLibManagerImpl: Reclaiming memory at level: 40
+09-22 16:46:26.840  1503 13365 I AppsFilter: interaction: PackageSetting{4c2e8cf com.android.microdroid.empty_payload/10212} -> PackageSetting{8e29870 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.840  1503 13365 I AppsFilter: interaction: PackageSetting{8d81965 io.appium.uiautomator2.server.test/10283} -> PackageSetting{8e29870 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.840  1503 13365 I AppsFilter: interaction: PackageSetting{6f87bbe com.tamus.pos/10305} -> PackageSetting{8e29870 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.842  1503 13365 D FileUtils: Rounded bytes from 8186900480 to 16000000000
+09-22 16:46:26.845  2352 32020 E adbd    : error reading output FD 28: Connection reset by peer
+09-22 16:46:26.846  1090  1404 I RefreshRateSelector: ZuiAutoRefresh: 0 pen
+09-22 16:46:26.846  1090  1404 E RefreshRateSelector: Can't find max refresh rate by policy with the same group 0
+09-22 16:46:26.847  1503 13022 V ActivityManager: Death received in com.android.server.am.ActivityManagerService$AppDeathRecipient@5f5fa4 for thread android.os.BinderProxy@497e10d
+09-22 16:46:26.847  2352  2352 I adbd    : Remote process closed the socket (on MSG_PEEK)
+09-22 16:46:26.847  1503 12935 D NotificationManagerService.NotificationListeners: Removing active service ComponentInfo{io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:26.848  1018  1018 I Zygote  : Process 31982 exited due to signal 9 (Killed)
+09-22 16:46:26.850  1503  1543 I libprocessgroup: Removed cgroup /sys/fs/cgroup/apps/uid_10282/pid_31982
+09-22 16:46:26.850  1503 13022 V ActivityManager: Got obituary of 31982:io.appium.settings
+09-22 16:46:26.852  1503  1503 V NotificationManagerService.NotificationListeners: enabling notification listener for 0: ComponentInfo{io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:26.852  1503  1503 V NotificationManagerService.NotificationListeners: binding: Intent { act=android.service.notification.NotificationListenerService cmp=io.appium.settings/.NLService (has extras) }
+09-22 16:46:26.856  1503  1503 I AppsFilter: interaction: PackageSetting{4c2e8cf com.android.microdroid.empty_payload/10212} -> PackageSetting{6630ed0 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.856  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:26.856  1503  1503 I AppsFilter: interaction: PackageSetting{8d81965 io.appium.uiautomator2.server.test/10283} -> PackageSetting{6630ed0 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.857  1503  1503 I AppsFilter: interaction: PackageSetting{6f87bbe com.tamus.pos/10305} -> PackageSetting{6630ed0 io.appium.settings/10282} BLOCKED
+09-22 16:46:26.860  1503  1503 V GrammaticalInflectionUtils: AttributionSource: android.content.AttributionSource@2d7b1056 does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+09-22 16:46:26.864  1503  1503 V NotificationManagerService.NotificationListeners: enabling notification listener for 0: ComponentInfo{com.zui.launcher/com.android.launcher3.notification.NotificationListener}
+09-22 16:46:26.865  1503  1503 V NotificationManagerService.NotificationListeners: Not registering ComponentInfo{com.zui.launcher/com.android.launcher3.notification.NotificationListener} is already bound
+09-22 16:46:26.865  1503  1503 V NotificationManagerService.NotificationListeners: enabling notification listener for 0: ComponentInfo{com.zui.desktoplauncher/com.zui.desktoplauncher.notification.NotificationListener}
+09-22 16:46:26.865  1503  1503 V NotificationManagerService.NotificationListeners: Not registering ComponentInfo{com.zui.desktoplauncher/com.zui.desktoplauncher.notification.NotificationListener} is already bound
+09-22 16:46:26.873  1018  1018 D Zygote  : Forked child process 32024
+09-22 16:46:26.874  1503  1542 I ActivityManager: Start proc 32024:io.appium.settings/u0a282 for service {io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:26.874  1503  1542 I START_DEBUG: send START_TIMEOUT message    ProcessRecord :ProcessRecord{b90dec9 32024:io.appium.settings/u0a282}
+09-22 16:46:26.874  1503  1542 I ActivityManager: ProcessObserver broadcast disabled
+09-22 16:46:26.902 32024 32024 I appium.settings: Late-enabling -Xcheck:jni
+09-22 16:46:26.925 32024 32024 I appium.settings: Using generational CollectorTypeCC GC.
+09-22 16:46:26.932  2352  2365 I adbd    : jdwp connection from 32024
+09-22 16:46:26.937 32024 32024 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+09-22 16:46:26.946  1503 13022 V ActivityManager: New death recipient com.android.server.am.ActivityManagerService$AppDeathRecipient@9819ee2 for thread android.os.BinderProxy@f65b273
+09-22 16:46:26.950  1503 13022 I START_DEBUG: send BINDTIMEOUT    ProcessRecord :ProcessRecord{b90dec9 32024:io.appium.settings/u0a282}
+09-22 16:46:26.951  1503 13022 I START_DEBUG: remove START_TIMEOUT finish    ProcessRecord :ProcessRecord{b90dec9 32024:io.appium.settings/u0a282}
+09-22 16:46:26.983 32024 32024 D nativeloader: Configuring clns-9 for other apk /data/app/~~_pR8tYdR2U2g3LodVqDnXA==/io.appium.settings-hEnA9_HC9OXFGalnqdZIwg==/base.apk. target_sdk_version=35, uses_libraries=, library_path=/data/app/~~_pR8tYdR2U2g3LodVqDnXA==/io.appium.settings-hEnA9_HC9OXFGalnqdZIwg==/lib/arm64, permitted_path=/data:/mnt/expand:/data/user/0/io.appium.settings
+09-22 16:46:26.986 32024 32024 D CompatChangeReporter: Compat change id reported: 202956589; UID 10282; state: ENABLED
+09-22 16:46:26.990 32024 32024 I appium.settings: AssetManager2(0xb40000726b8e32b8) locale list changing from [] to [es-ES]
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment: Currently set values for:
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment: io.appium.settings is not listed in per-application setting
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment: ANGLE allowlist from config: 
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment: io.appium.settings is not listed in ANGLE allowlist or settings, returning default
+09-22 16:46:26.997 32024 32024 V GraphicsEnvironment: App is not on the allowlist for updatable production driver.
+09-22 16:46:27.003 32024 32024 I LoadedApk: No resource references to update in package com.zuisdk
+09-22 16:46:27.016  1503 13022 I START_DEBUG: remove BIND_TIMEOUT finish    ProcessRecord :ProcessRecord{b90dec9 32024:io.appium.settings/u0a282}
+09-22 16:46:27.018  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:27.019 12482 12491 I exvx    : (REDACTED) HDM. appOpsListener %s %s
+09-22 16:46:27.019 12482 12491 I exvx    : (REDACTED) HDM. Ignoring irrelevant audio permission changes for package %s
+09-22 16:46:27.024  1503  1503 V NotificationManagerService.NotificationListeners: 0 notification listener service connected: ComponentInfo{io.appium.settings/io.appium.settings.NLService}
+09-22 16:46:27.038 32024 32024 I NLService: The notification listener is connected
+09-22 16:46:27.047 32024 32024 D NLService: Successfully synchronized 9 active notifications
+09-22 16:46:27.782  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:27.845  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:27.846  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:27.846  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:27.846  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:29.873  1503  1709 D ThermalManagerService: apTemp = 36736
+09-22 16:46:29.876  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:29.933  1038  1358 I hwcomposer: [DRMDEV] (0:60) failed to waitNextVsync: -1  
+09-22 16:46:30.881  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:30.881  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:30.881  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:30.881  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:30.892  1503  1531 D AES     : AEEIOCTL_GET/SET_SF_STATE IOCTL,cmd= 1074294797, lParam=0. 
+09-22 16:46:30.893  1503  1531 D AES     : AEEIOCTL_RT_MON_Kick IOCTL,cmd= 2147774474, lParam=300. 
+09-22 16:46:30.900  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:30.901  1090  1404 I RefreshRateSelector: ZuiAutoRefresh: 0 pen
+09-22 16:46:30.902  1090  1404 D SurfaceFlinger: calculateTimeoutTime, triggerInterval = 1 sec + 999999692 nsec
+09-22 16:46:30.914  1090  1157 E SurfaceFlinger: isStylusTargetLayer getHWCFrameQueueSize outvalue 0
+09-22 16:46:30.914  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:30.925  1090  1090 I BufferQueueProducer: [StatusBar#92](this:0xb400007363810378,id:-1,api:0,p:-1,c:1090) queueBuffer: fps=0.16 dur=6077.26 max=6077.26 min=6077.26
+09-22 16:46:30.938  1090  1090 I BufferQueueProducer: [FramebufferSurface](this:0xb400007533803ed0,id:-1,api:1,p:1090,c:1090) queueBuffer: fps=0.33 dur=6077.48 max=6014.42 min=63.06
+09-22 16:46:30.939  1038  1038 I hwcomposer: [HWCDisplay] [Display_0 (type:1, mode:2)] fps:0.329077,dur:6077.61,max:6015.05,min:62.56  
+09-22 16:46:30.940  1038  1354 W hwcomposer: [DRMDEV] 0xcccccccc[60] property[STYLUS_MODE] does not do initialize, so ignore adding property  
+09-22 16:46:30.984  1038  1353 I hwcomposer: [HWC] (0)fire a callback of refresh to SF[4]  
+09-22 16:46:31.002  1038  1354 W hwcomposer: [DRMDEV] 0xcccccccc[60] property[STYLUS_MODE] does not do initialize, so ignore adding property  
+09-22 16:46:31.652  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:31.915  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:32.908  1503  1621 D ActivityManager: skipping freeze priv app 14095 com.motorola.mobiledesktop
+09-22 16:46:32.908  1503  1621 D ActivityManager: skipping freeze priv app 13424 com.motorola.mobiledesktop.core
+09-22 16:46:32.908  1503  1621 D ActivityManager: skipping freeze priv app 17303 com.android.chrome
+09-22 16:46:32.909  1503  1621 D ActivityManager: skipping freeze priv app 16587 com.google.android.youtube
+09-22 16:46:32.910  1503  1621 D ActivityManager: skipping freeze priv app 17495 com.android.chrome:privileged_process0
+09-22 16:46:32.910  1503  1621 D ActivityManager: skipping freeze priv app 15148 com.google.android.apps.youtube.music
+09-22 16:46:32.915  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:32.916  1090  1404 I RefreshRateSelector: ZuiAutoRefresh: 0 pen
+09-22 16:46:32.916  1090  1404 E RefreshRateSelector: Can't find max refresh rate by policy with the same group 0
+09-22 16:46:33.912  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:33.912  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:33.912  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:33.912  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:33.916  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:34.872  1503  1709 D ThermalManagerService: apTemp = 36736
+09-22 16:46:34.873  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:34.917  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:35.917  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:36.090 12517 12662 W Settings: Setting airplane_mode_on has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+09-22 16:46:36.095 12517 12662 V SarReduceService: 10s after boot, isAirmodeOn=false, isSarListenerOn=true, wifiState=true, isSarBad=false
+09-22 16:46:36.844  1503  1503 V NotificationManagerService.NotificationListeners: Not registering ComponentInfo{io.appium.settings/io.appium.settings.NLService} is already bound
+09-22 16:46:36.853  1503  1621 D ActivityManager: skipping freeze priv app 13666 com.google.android.videos
+09-22 16:46:36.854  1503  1621 D ActivityManager: skipping freeze priv app 31695 com.zui.keyboardupdate.olympia
+09-22 16:46:36.856  1503  1621 D ActivityManager: skipping freeze priv app 12941 com.zui.homesettings
+09-22 16:46:36.857  1503  1621 D ActivityManager: skipping freeze priv app 26039 com.google.android.apps.turbo
+09-22 16:46:36.857  1503  1621 D ActivityManager: skipping freeze priv app 15238 com.google.android.gm
+09-22 16:46:36.858  1503  1621 D ActivityManager: skipping freeze priv app 22917 com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0
+09-22 16:46:36.858  1503  1621 D ActivityManager: skipping freeze priv app 30862 com.google.android.apps.messaging
+09-22 16:46:36.859  1503  1621 D ActivityManager: skipping freeze priv app 24496 com.google.android.as.oss
+09-22 16:46:36.859  1503  1621 D ActivityManager: skipping freeze priv app 14653 com.facebook.appmanager
+09-22 16:46:36.860  1503  1621 D ActivityManager: skipping freeze priv app 29568 com.google.android.apps.turbo:aab
+09-22 16:46:36.860  1503  1621 D ActivityManager: skipping freeze priv app 17141 com.google.android.apps.photos
+09-22 16:46:36.860  1503  1621 D ActivityManager: skipping freeze priv app 16666 com.lenovo.lsf.device
+09-22 16:46:36.861  1503  1621 D ActivityManager: skipping freeze priv app 25300 com.tblenovo.lenovowhatsnew
+09-22 16:46:36.861  1503  1621 D ActivityManager: skipping freeze priv app 13103 com.tblenovo.center
+09-22 16:46:36.862  1503  1621 D ActivityManager: skipping freeze priv app 27410 com.google.android.as.oss:learning_bg
+09-22 16:46:36.862  1503  1621 D ActivityManager: skipping freeze priv app 14191 com.android.vending
+09-22 16:46:36.863  1503  1621 D ActivityManager: skipping freeze priv app 14397 com.android.vending:background
+09-22 16:46:36.863  1503  1621 D ActivityManager: skipping freeze priv app 22961 com.google.android.webview:webview_service
+09-22 16:46:36.864  1503  1621 D ActivityManager: skipping freeze priv app 14311 com.aura.oobe.lenovo
+09-22 16:46:36.864  1503  1621 D ActivityManager: skipping freeze priv app 16451 com.google.android.partnersetup
+09-22 16:46:36.865  1503  1621 D ActivityManager: skipping freeze priv app 14363 com.google.android.gms.unstable
+09-22 16:46:36.865  1503  1621 D ActivityManager: skipping freeze priv app 16498 com.google.android.tts
+09-22 16:46:36.865  1503  1621 D ActivityManager: skipping freeze priv app 16766 com.tblenovo.tabpushout
+09-22 16:46:36.866  1503  1621 D ActivityManager: skipping freeze priv app 18498 android.process.media
+09-22 16:46:36.867  1503  1621 D ActivityManager: skipping freeze priv app 18482 com.android.DeviceAsWebcam
+09-22 16:46:36.867  1503  1621 D ActivityManager: skipping freeze priv app 16171 com.google.android.contacts
+09-22 16:46:36.868  1503  1621 D ActivityManager: skipping freeze priv app 23330 com.google.android.apps.docs
+09-22 16:46:36.869  1503  1621 D ActivityManager: skipping freeze priv app 15073 com.google.android.apps.tachyon
+09-22 16:46:36.869  1503  1621 D ActivityManager: skipping freeze priv app 15771 com.google.android.calendar
+09-22 16:46:36.870  1503  1621 D ActivityManager: skipping freeze priv app 16138 com.google.android.configupdater
+09-22 16:46:36.871  1503  1621 D ActivityManager: skipping freeze priv app 16817 com.zui.camera
+09-22 16:46:36.872  1503  1621 D ActivityManager: skipping freeze priv app 16751 com.motorola.omadm.vzw
+09-22 16:46:36.873  1503  1621 D ActivityManager: skipping freeze priv app 16696 com.motorola.omadm.service
+09-22 16:46:36.873  1503  1621 D ActivityManager: skipping freeze priv app 2586 com.google.android.deskclock
+09-22 16:46:36.874  1503  1621 D ActivityManager: skipping freeze priv app 13937 com.huaqin.factoryservice
+09-22 16:46:36.917  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:36.944  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:36.944  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:36.944  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:36.944  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:37.918  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:38.919  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:39.872  1503  1709 D ThermalManagerService: apTemp = 36736
+09-22 16:46:39.873  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:39.920  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:39.974  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:39.974  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:39.974  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:39.974  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:40.478  1503 13022 D AlarmManager: final first Wakeup:20712585 now: 19648819 isInZuiPowerSaveMode:false
+09-22 16:46:40.480  1503 13022 D AlarmManager: set(null) : type=2 triggerAtTime=21388821 win=0 tElapsed=21388821 maxElapsed=21388821 interval=0 flags=0xc1 listenerTag=GCM_HB_ALARM alarmClock null
+09-22 16:46:40.481  1503 13022 D AlarmManager: final first Wakeup:20712585 now: 19648822 isInZuiPowerSaveMode:false
+09-22 16:46:40.497  2174 31217 I AlarmManager: setExactAndAllowWhileIdle [name: FcmRetry type: 2 triggerAtMillis: 19768836]
+09-22 16:46:40.499  1503 13356 D AlarmManager: set(PendingIntent{fb0f6db: PendingIntentRecord{1f20578 com.google.android.gms/com.google.android.gms.gcm broadcastIntent}}) : type=2 triggerAtTime=19768836 win=0 tElapsed=19768836 maxElapsed=19768836 interval=0 flags=0xa1 listenerTag=null alarmClock null
+09-22 16:46:40.500  1503 13356 D AlarmManager: final first Wakeup:19768836 now: 19648841 isInZuiPowerSaveMode:false
+09-22 16:46:40.509  1503  1541 V GrammaticalInflectionUtils: AttributionSource: android.content.AttributionSource@5d4bd490 does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+09-22 16:46:40.521  1018  1018 D Zygote  : Forked child process 32067
+09-22 16:46:40.523  1503  1542 I ActivityManager: Start proc 32067:com.google.android.googlequicksearchbox:googleapp/u0a160 for broadcast {com.google.android.googlequicksearchbox/com.google.firebase.iid.FirebaseInstanceIdReceiver}
+09-22 16:46:40.523  1503  1542 I START_DEBUG: send START_TIMEOUT message    ProcessRecord :ProcessRecord{d5a84b6 32067:com.google.android.googlequicksearchbox:googleapp/u0a160}
+09-22 16:46:40.523  1503  1542 I ActivityManager: ProcessObserver broadcast disabled
+09-22 16:46:40.535 32067 32067 I chbox:googleapp: Using generational CollectorTypeCC GC.
+09-22 16:46:40.543 32067 32067 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+09-22 16:46:40.548  1503 13356 V ActivityManager: New death recipient com.android.server.am.ActivityManagerService$AppDeathRecipient@ac0b90 for thread android.os.BinderProxy@626fc89
+09-22 16:46:40.550  1503 13356 I START_DEBUG: send BINDTIMEOUT    ProcessRecord :ProcessRecord{d5a84b6 32067:com.google.android.googlequicksearchbox:googleapp/u0a160}
+09-22 16:46:40.550  1503 13356 I START_DEBUG: remove START_TIMEOUT finish    ProcessRecord :ProcessRecord{d5a84b6 32067:com.google.android.googlequicksearchbox:googleapp/u0a160}
+09-22 16:46:40.561 32067 32067 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/org.apache.http.legacy.jar
+09-22 16:46:40.562 32067 32067 D nativeloader: Configuring clns-9 for other apk /system_ext/framework/com.android.extensions.appfunctions.jar. target_sdk_version=37, uses_libraries=ALL, library_path=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/lib/arm64:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_config.xhdpi.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_feature_module.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_play_ml_module.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_tclib_native_feature_module.apk!/lib/arm64-v8a, permitted_p
+09-22 16:46:40.562 32067 32067 D nativeloader: Extending system_exposed_libraries: libapuwareapusys.mtk.so:libapuwareapusys_v2.mtk.so:libapuwarexrp.mtk.so:libapuwarexrp_v2.mtk.so:libapuwareutils.mtk.so:libapuwareutils_v2.mtk.so:libapuwarehmp.mtk.so:libneuron_graph_delegate.mtk.so:libneuronusdk_adapter.mtk.so:libtflite_mtk.mtk.so:libarmnn_ndk.mtk.so:libcmdl_ndk.mtk.so:libnir_neon_driver_ndk.mtk.so:libmvpu_runtime.mtk.so:libmvpu_runtime_pub.mtk.so:libmvpu_engine_pub.mtk.so:libmvpu_pattern_pub.mtk.so:libmvpuop_mtk_cv.mtk.so:libmvpuop_mtk_nn.mtk.so:libmvpu_runtime_25.mtk.so:libmvpu_runtime_25_pub.mtk.so:libmvpu_engine_25_pub.mtk.so:libmvpu_pattern_25_pub.mtk.so:libmvpuop25_mtk_cv.mtk.so:libmvpuop25_mtk_nn.mtk.so:libmvpu_config.mtk.so:libmvpu_engine_30.mtk.so:libmvpu_pattern_30.mtk.so:libmvpu_cic_ci_compiler_30.mtk.so:libmvpu_runtime_30.mtk.so:libmvpu_clc_30_mvpu_debuginfo.mtk.so:libmvpu_clc_30_mvpu_elf.mtk.so:libmvpu_clc_30_mvpu_utility.mtk.so:libneuronservice_adapter.mtk.so:libneuron_sys_util.mtk.so:libmvpuop30_mtk_nn.mtk.so:libneuronusdk_adapter.9.mtk.so:l
+09-22 16:46:40.563 32067 32067 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+09-22 16:46:40.563 32067 32067 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+09-22 16:46:40.586 32067 32067 W chbox:googleapp: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:40.587 32067 32067 W chbox:googleapp: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:40.587 32067 32067 W chbox:googleapp: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:40.588 32067 32067 W chbox:googleapp: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:40.588 32067 32067 D nativeloader: Configuring clns-10 for other apk /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_config.xhdpi.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_feature_module.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_play_ml_module.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_tclib_native_feature_module.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/lib/arm64:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH
+09-22 16:46:40.594 32067 32067 I chbox:googleapp: AssetManager2(0xb40000726b8e8718) locale list changing from [] to [es-ES]
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment: Currently set values for:
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment: com.google.android.googlequicksearchbox is not listed in per-application setting
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment: ANGLE allowlist from config: 
+09-22 16:46:40.597 32067 32067 V GraphicsEnvironment: com.google.android.googlequicksearchbox is not listed in ANGLE allowlist or settings, returning default
+09-22 16:46:40.599 32067 32067 I LoadedApk: No resource references to update in package com.zuisdk
+09-22 16:46:40.627 32067 32067 I fcem    : SslGuard completed installation.
+09-22 16:46:40.631 32067 32084 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libnative_crash_handler_jni.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!classes2.dex): ok
+09-22 16:46:40.640 32067 32067 I dlxr    : Initializing GMS Compliance Client Library...
+09-22 16:46:40.640 32067 32067 I dlxr    : Checking for device compliance...
+09-22 16:46:40.640 32067 32067 I dlxr    : Completed library init.
+09-22 16:46:40.642 32067 32089 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+09-22 16:46:40.643  1503 13022 I START_DEBUG: remove BIND_TIMEOUT finish    ProcessRecord :ProcessRecord{d5a84b6 32067:com.google.android.googlequicksearchbox:googleapp/u0a160}
+09-22 16:46:40.657  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:40.658 32067 32082 I dlxr    : (REDACTED) Device Compliance Fetch time taken = %sms
+09-22 16:46:40.658 32067 32082 I dlxr    : Device is compliant!
+09-22 16:46:40.659 32067 32082 I dlxr    : Invoking "compliant" action...
+09-22 16:46:40.673 32067 32067 W ComponentDiscovery: Class com.google.firebase.installations.FirebaseInstallationsKtxRegistrar is not an found.
+09-22 16:46:40.678 32067 32067 I FirebaseApp: Device unlocked: initializing all Firebase APIs for app CHIME_ANDROID_SDK
+09-22 16:46:40.692  2174  2174 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.cloudmessaging.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-22 16:46:40.693 32067 32111 E FirebaseMessaging: Default FirebaseApp has not been initialized. Skip logging event to GA.
+09-22 16:46:40.693 32067 32111 I FirebaseMessaging: FirebaseApp has not being initialized. Device might be in direct boot mode. Skip exporting delivery metrics to Big Query
+09-22 16:46:40.697  1503 13365 D AlarmManager: final first Wakeup:20712585 now: 19649038 isInZuiPowerSaveMode:false
+09-22 16:46:40.702  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:40.710 32067 32112 I DynamiteModule: Considering local module com.google.android.gms.measurement.dynamite:209 and remote module com.google.android.gms.measurement.dynamite:207
+09-22 16:46:40.710 32067 32112 I DynamiteModule: Selected local version of com.google.android.gms.measurement.dynamite
+09-22 16:46:40.732  2174 32099 I gle.android.gms: AssetManager2(0xb40000726b9ba998) locale list changing from [] to [es-ES]
+09-22 16:46:40.737 32067 32115 I FA      : App measurement initialized, version: 185005
+09-22 16:46:40.738 32067 32115 I FA      : To enable debug logging run: adb shell setprop log.tag.FA VERBOSE
+09-22 16:46:40.738 32067 32115 I FA      : To enable faster debug mode event logging run:
+09-22 16:46:40.738 32067 32115 I FA      :   adb shell setprop debug.firebase.analytics.app com.google.android.googlequicksearchbox
+09-22 16:46:40.744 32067 32082 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libdatastore_shared_counter.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk): ok
+09-22 16:46:40.753  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:40.753 32067 32082 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libmappedcountercacheversionjni.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!classes2.dex): ok
+09-22 16:46:40.756  2174  2174 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.service.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:40.756  2174  2174 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.service.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:40.759 32067 32115 W FA      : Failed to retrieve Firebase Instance Id
+09-22 16:46:40.762  2174  2174 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-22 16:46:40.774  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:40.777  2174  2174 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.measurement.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:40.777  2174  2174 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.measurement.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:40.777 32067 32115 W FA      : Failed to retrieve Firebase Instance Id
+09-22 16:46:40.779 32067 32115 W FA      : Failed to retrieve Firebase Instance Id
+09-22 16:46:40.790  2174 32120 D AdvertisingIdClient: AdvertisingIdClient already created.
+09-22 16:46:40.790  2174 32120 D AdvertisingIdClient: AdvertisingIdClient is not bounded. Starting to bind it...
+09-22 16:46:40.800  2174 32120 D AdvertisingIdClient: AdvertisingIdClient is bounded
+09-22 16:46:40.803  2174 32120 I AdvertisingIdClient: shouldSendLog 17121810
+09-22 16:46:40.804  2174 32120 I AdvertisingIdClient: GetInfoInternal elapse 13ms
+09-22 16:46:40.808  2174  2174 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.common.telemetry.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-22 16:46:40.813  2174  2174 I AdvertisingIdClient: getting error as 17: API: ClientTelemetry.API is not available on this device. Connection failed with: ConnectionResult{statusCode=API_DISABLED_FOR_CONNECTION, resolution=null, message=null, clientMethodKey=null}
+09-22 16:46:40.822 32067 32097 I fnhb    : Validating WorkManager process
+09-22 16:46:40.823 32067 32082 I fnhb    : (REDACTED) Processes: %s, %s, %s, %s
+09-22 16:46:40.824 32067 32097 D WM-Schedulers: Created SystemJobScheduler and enabled SystemJobService
+09-22 16:46:40.825 32067 32082 D WM-ForceStopRunnable: Is default app process = false
+09-22 16:46:40.855 32067 32102 I ggcg    : (REDACTED) Scoped context discovery schemas: %s.
+09-22 16:46:40.880 32067 32089 D WM-SystemJobScheduler: Scheduling work ID 6064d7c3-98e9-458a-9cfa-dc86504afb11 (androidx.work.multiprocess.RemoteListenableDelegatingWorker), Job ID 24155
+09-22 16:46:40.884  1503 13365 D AlarmManager: set(null) : type=3 triggerAtTime=19675069 win=19383 tElapsed=19675069 maxElapsed=19694452 interval=0 flags=0x0 listenerTag=*job.delay* alarmClock null
+09-22 16:46:40.885  1503 13365 D AlarmManager: final first Wakeup:20712585 now: 19649226 isInZuiPowerSaveMode:false
+09-22 16:46:40.885  1503 13365 D AlarmManager: final first Wakeup:20712585 now: 19649226 isInZuiPowerSaveMode:false
+09-22 16:46:40.886 32067 32089 I WM-GreedyScheduler: Ignoring schedule request in a secondary process
+09-22 16:46:40.905 32067 32105 I chem    : (REDACTED) Count changed: counts=%s, shown=%s
+09-22 16:46:40.911 32067 32082 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:40.925 32067 32082 I ciaq    : Chime Filter is invoked.
+09-22 16:46:40.940 32067 32102 I ciaq    : Notification was not filtered.
+09-22 16:46:40.949 32067 32082 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:40.983  1503 13365 D ConnectivityService: requestNetwork for uid/pid:10160/32067 activeRequest: null callbackRequest: 394 [NetworkRequest [ REQUEST id=395, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647 isUidTracked: false declaredMethods: AVAIL|LOST
+09-22 16:46:40.987  1503  1717 D WifiNetworkFactory: got request NetworkRequest [ REQUEST id=395, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:40.987  1503  1717 D UntrustedWifiNetworkFactory: got request NetworkRequest [ REQUEST id=395, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:40.988  1503  1717 D OemPaidWifiNetworkFactory: got request NetworkRequest [ REQUEST id=395, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:40.988  1503  1717 D MultiInternetWifiNetworkFactory: got request NetworkRequest [ REQUEST id=395, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:40.988  1503  1724 D ConnectivityService: NetReassign [395 : null → 100] [c 1] [a 1] [i 2]
+09-22 16:46:41.062 32067 32131 W HWUI    : Image decoding logging dropped!
+09-22 16:46:41.073 32067 32102 I GnpSdk  : (REDACTED) Setting channel Id: '%s'
+09-22 16:46:41.075 32067 32095 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.093 32067 32095 W ecbp    : (REDACTED) No URL params found for model mode: %s
+09-22 16:46:41.094 32067 32095 W ecbp    : (REDACTED) No URL params found for model mode: %s
+09-22 16:46:41.106 32067 32095 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.144 32067 32102 I GnpSdk  : (REDACTED) Setting channel Id: '%s'
+09-22 16:46:41.155 32067 32095 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.159 32067 32095 W ecbp    : (REDACTED) No URL params found for model mode: %s
+09-22 16:46:41.159 32067 32095 W ecbp    : (REDACTED) No URL params found for model mode: %s
+09-22 16:46:41.162 32067 32095 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.165 32067 32089 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.185  2217  2217 I NotificationListener: received notification removed event - com.google.android.googlequicksearchbox#UserHandle{0},category=-1
+09-22 16:46:41.186 32067 32089 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.186  1846  1846 D ZuiNotificationListener: onNotificationPosted: StatusBarNotification(pkg=com.google.android.googlequicksearchbox user=UserHandle{0} id=0 tag=-1928456891::SUMMARY::wx key=0|com.google.android.googlequicksearchbox|0|-1928456891::SUMMARY::wx|10160: Notification(channel=71 shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=GROUP_SUMMARY color=0x00000000 groupKey=-1928456891::SUMMARY::wx vis=PRIVATE publicVersion=Notification(channel=null shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=0 color=0x00000000 vis=PRIVATE)))
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.188  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.189 32067 32089 I eqny    : SNo/Geller payload detected and no Gemini payload, yielding to default pipeline.
+09-22 16:46:41.189 32024 32024 D NLService: Successfully stored the newly arrived notification identified by 0
+09-22 16:46:41.190  1846  1846 I Ticker  : hookToGoSuperStatusBar getPackageName : com.google.android.googlequicksearchbox flag =true
+09-22 16:46:41.190  2217  2217 I NotificationListener: received notification removed event - com.google.android.googlequicksearchbox#UserHandle{0},category=-1
+09-22 16:46:41.191  1503 13356 D AlarmManager: set(PendingIntent{4564675: PendingIntentRecord{fe990f com.google.android.googlequicksearchbox broadcastIntent}}) : type=1 triggerAtTime=1790099199000 win=3600000 tElapsed=30447341 maxElapsed=34047341 interval=0 flags=0x0 listenerTag=null alarmClock null
+09-22 16:46:41.192  1503 13356 D AlarmManager: final first Wakeup:20712585 now: 19649533 isInZuiPowerSaveMode:false
+09-22 16:46:41.193  1503 13356 D AlarmManager: final first Wakeup:20712585 now: 19649534 isInZuiPowerSaveMode:false
+09-22 16:46:41.194  1846  1846 I NotificationListener: updatePcmodeRedDot for notificaotn
+09-22 16:46:41.194  1846  1846 D ZuiNotificationListener: onNotificationPosted: StatusBarNotification(pkg=com.google.android.googlequicksearchbox user=UserHandle{0} id=0 tag=-1928456891::a:snotification:[0x394,wx.f,NOTIFICATION] key=0|com.google.android.googlequicksearchbox|0|-1928456891::a:snotification:[0x394,wx.f,NOTIFICATION]|10160: Notification(channel=71 shortcut=null contentView=null vibrate=null sound=null tick defaults=0 flags=ONLY_ALERT_ONCE|AUTO_CANCEL color=0x00000000 groupKey=-1928456891::SUMMARY::wx vis=PRIVATE))
+09-22 16:46:41.195 32024 32024 D NLService: Successfully stored the newly arrived notification identified by 0
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.197  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.199  1503 13356 V SettingsProvider: name : LAUNCHER_NEW_NOTIFICATION appId : 10196
+09-22 16:46:41.199  1503 13356 V SettingsProvider: Package name : com.android.systemui privateFlags : -1938812568
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.201  1846  1846 I Ticker  : hookToGoSuperStatusBar getPackageName : com.google.android.googlequicksearchbox flag =true
+09-22 16:46:41.205  1846  1846 I NotificationListener: updatePcmodeRedDot for notificaotn
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.206  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.208  1503 13365 V SettingsProvider: name : LAUNCHER_NEW_NOTIFICATION appId : 10196
+09-22 16:46:41.209  1503 13365 V SettingsProvider: Package name : com.android.systemui privateFlags : -1938812568
+09-22 16:46:41.209 32067 32089 D WM-Processor: Processor cancelling 6064d7c3-98e9-458a-9cfa-dc86504afb11
+09-22 16:46:41.210 32067 32089 D WM-Processor: WorkerWrapper could not be found for 6064d7c3-98e9-458a-9cfa-dc86504afb11
+09-22 16:46:41.213 32067 32089 D WM-SystemJobScheduler: Cancelling work ID 6064d7c3-98e9-458a-9cfa-dc86504afb11, Job ID 24155
+09-22 16:46:41.217  1503 13365 D AlarmManager: set(null) : type=3 triggerAtTime=19816261 win=125027 tElapsed=19816261 maxElapsed=19941288 interval=0 flags=0x0 listenerTag=*job.delay* alarmClock null
+09-22 16:46:41.217  1503 13365 D AlarmManager: final first Wakeup:20712585 now: 19649558 isInZuiPowerSaveMode:false
+09-22 16:46:41.217  1503 13365 D AlarmManager: final first Wakeup:20712585 now: 19649558 isInZuiPowerSaveMode:false
+09-22 16:46:41.218 32067 32089 I WM-GreedyScheduler: Ignoring schedule request in non-main process
+09-22 16:46:41.222 32067 32089 I WM-GreedyScheduler: Ignoring schedule request in a secondary process
+09-22 16:46:41.223 32067 32111 I GnpSdk  : Message handled by GNP Firebase handler.
+09-22 16:46:41.226  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:41.254 32067 32119 I eooi    : Received an intent for GNP, won't process
+09-22 16:46:41.257  1503  1541 V GrammaticalInflectionUtils: AttributionSource: android.content.AttributionSource@5d4bd490 does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+09-22 16:46:41.273  1018  1018 D Zygote  : Forked child process 32144
+09-22 16:46:41.274  1503  1542 I ActivityManager: Start proc 32144:com.google.android.googlequicksearchbox:search/u0a160 for broadcast {com.google.android.googlequicksearchbox/com.google.android.libraries.search.gcm.search.SearchProcessGcmBroadcastReceiver_Receiver}
+09-22 16:46:41.274  1503  1542 I START_DEBUG: send START_TIMEOUT message    ProcessRecord :ProcessRecord{9f48d6 32144:com.google.android.googlequicksearchbox:search/u0a160}
+09-22 16:46:41.274  1503  1542 I ActivityManager: ProcessObserver broadcast disabled
+09-22 16:46:41.294 32144 32144 I earchbox:search: Using generational CollectorTypeCC GC.
+09-22 16:46:41.302 32144 32144 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+09-22 16:46:41.309  1503 13365 V ActivityManager: New death recipient com.android.server.am.ActivityManagerService$AppDeathRecipient@19dcf2d for thread android.os.BinderProxy@f1f1c62
+09-22 16:46:41.313  1503 13365 I START_DEBUG: send BINDTIMEOUT    ProcessRecord :ProcessRecord{9f48d6 32144:com.google.android.googlequicksearchbox:search/u0a160}
+09-22 16:46:41.313  1503 13365 I START_DEBUG: remove START_TIMEOUT finish    ProcessRecord :ProcessRecord{9f48d6 32144:com.google.android.googlequicksearchbox:search/u0a160}
+09-22 16:46:41.324 32144 32144 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/org.apache.http.legacy.jar
+09-22 16:46:41.326 32144 32144 D nativeloader: Configuring clns-9 for other apk /system_ext/framework/com.android.extensions.appfunctions.jar. target_sdk_version=37, uses_libraries=ALL, library_path=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/lib/arm64:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_config.xhdpi.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_feature_module.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_play_ml_module.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_tclib_native_feature_module.apk!/lib/arm64-v8a, permitted_p
+09-22 16:46:41.326 32144 32144 D nativeloader: Extending system_exposed_libraries: libapuwareapusys.mtk.so:libapuwareapusys_v2.mtk.so:libapuwarexrp.mtk.so:libapuwarexrp_v2.mtk.so:libapuwareutils.mtk.so:libapuwareutils_v2.mtk.so:libapuwarehmp.mtk.so:libneuron_graph_delegate.mtk.so:libneuronusdk_adapter.mtk.so:libtflite_mtk.mtk.so:libarmnn_ndk.mtk.so:libcmdl_ndk.mtk.so:libnir_neon_driver_ndk.mtk.so:libmvpu_runtime.mtk.so:libmvpu_runtime_pub.mtk.so:libmvpu_engine_pub.mtk.so:libmvpu_pattern_pub.mtk.so:libmvpuop_mtk_cv.mtk.so:libmvpuop_mtk_nn.mtk.so:libmvpu_runtime_25.mtk.so:libmvpu_runtime_25_pub.mtk.so:libmvpu_engine_25_pub.mtk.so:libmvpu_pattern_25_pub.mtk.so:libmvpuop25_mtk_cv.mtk.so:libmvpuop25_mtk_nn.mtk.so:libmvpu_config.mtk.so:libmvpu_engine_30.mtk.so:libmvpu_pattern_30.mtk.so:libmvpu_cic_ci_compiler_30.mtk.so:libmvpu_runtime_30.mtk.so:libmvpu_clc_30_mvpu_debuginfo.mtk.so:libmvpu_clc_30_mvpu_elf.mtk.so:libmvpu_clc_30_mvpu_utility.mtk.so:libneuronservice_adapter.mtk.so:libneuron_sys_util.mtk.so:libmvpuop30_mtk_nn.mtk.so:libneuronusdk_adapter.9.mtk.so:l
+09-22 16:46:41.326 32067 32089 I chbox:googleapp: AssetManager2(0xb40000726b8de498) locale list changing from [] to [es-ES]
+09-22 16:46:41.327 32067 32089 I WebViewFactory: Loading com.google.android.webview version 152.0.7977.87 (code 797708703)
+09-22 16:46:41.327 32144 32144 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+09-22 16:46:41.327 32144 32144 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+09-22 16:46:41.329 32067 32089 I chbox:googleapp: AssetManager2(0xb40000726b8d9038) locale list changing from [] to [es-ES]
+09-22 16:46:41.330 32067 32089 I chbox:googleapp: AssetManager2(0xb40000726b8e3c18) locale list changing from [] to [es-ES]
+09-22 16:46:41.331 32067 32089 V ResourcesManager: The following library key has been added: ResourcesKey{ mHash=f12b38d0 mResDir=null mSplitDirs=[] mOverlayDirs=[] mLibDirs=[/data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk,/system/framework/android.test.base.jar] mDisplayId=0 mOverrideConfig=inPcMode=0-v36 mCompatInfo={320dpi always-compat} mLoaders=[]}
+09-22 16:46:41.333 32067 32089 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/android.test.base.jar
+09-22 16:46:41.333 32067 32089 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+09-22 16:46:41.338 32067 32089 D nativeloader: Configuring clns-11 for other apk /data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/lib/arm64:/data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand
+09-22 16:46:41.349 32144 32144 W earchbox:search: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:41.350 32144 32144 W earchbox:search: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:41.350 32144 32144 W earchbox:search: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:41.351 32144 32144 W earchbox:search: Failed to find entry 'classes.dex': Entry not found
+09-22 16:46:41.351 32144 32144 D nativeloader: Configuring clns-10 for other apk /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_config.xhdpi.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_feature_module.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_play_ml_module.apk:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_tclib_native_feature_module.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/lib/arm64:/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a:/data/app/~~inKnE6zeihqkH
+09-22 16:46:41.357 32144 32144 I earchbox:search: AssetManager2(0xb40000726b8e8718) locale list changing from [] to [es-ES]
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment: Currently set values for:
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment: com.google.android.googlequicksearchbox is not listed in per-application setting
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment: ANGLE allowlist from config: 
+09-22 16:46:41.361 32144 32144 V GraphicsEnvironment: com.google.android.googlequicksearchbox is not listed in ANGLE allowlist or settings, returning default
+09-22 16:46:41.363 32144 32144 I LoadedApk: No resource references to update in package com.zuisdk
+09-22 16:46:41.370 32144 32144 D ProcessLifecycleG3: androidx.startup is not available, initializing using ProcessLifecycleOwnerInitializer instead.
+09-22 16:46:41.370 32067 32089 I cr_WVCFactoryProvider: version=152.0.7977.87 (797708703) minSdkVersion=29 multiprocess=true packageId=2 splits=config.xhdpi,lens_ondevice_engine_feature_module,lens_ondevice_engine_play_ml_module,tclib_native_feature_module
+09-22 16:46:41.376 32067 32089 D nativeloader: Load /data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk!/lib/arm64-v8a/libwebviewchromium.so using class loader ns clns-11 (caller=/data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk): ok
+09-22 16:46:41.380 32067 32089 D nativeloader: Load /system/lib64/libwebviewchromium_plat_support.so using class loader ns clns-11 (caller=/data/app/~~21YOuahTCghKxi9ZgOLQsw==/com.google.android.webview--vac55YUjoa3NSLQfR30eA==/base.apk): ok
+09-22 16:46:41.384 32067 32168 I chromium: [0922/164641.383784:INFO:android_webview/browser/variations/variations_seed_loader.cc:67] Failed to open file for reading.: No such file or directory (2)
+09-22 16:46:41.388 32144 32144 I eieo    : Scheduling one-off OpaEnabledBroadcastWorker in 30 seconds
+09-22 16:46:41.390 32144 32144 I fcem    : SslGuard completed installation.
+09-22 16:46:41.399 32144 32165 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libnative_crash_handler_jni.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!classes2.dex): ok
+09-22 16:46:41.399 32144 32144 I dlxr    : Initializing GMS Compliance Client Library...
+09-22 16:46:41.399 32144 32144 I dlxr    : Checking for device compliance...
+09-22 16:46:41.399 32144 32144 I dlxr    : Completed library init.
+09-22 16:46:41.401  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.403  1503 13356 I START_DEBUG: remove BIND_TIMEOUT finish    ProcessRecord :ProcessRecord{9f48d6 32144:com.google.android.googlequicksearchbox:search/u0a160}
+09-22 16:46:41.403 32144 32173 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+09-22 16:46:41.404  1846  1846 I GAMEMODE: getGameModeSettings game mode = 1 gameDisturb = 1
+09-22 16:46:41.404  1846  1846 E GAMEMODE: get game app foreground result = false
+09-22 16:46:41.407  1846  1846 E VIDEOMODE: getFullVideoModeSettings videoMode = 1 videoModePrevent = 1
+09-22 16:46:41.408  1503 13022 E ZuiModeService: isForegroundVideoAppFullscreenPlaying: call this API when feature disabled, please check!
+09-22 16:46:41.408  1846  1846 I VIDEOMODE: get full video mode result false
+09-22 16:46:41.408  1846  1846 I VisualInterruptionDecisionProvider: PEEK suppressed: importance < HIGH (key=0|com.google.android.googlequicksearchbox|0|-1928456891::SUMMARY::wx|10160)
+09-22 16:46:41.409  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.410 32144 32162 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libdatastore_shared_counter.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk): ok
+09-22 16:46:41.410  1846  1846 I GAMEMODE: getGameModeSettings game mode = 1 gameDisturb = 1
+09-22 16:46:41.410  1846  1846 E GAMEMODE: get game app foreground result = false
+09-22 16:46:41.411  1846  1846 E VIDEOMODE: getFullVideoModeSettings videoMode = 1 videoModePrevent = 1
+09-22 16:46:41.411  1503 13365 E ZuiModeService: isForegroundVideoAppFullscreenPlaying: call this API when feature disabled, please check!
+09-22 16:46:41.411  1846  1846 I VIDEOMODE: get full video mode result false
+09-22 16:46:41.411  1846  1846 I VisualInterruptionDecisionProvider: PEEK suppressed: importance < HIGH (key=0|com.google.android.googlequicksearchbox|0|-1928456891::a:snotification:[0x394,wx.f,NOTIFICATION]|10160)
+09-22 16:46:41.413 32144 32162 I ecic    : (REDACTED) Gemini app was installed: %s
+09-22 16:46:41.415 32144 32144 I ggcg    : (REDACTED) Scoped context discovery schemas: %s.
+09-22 16:46:41.415 32067 32067 I cr_LibraryLoader: Successfully loaded native library
+09-22 16:46:41.418 32067 32067 I cr_CachingUmaRecorder: Flushed 50 samples from 23 histograms, 0 samples were dropped.
+09-22 16:46:41.418 32144 32174 I dlxr    : (REDACTED) Device Compliance Fetch time taken = %sms
+09-22 16:46:41.418 32144 32174 I dlxr    : Device is compliant!
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.418  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.419 32144 32174 I dlxr    : Invoking "compliant" action...
+09-22 16:46:41.420  1503 13365 V SettingsProvider: name : LAUNCHER_NEW_NOTIFICATION appId : 10196
+09-22 16:46:41.421  1503 13365 V SettingsProvider: Package name : com.android.systemui privateFlags : -1938812568
+09-22 16:46:41.422 32067 32067 I cr_ChildProcLH: ScopedServiceBindingBatch.tryActivate: false
+09-22 16:46:41.424 32067 32067 I cr_CombinedPProvider: #registerProvider() provider:WV.cj@b36328f isPolicyCacheEnabled:false policyProvidersSize:0
+09-22 16:46:41.425 32067 32067 I cr_PolicyProvider: #setManagerAndSource() 0
+09-22 16:46:41.426 32067 32168 I cr_policy: registerReceiver succeeded after 1ms
+09-22 16:46:41.427 32144 32162 I ecil    : Google Assistants disabled.
+09-22 16:46:41.427  1846  2252 D Notification: notification Builder(): mN.getSmallIcon() = Icon(typ=RESOURCE pkg=com.google.android.googlequicksearchbox id=0x7f081b8a)
+09-22 16:46:41.427  1846  2252 D Notification: notification Builder(): mN.icon = 2131237770
+09-22 16:46:41.427  1846  2252 D Notification: processSmallIconColor: small icon circle background color value = -12100206
+09-22 16:46:41.427  1846  2252 D Notification: skipProcessSmallIconColor: input package name is = com.google.android.googlequicksearchbox
+09-22 16:46:41.428  1846  2252 D Notification: processSmallIconColor: small icon circle background color value = -12100206
+09-22 16:46:41.428  1846  2252 D Notification: skipProcessSmallIconColor: input package name is = com.google.android.googlequicksearchbox
+09-22 16:46:41.429 32067 32067 I cr_DisplayManager: Is Display Topology available: false
+09-22 16:46:41.429 32144 32184 I eooi    : Received an intent for GNP, won't process
+09-22 16:46:41.431 32067 32067 I chbox:googleapp: AssetManager2(0xb40000726b8e1378) locale list changing from [] to [es-ES]
+09-22 16:46:41.431  1846  2252 D Notification: processSmallIconColor: small icon circle background color value = -12100206
+09-22 16:46:41.432  1846  2252 D Notification: skipProcessSmallIconColor: input package name is = com.google.android.googlequicksearchbox
+09-22 16:46:41.437 32067 32067 I chbox:googleapp: AssetManager2(0xb40000726b8e5e78) locale list changing from [] to [es-ES]
+09-22 16:46:41.442  1503 13022 V GrammaticalInflectionUtils: AttributionSource: android.content.AttributionSource@9bedbc1f does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+09-22 16:46:41.443 32067 32067 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+09-22 16:46:41.443 32144 32173 D nativeloader: Load /data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a/libmappedcountercacheversionjni.so using class loader ns clns-10 (caller=/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!classes2.dex): ok
+09-22 16:46:41.445 32067 32067 I DisplayManager: Implicitly registering for refresh rate
+09-22 16:46:41.449  1846  2252 W HWUI    : Image decoding logging dropped!
+09-22 16:46:41.453  1966  1966 D Zygote  : Forked child process 32189
+09-22 16:46:41.454  1846  2252 W HWUI    : Image decoding logging dropped!
+09-22 16:46:41.456 32067 32067 I cr_CombinedPProvider: #linkNativeInternal() 1
+09-22 16:46:41.458 32067 32067 I cr_AppResProvider: #getApplicationRestrictionsFromUserManager() Bundle[EMPTY_PARCEL]
+09-22 16:46:41.458 32067 32067 I cr_PolicyProvider: #notifySettingsAvailable() 0
+09-22 16:46:41.458 32067 32067 I cr_CombinedPProvider: #onSettingsAvailable() 0
+09-22 16:46:41.458 32067 32067 I cr_CombinedPProvider: #flushPolicies()
+09-22 16:46:41.459 32189 32189 E libc    : SetHeapTaggingLevel: re-enabling tagging after it was disabled is not supported
+09-22 16:46:41.459  1846  2252 W HWUI    : Image decoding logging dropped!
+09-22 16:46:41.460  1503  1542 I ActivityManager: Start proc 32189:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0i9 for  {com.google.android.googlequicksearchbox/org.chromium.content.app.SandboxedProcessService0:0}
+09-22 16:46:41.461  1503  1542 I START_DEBUG: send START_TIMEOUT message    ProcessRecord :ProcessRecord{57afcd4 32189:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a160i9}
+09-22 16:46:41.461  1503  1542 I ActivityManager: ProcessObserver broadcast disabled
+09-22 16:46:41.467 32189 32189 I ocessService0:0: Using generational CollectorTypeCC GC.
+09-22 16:46:41.472 32189 32189 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.microsoft.teams , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.documentreader.free.viewer.all , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = com.google.android.googlequicksearchbox , isLocked = false , isOngoing = false , isCTSGTSTest = false
+09-22 16:46:41.475  1846  1846 D DismissOngoing: isDismissableForState : packageName = android , isLocked = false , isOngoing = true , isCTSGTSTest = false
+09-22 16:46:41.477  1503 12896 V SettingsProvider: name : LAUNCHER_NEW_NOTIFICATION appId : 10196
+09-22 16:46:41.477  1503 12896 V SettingsProvider: Package name : com.android.systemui privateFlags : -1938812568
+09-22 16:46:41.479  1503 12896 V ActivityManager: New death recipient com.android.server.am.ActivityManagerService$AppDeathRecipient@95e5ab1 for thread android.os.BinderProxy@2b4bb96
+09-22 16:46:41.482  1503 12896 I START_DEBUG: send BINDTIMEOUT    ProcessRecord :ProcessRecord{57afcd4 32189:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a160i9}
+09-22 16:46:41.482  1503 12896 I START_DEBUG: remove START_TIMEOUT finish    ProcessRecord :ProcessRecord{57afcd4 32189:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a160i9}
+09-22 16:46:41.491 32189 32189 D ApplicationLoaders: Returning zygote-cached class loader: /system/framework/android.test.base.jar
+09-22 16:46:41.492 32189 32189 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+09-22 16:46:41.493 32189 32189 I ocessService0:0: AssetManager2(0x726b8e8718) locale list changing from [] to [es-ES]
+09-22 16:46:41.495 32189 32189 I LoadedApk: No resource references to update in package com.zuisdk
+09-22 16:46:41.497 32189 32189 I cr_WebViewApkApp: version=152.0.7977.87 (797708703) minSdkVersion=29 processName=com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 splits=<none>
+09-22 16:46:41.499  1503 13356 I START_DEBUG: remove BIND_TIMEOUT finish    ProcessRecord :ProcessRecord{57afcd4 32189:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a160i9}
+09-22 16:46:41.504 32189 32189 I cr_ChildProcessService: Creating new ChildProcessService pid=32189
+09-22 16:46:41.532  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:41.536  2174  2174 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.safetynet.service.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:41.536  2174  2174 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.safetynet.service.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:41.543  2174  2174 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.safebrowsing.SafeBrowsingService.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+09-22 16:46:41.543  2174  2174 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.safebrowsing.SafeBrowsingService.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+09-22 16:46:41.567 32067 32219 D libMEOW : meow new tls: 0xb4000072eb9610a0
+09-22 16:46:41.568 32067 32219 D libMEOW : meow reload base cfg path: na
+09-22 16:46:41.568 32067 32219 D libMEOW : meow reload overlay cfg path: na
+09-22 16:46:41.568 32067 32219 W QT      : qt_process_init() called
+09-22 16:46:41.568 32067 32219 E QT      : [QT]file does not exist
+09-22 16:46:41.568 32067 32219 W QT      : Support!!
+09-22 16:46:41.568 32067 32219 D libMEOW : applied 0 plugin for [com.google.android.googlequicksearchbox:googleapp].
+09-22 16:46:41.580 32067 32067 I cr_AppResProvider: #getApplicationRestrictionsFromUserManager() Bundle[EMPTY_PARCEL]
+09-22 16:46:41.580 32067 32067 I cr_PolicyProvider: #notifySettingsAvailable() 0
+09-22 16:46:41.580 32067 32067 I cr_CombinedPProvider: #onSettingsAvailable() 0
+09-22 16:46:41.580 32067 32067 I cr_CombinedPProvider: #flushPolicies()
+09-22 16:46:41.581 32189 32209 I cr_LibraryLoader: Successfully loaded native library
+09-22 16:46:41.583 32189 32209 I cr_CachingUmaRecorder: Flushed 2 samples from 2 histograms, 0 samples were dropped.
+09-22 16:46:41.584 32189 32209 W chromium: [WARNING:content/app/android/content_main_android.cc:82] android_setCpu already initialized
+09-22 16:46:41.586 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/lib/arm64'
+09-22 16:46:41.586 32067 32221 I CameraManagerGlobal: Connecting to camera service
+09-22 16:46:41.589 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/base.apk!/lib/arm64-v8a'
+09-22 16:46:41.591  1211 23923 I AttributionAndPermissionUtils: checkPermission (forDataDelivery 0 startDataDelivery 0): Permission hard denied for client attribution [uid 10160, pid 32067, packageName "<unknown>"]
+09-22 16:46:41.592 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_config.xhdpi.apk!/lib/arm64-v8a'
+09-22 16:46:41.593 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_feature_module.apk!/lib/arm64-v8a'
+09-22 16:46:41.594 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_lens_ondevice_engine_play_ml_module.apk!/lib/arm64-v8a'
+09-22 16:46:41.594 32067 32219 D vulkan  : searching for layers in '/data/app/~~inKnE6zeihqkH3Jiq0ByXA==/com.google.android.googlequicksearchbox-nocLywRf94M9SczwElc1Mw==/split_tclib_native_feature_module.apk!/lib/arm64-v8a'
+09-22 16:46:41.606 32067 32208 D AudioSystem: onNewService: media.audio_policy service obtained 0xb40000738b94df00
+09-22 16:46:41.608 32067 32208 D AudioSystem: getService: checking for service media.audio_policy: 0xb40000738b94df00
+09-22 16:46:41.613 32189 32226 I chromium: [INFO:third_party/skia/src/ports/SkFontMgr_android_parser.cpp:724] [SkFontMgr Android Parser] '/product/etc/fonts_customization.xml' could not be opened
+09-22 16:46:41.613 32189 32226 I chromium: 
+09-22 16:46:41.614 32189 32209 W chromium: [WARNING:content/child/runtime_features.cc:517] Fenced frames cannot be enabled in this configuration. Use --enable-features=FencedFrames instead.
+09-22 16:46:41.614 32189 32209 W chromium: [WARNING:content/child/runtime_features.cc:542] Topics cannot be enabled in this configuration. Use --enable-features=BrowsingTopics in addition.
+09-22 16:46:41.614 32189 32209 W chromium: [WARNING:content/child/runtime_features.cc:563] SharedStorage cannot be enabled in this configuration. Use --enable-features=SharedStorageAPI in addition.
+09-22 16:46:41.620   445   445 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device VINTF manifest.
+09-22 16:46:41.624  1503  1768 D BackgroundInstallControlService: Package event received: 0
+09-22 16:46:41.632 32067 32097 I cn_HttpFlagsLoader: HTTP flags log line (API): Using live production flag values from Google
+09-22 16:46:41.638 32067 32097 I cn_HttpEngBuilderWrap: NetworkQualityEstimator is unsupported when HttpEngineNativeProvider is used
+09-22 16:46:41.640  2174  2581 I FontLog : (REDACTED) Received query %s, URI %s
+09-22 16:46:41.641  2174  2581 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-22 16:46:41.643  2174  2581 I FontLog : (REDACTED) Font PFD returned from cache for %s
+09-22 16:46:41.643  2174  2581 I FontLog : (REDACTED) Fetch %s end status %s
+09-22 16:46:41.649  2174  2581 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-22 16:46:41.650 32067 32244 D HttpFlagsLoader: Found application exporting HTTP flags: com.google.android.gms
+09-22 16:46:41.650 32067 32244 D HttpFlagsLoader: HTTP flags file path: /data/user_de/0/com.google.android.gms/app_httpflags/flags.binarypb
+09-22 16:46:41.655 32067 32244 I HttpFlagsLoader: HTTP flags log line (Impl): Using live production flag values from Google
+09-22 16:46:41.658  2174  2581 I FontLog : (REDACTED) Received query %s, URI %s
+09-22 16:46:41.659  2174  2581 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-22 16:46:41.661  2174  2581 I FontLog : (REDACTED) Fetch %s end status %s
+09-22 16:46:41.663  1503 12896 D ConnectivityService: requestNetwork for uid/pid:10160/32067 activeRequest: null callbackRequest: 396 [NetworkRequest [ REQUEST id=397, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647 isUidTracked: false declaredMethods: AVAIL|LOST|NC|LP
+09-22 16:46:41.663  2174  2581 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-22 16:46:41.664 32067 32097 I cn_CronetLibraryLoader: Cronet version: 147.0.7727.132, arch: aarch64
+09-22 16:46:41.667  1503  1724 D ConnectivityService: NetReassign [397 : null → 100] [c 1] [a 1] [i 2]
+09-22 16:46:41.667  1503  1717 D WifiNetworkFactory: got request NetworkRequest [ REQUEST id=397, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:41.667  1503  1717 D UntrustedWifiNetworkFactory: got request NetworkRequest [ REQUEST id=397, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:41.667  1503  1717 D OemPaidWifiNetworkFactory: got request NetworkRequest [ REQUEST id=397, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:41.667  1503  1717 D MultiInternetWifiNetworkFactory: got request NetworkRequest [ REQUEST id=397, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10160 RequestorUid: 10160 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]
+09-22 16:46:41.668  2174  2581 I FontLog : (REDACTED) Received query %s, URI %s
+09-22 16:46:41.669  2174  2581 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-22 16:46:41.670  2174  2581 I FontLog : (REDACTED) Font PFD returned from cache for %s
+09-22 16:46:41.670  2174  2581 I FontLog : (REDACTED) Fetch %s end status %s
+09-22 16:46:41.673  2174  2581 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-22 16:46:41.675  1503  1724 D ConnectivityService: NetReassign [no changes] [c 1] [a 1] [i 3]
+09-22 16:46:41.677  2174  2581 I FontLog : (REDACTED) Received query %s, URI %s
+09-22 16:46:41.677  2174  2581 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-22 16:46:41.678  2174  2581 I FontLog : (REDACTED) Font PFD returned from cache for %s
+09-22 16:46:41.678  2174  2581 I FontLog : (REDACTED) Fetch %s end status %s
+09-22 16:46:41.681  2174  2581 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-22 16:46:41.685  2174  2581 I FontLog : (REDACTED) Received query %s, URI %s
+09-22 16:46:41.685  2174  2581 I FontLog : (REDACTED) Query [%s] resolved to %s
+09-22 16:46:41.687  2174  2581 I FontLog : (REDACTED) Font PFD returned from cache for %s
+09-22 16:46:41.687  2174  2581 I FontLog : (REDACTED) Fetch %s end status %s
+09-22 16:46:41.693  2174  2581 I FontLog : (REDACTED) Pulling font file for id = %d, cache size = %d
+09-22 16:46:41.698 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-adpcm-dvi-ima
+09-22 16:46:41.699 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-adpcm-ms
+09-22 16:46:41.699 32067 32216 W AudioCapabilities: Unsupported mediaType audio/alac
+09-22 16:46:41.700 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-ms-wma
+09-22 16:46:41.711 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.711 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.716 32067 32216 W VideoCapabilities: Unrecognized profile/level 32768/256 for video/mp4v-es
+09-22 16:46:41.731 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-adpcm-dvi-ima
+09-22 16:46:41.731 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-adpcm-ms
+09-22 16:46:41.731 32067 32216 W AudioCapabilities: Unsupported mediaType audio/alac
+09-22 16:46:41.731 32067 32216 W AudioCapabilities: Unsupported mediaType audio/x-ms-wma
+09-22 16:46:41.740 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.741 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.744 32067 32216 W VideoCapabilities: Unrecognized profile/level 32768/256 for video/mp4v-es
+09-22 16:46:41.759 32067 32216 W AudioCapabilities: Unsupported mime audio/x-adpcm-dvi-ima
+09-22 16:46:41.759 32067 32216 W AudioCapabilities: Unsupported mime audio/x-adpcm-ms
+09-22 16:46:41.760 32067 32216 W AudioCapabilities: Unsupported mime audio/alac
+09-22 16:46:41.760 32067 32216 W AudioCapabilities: Unsupported mime audio/x-ms-wma
+09-22 16:46:41.764 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.764 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.765 32067 32216 W VideoCapabilities: Unrecognized profile/level 32768/256 for video/mp4v-es
+09-22 16:46:41.769 32067 32216 W AudioCapabilities: Unsupported mime audio/x-adpcm-dvi-ima
+09-22 16:46:41.769 32067 32216 W AudioCapabilities: Unsupported mime audio/x-adpcm-ms
+09-22 16:46:41.769 32067 32216 W AudioCapabilities: Unsupported mime audio/alac
+09-22 16:46:41.769 32067 32216 W AudioCapabilities: Unsupported mime audio/x-ms-wma
+09-22 16:46:41.773 32067 32216 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+09-22 16:46:41.774 32067 32216 W VideoCapabilities: Unrecognized profile/level 32768/256 for video/mp4v-es
+09-22 16:46:42.997  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:42.998  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:42.998  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:42.998  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:44.602  1064  1064 E vendor.lenovo.hardware.performance-service: Performance::getThemalTemp, typeId is 3
+09-22 16:46:44.603  1064  1064 I vendor.lenovo.hardware.performance-service: success to read sys/class/thermal/thermal_zone24/temp, value 37816
+09-22 16:46:44.603  1064  1064 I vendor.lenovo.hardware.performance-service: 
+09-22 16:46:44.604 12602 12602 I PP/AIDLManager: getThermalTemp : type 3 temp : 37816
+09-22 16:46:44.872  1503  1709 D ThermalManagerService: apTemp = 36842
+09-22 16:46:44.874  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:45.553  1941  2157 D IpClient/wlan0: interfaceLinkStateChanged: ifindex 15 up
+09-22 16:46:45.821  2174  2174 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.telemetry.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+09-22 16:46:45.896  1503  1531 D AES     : AEEIOCTL_GET/SET_SF_STATE IOCTL,cmd= 1074294797, lParam=0. 
+09-22 16:46:45.896  1503  1531 D AES     : AEEIOCTL_RT_MON_Kick IOCTL,cmd= 2147774474, lParam=300. 
+09-22 16:46:46.033  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:46.034  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:46.034  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:46.034  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:46.060  1038  1358 I hwcomposer: [DRMDEV] (0:60) failed to waitNextVsync: -1  
+09-22 16:46:46.097 12517 12662 W Settings: Setting airplane_mode_on has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+09-22 16:46:46.100 12517 12662 V SarReduceService: 10s after boot, isAirmodeOn=false, isSarListenerOn=true, wifiState=true, isSarBad=false
+09-22 16:46:47.683 32067 32077 V ClearcutMetricXmitter: Transmission is done.
+09-22 16:46:48.433 32144 32155 V ClearcutMetricXmitter: Transmission is done.
+09-22 16:46:48.434 32144 32155 V ClearcutMetricXmitter: Transmission is done.
+09-22 16:46:49.069  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:49.069  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:49.069  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:49.069  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:49.131  1038  1358 I hwcomposer: [DRMDEV] (0:60) failed to waitNextVsync: -1  
+09-22 16:46:49.872  1503  1709 D ThermalManagerService: apTemp = 36894
+09-22 16:46:49.873  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:50.537  2174  2174 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+09-22 16:46:50.822  2174  2174 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.measurement.START xflg=0x4 pkg=com.google.android.gms }
+09-22 16:46:51.545  1503  1621 D ActivityManager: skipping freeze priv app 32189 com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0
+09-22 16:46:52.102  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:52.102  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:52.102  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:52.102  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:52.122  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:52.123  1090  1404 I RefreshRateSelector: ZuiAutoRefresh: 0 pen
+09-22 16:46:52.123  1090  1404 D SurfaceFlinger: calculateTimeoutTime, triggerInterval = 1 sec + 999999461 nsec
+09-22 16:46:52.138  1090  1157 E SurfaceFlinger: isStylusTargetLayer getHWCFrameQueueSize outvalue 0
+09-22 16:46:52.138  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:52.147  1090  1090 I BufferQueueProducer: [StatusBar#92](this:0xb400007363810378,id:-1,api:0,p:-1,c:1090) queueBuffer: fps=0.05 dur=21221.97 max=21221.97 min=21221.97
+09-22 16:46:52.160  1090  1090 I BufferQueueProducer: [FramebufferSurface](this:0xb400007533803ed0,id:-1,api:1,p:1090,c:1090) queueBuffer: fps=0.09 dur=21221.97 max=21161.72 min=60.25
+09-22 16:46:52.161  1038  1038 I hwcomposer: [HWCDisplay] [Display_0 (type:1, mode:2)] fps:0.094242,dur:21222.02,max:21162.42,min:59.61  
+09-22 16:46:52.162  1038  1354 W hwcomposer: [DRMDEV] 0xcccccccc[60] property[STYLUS_MODE] does not do initialize, so ignore adding property  
+09-22 16:46:52.204  1038  1353 I hwcomposer: [HWC] (0)fire a callback of refresh to SF[4]  
+09-22 16:46:52.225  1038  1354 W hwcomposer: [DRMDEV] 0xcccccccc[60] property[STYLUS_MODE] does not do initialize, so ignore adding property  
+09-22 16:46:52.875  1090  1157 E SurfaceFlinger: isStylusTargetLayer notifyTargetLayerDisconnect in
+09-22 16:46:53.139  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:54.140  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:54.140  1090  1404 I RefreshRateSelector: ZuiAutoRefresh: 0 pen
+09-22 16:46:54.141  1090  1404 E RefreshRateSelector: Can't find max refresh rate by policy with the same group 0
+09-22 16:46:54.502  2174 31217 I CastDatabase: Saving the database
+09-22 16:46:54.512  2174 31217 I SQLiteCastStore: [CastNetworkInfo] saved: 1, skipped: 0, [CastDeviceInfo]: saved 1, skipped 0, [ProbedNetworks]: saved 0, skipped: 0, [ProbedSocketAddress]: saved 1, skipped: 0, [Network-Device pairs]: saved: 1
+09-22 16:46:54.872  1503  1709 D ThermalManagerService: apTemp = 36842
+09-22 16:46:54.873  1503  1709 D ThermalManagerService: screenOnOldBatteryLimit = 1 ,screenOnBatteryLimit =  1
+09-22 16:46:55.138  1802  1802 D WifiHAL : WifiRequest::create vendor command to iface 15, vendor_id=0x1a11, subcmd=0x0002, res=0
+09-22 16:46:55.138  1802  1802 D WifiHAL : In GetFeatureSetCommand::handleResponse for 5
+09-22 16:46:55.138  1802  1802 D WifiHAL : vendor_id = 0x0, subcmd = 0x0
+09-22 16:46:55.138  1802  1802 I WifiHAL : feature_set=0x8488141a
+09-22 16:46:55.140  1048  1125 I libPerfCtl: xgfGetFPS pid:1846 fps:-1
+09-22 16:46:55.504  2352  2352 I adbd    : adbd service requested 'shell,v2:export ANDROID_LOG_TAGS=''; exec logcat '-d' '-v' 'threadtime''

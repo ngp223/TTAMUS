@@ -5,15 +5,15 @@ from features.utils.tickets_history_store import load_ticket_history
 
 
 class TicketsHistoryPage(BasePage):
-    HISTORIAL_TICKETS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Tickets")')
-    FECHA_PRIMER_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-2")')
-    IMPORTE_PRIMER_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-3")')
+    TICKET_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Tickets")')
+    DATE_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-2")')
+    AMOUNT_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-3")')
 
     def __init__(self, driver):
         super().__init__(driver)
 
     def open_tickets_history(self):
-        self.click(self.HISTORIAL_TICKETS)
+        self.click(self.TICKET_HISTORY)
 
     def verify_tickets_history(self):
         saved_ticket = load_ticket_history()
@@ -26,13 +26,13 @@ class TicketsHistoryPage(BasePage):
     def find_ticket(self, expected_date, expected_amount):
         try:
             time.sleep(3)
-            fecha = self.driver.find_element(*self.FECHA_PRIMER_TICKET).text.strip()
-            importe = self.driver.find_element(*self.IMPORTE_PRIMER_TICKET).text.strip()
-            print(f"Fecha encontrada: {fecha!r}")
-            print(f"Importe encontrado: {importe!r}")
+            date = self.driver.find_element(*self.DATE_FIRST_TICKET).text.strip()
+            amount = self.driver.find_element(*self.AMOUNT_FIRST_TICKET).text.strip()
+            print(f"Fecha encontrada: {date!r}")
+            print(f"Importe encontrado: {amount!r}")
             print(f"Fecha esperada: {expected_date!r}")
             print(f"Importe esperado: {expected_amount!r}")
-            if fecha == expected_date and importe == expected_amount:
+            if date == expected_date and amount == expected_amount:
                 print("Ticket encontrado correctamente en la primera fila")
                 return True
             print("ERROR: La fecha o el importe no coinciden con el ticket guardado")

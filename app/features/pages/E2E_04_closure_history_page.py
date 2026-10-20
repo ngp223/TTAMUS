@@ -4,11 +4,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.tickets_store import load_ticket
 class ClosureHistoryPage(BasePage):
-    HISTORIAL_CIERRES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Cierres")')
+    CLOSING_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Cierres")')
     def __init__(self, driver):
         super().__init__(driver)
     def open_closure_history(self):
-        self.click(self.HISTORIAL_CIERRES)
+        self.click(self.CLOSING_HISTORY)
     def verify_closure_history(self):
         saved_closure = load_ticket()
         if not saved_closure:

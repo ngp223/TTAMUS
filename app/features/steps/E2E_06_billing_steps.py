@@ -13,11 +13,6 @@ def create_new_invoice(context):
     context.billing_page.create_new_invoice()
 
 
-@then("la factura se crea correctamente")
-def invoice_created_successfully(context):
-    context.billing_page.invoice_created_successfully()
-
-
 @then("veo la factura en el listado de facturas")
 def invoice_appears_in_list(context):
     context.billing_page.invoice_appears_in_list()
