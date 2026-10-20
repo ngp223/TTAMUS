@@ -33,10 +33,10 @@ class MenusPage(BasePage):
         self.menu_creado = None
         self.descripcion_modificada = None
 
-    def acceder_menus(self):
+    def access_menus(self):
         self.click(self.CARTAS)
 
-    def crear_menu(self):
+    def create_menu(self):
         fecha_hora = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.menu_creado = f"Menu diario QA {fecha_hora}"
         self.click(self.NUEVO_MENU)
@@ -54,9 +54,9 @@ class MenusPage(BasePage):
         self.click(self.TARTA_QUESO)
         self.click(self.LISTO_SECCION_3)
         self.click(self.CREAR_MENU)
-        self.localizar_menu()
+        self.find_menu()
 
-    def localizar_menu(self):
+    def find_menu(self):
         if not self.menu_creado:
             raise Exception("No existe menú creado para buscar")
         locator_menu = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_creado}")')
@@ -70,8 +70,8 @@ class MenusPage(BasePage):
             self.mobile_utils.swipe_up()
         raise Exception(f"No se encontró el menú creado: {self.menu_creado}")
 
-    def localizar_accion_menu(self, locators):
-        menu = self.localizar_menu()
+    def find_accion_menu(self, locators):
+        menu = self.find_menu()
         menu_y = menu.location["y"]
         elementos = []
         for locator in locators:
@@ -94,25 +94,25 @@ class MenusPage(BasePage):
             raise Exception(f"No se encontró la acción correspondiente al menú {self.menu_creado}")
         return elemento_correcto
 
-    def obtener_valor(self, campo):
+    def find_valor(self, campo):
         return (campo.get_attribute("text") or campo.get_attribute("value") or campo.text or "").strip()
 
-    def modificar_menu(self):
-        elemento_editar = self.localizar_accion_menu(self.EDITAR)
+    def modify_menu(self):
+        elemento_editar = self.find_accion_menu(self.EDITAR)
         elemento_editar.click()
         campo_nombre = self.esperar_visible(self.NOMBRE_MENU, timeout=15)
-        nombre_actual = self.obtener_valor(campo_nombre)
+        nombre_actual = self.find_valor(campo_nombre)
         self.descripcion_modificada = f"{nombre_actual} modificado".strip()
         self.escribir(self.NOMBRE_MENU, self.descripcion_modificada)
         self.click(self.SIGUIENTE)
         self.click(self.GUARDAR_CAMBIOS2)
         self.menu_creado = self.descripcion_modificada
 
-    def comprobar_menu_modificado(self):
+    def verify_menu_modificated(self):
         self.menu_creado = self.descripcion_modificada
-        self.localizar_menu()
+        self.find_menu()
 
-    def borrar_menu(self):
-        elemento_papelera = self.localizar_accion_menu(self.PAPELERA)
+    def delete_menu(self):
+        elemento_papelera = self.find_accion_menu(self.PAPELERA)
         elemento_papelera.click()
         self.click(self.ELIMINAR)
