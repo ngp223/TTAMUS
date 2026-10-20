@@ -3,23 +3,18 @@ from features.pages.E2E_00_register_page import RegisterPage
 
 
 @given('pulso crear cuenta')
-def step_pulso_crear_cuenta(context):
+def click_create_account(context):
     context.register_page = RegisterPage(context.driver)
-    context.register_page.click_crear_cuenta()
+    context.register_page.click_create_account()
 
 
 @when('relleno campos obligatorios')
-def step_relleno_campos_obligatorios(context):
-    context.register_page.rellenar_campos_obligatorios()
-    context.user_initial = context.register_page.administrador_inicial
+def fill_mandatory_fields(context):
+    context.register_page.fill_mandatory_fields()
+    context.user_initial = context.register_page.initial_admin()
     context.logged_in = True
 
 
-@then('creo usuario')
-def step_creo_usuario(context):
-    context.register_page.crear_usuario()
-
-
 @then('el administrador esta en el restaurante')
-def step_administrador_esta_en_restaurante(context):
-    context.register_page.comprobar_administrador_en_restaurante()
+def verify_user(context):
+    context.register_page.verify_user()
