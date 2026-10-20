@@ -20,11 +20,11 @@ class ReportsPage(BasePage):
         self.click(self.CATEGORIAS)
 
     def verify_categories_report(self):
-        self.esperar_visible(self.TITULO_CATEGORIAS, timeout=15)
+        self.wait_visibility(self.TITULO_CATEGORIAS, timeout=15)
         print("Título encontrado: Categorías")
-        self.esperar_visible(self.CONCENTRACION, timeout=15)
+        self.wait_visibility(self.CONCENTRACION, timeout=15)
         print("Apartado encontrado: CONCENTRACIÓN")
         self.mobile.swipe_up()
         self.mobile.swipe_up()
-        self.esperar_visible(self.CAFES_INFUSIONES, timeout=15)
+        self.wait_visibility(self.CAFES_INFUSIONES, timeout=15)
         print("Categoría encontrada: Cafés e infusiones")

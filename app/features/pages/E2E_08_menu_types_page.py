@@ -32,7 +32,7 @@ class CardsPage(BasePage):
     def create_new_card(self):
         self.carta_creada = f"Carta QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.click(self.ANADIR_CARTA)
-        self.escribir(self.NOMBRE_CARTA, self.carta_creada)
+        self.write(self.NOMBRE_CARTA, self.carta_creada)
         self.click(self.SIGUIENTE)
         self.click(self.ENTRANTES)
         self.click(self.PIMIENTOS)
@@ -116,13 +116,13 @@ class CardsPage(BasePage):
             raise Exception("No existe carta creada para modificar")
         self.editar_carta_creada()
         self.descripcion_modificada = f"DescripcionQA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        self.escribir(self.campo_descripcion(), self.descripcion_modificada)
+        self.write(self.campo_descripcion(), self.descripcion_modificada)
         self.click(self.SIGUIENTE)
         self.click(self.SIGUIENTE)
         self.click(self.SIGUIENTE)
         self.click(self.FINALIZAR_Y_GUARDAR)
         locator_carta = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.carta_creada}")')
-        self.esperar_visible(locator_carta, timeout=15)
+        self.wait_visibility(locator_carta, timeout=15)
 
     def verify_modification(self):
         if not self.carta_creada:
@@ -146,10 +146,10 @@ class CardsPage(BasePage):
         if ver_correcto is None:
             raise Exception(f"No encontrado Ver para {self.carta_creada}")
         ver_correcto.click()
-        self.esperar_visible(self.ANTERIOR, timeout=10)
+        self.wait_visibility(self.ANTERIOR, timeout=10)
         time.sleep(1)
         self.click(self.ANTERIOR)
-        descripcion = self.esperar_visible(self.campo_descripcion(), timeout=10)
+        descripcion = self.wait_visibility(self.campo_descripcion(), timeout=10)
         valor_descripcion = (descripcion.get_attribute("text") or descripcion.text or "").strip()
         print(f"Descripción esperada: {self.descripcion_modificada!r}")
         print(f"Descripción encontrada: {valor_descripcion!r}")

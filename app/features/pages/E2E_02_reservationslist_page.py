@@ -24,24 +24,24 @@ class ReservationPage(BasePage):
     def create_reservation(self):
         fecha_hora = datetime.now().strftime('%d%m%Y%H%M%S')
         self.reserva_creada = f"ClienteQA_{fecha_hora}"
-        self.escribir_valor(self.CLIENTE, self.reserva_creada)
+        self.value_write(self.CLIENTE, self.reserva_creada)
         self.click(self.GUARDAR_RESERVA)
 
     def verify_create_reservation(self):
         if not self.reserva_creada:
             raise Exception("No existe reserva creada para comprobar")
-        self.escribir(self.BUSCAR_RESERVAS, self.reserva_creada)
+        self.write(self.BUSCAR_RESERVAS, self.reserva_creada)
         try:
             self.driver.hide_keyboard()
         except Exception:
             pass
         locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
-        self.esperar_visible(locator_reserva, timeout=15)
+        self.wait_visibility(locator_reserva, timeout=15)
 
     def search_reservation(self):
         if not self.reserva_creada:
             raise Exception("No existe reserva creada para buscar")
-        self.escribir(self.BUSCAR_RESERVAS, self.reserva_creada)
+        self.write(self.BUSCAR_RESERVAS, self.reserva_creada)
         try:
             self.driver.hide_keyboard()
         except Exception:
@@ -50,7 +50,7 @@ class ReservationPage(BasePage):
     def find_reservation(self):
         self.search_reservation()
         locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
-        return self.esperar_visible(locator_reserva, timeout=15)
+        return self.wait_visibility(locator_reserva, timeout=15)
 
     def localizar_accion_reserva(self, locator):
         reserva = self.find_reservation()
@@ -78,9 +78,9 @@ class ReservationPage(BasePage):
     def edit_reservation(self):
         self.find_reservation()
         self.click(self.EDITAR)
-        campo = self.esperar_visible(self.COMENSALES, timeout=15)
+        campo = self.wait_visibility(self.COMENSALES, timeout=15)
         campo.clear()
-        self.escribir_valor(self.COMENSALES, "3")
+        self.value_write(self.COMENSALES, "3")
         try:
             self.driver.hide_keyboard()
         except Exception:
@@ -96,4 +96,4 @@ class ReservationPage(BasePage):
             raise Exception("No existe reserva creada para comprobar")
         self.find_reservation()
         time.sleep(2)
-        self.esperar_visible(self.NO_HAY_RESERVAS, timeout=10)
+        self.wait_visibility(self.NO_HAY_RESERVAS, timeout=10)

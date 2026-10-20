@@ -36,9 +36,9 @@ class BillingPage(BasePage):
         self.click(self.NUEVA_FACTURA)
         self.click(self.CLIENTE)
         self.click(self.CLIENTE_OPCION)
-        self.escribir(self.CONCEPTO, self.CONCEPTO_VALOR)
-        self.escribir_valor(self.CANTIDAD, self.CANTIDAD_VALOR)
-        self.escribir_valor(self.PRECIO, self.PRECIO_VALOR)
+        self.write(self.CONCEPTO, self.CONCEPTO_VALOR)
+        self.value_write(self.CANTIDAD, self.CANTIDAD_VALOR)
+        self.value_write(self.PRECIO, self.PRECIO_VALOR)
         self.driver.hide_keyboard()
         ahora = datetime.now()
         self.fecha_factura = f"{ahora.day}/{ahora.month}/{ahora.year}, {ahora.strftime('%H:%M')}"

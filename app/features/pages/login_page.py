@@ -15,14 +15,14 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def login(self):
-        self.escribir(self.EMAIL, TEST_EMAIL)
-        self.escribir(self.PASSWORD, TEST_PASSWORD)
+        self.write(self.EMAIL, TEST_EMAIL)
+        self.write(self.PASSWORD, TEST_PASSWORD)
         self.click(self.ACTIVAR_TERMINAL)
         self.click(self.REST1)
         for digit in REST1_PIN:
             pin_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")')
             self.click(pin_button)
-        self.scroll_hasta_texto("Entrar a este restaurante")
+        self.scroll_text("Entrar a este restaurante")
         self.click(self.ENTRAR_REST1)
         self.click(self.REST1_USUARIO)
         for digit in REST1_USUARIO_PIN:
@@ -31,4 +31,4 @@ class LoginPage(BasePage):
         self.click(self.ENTRAR_POS)
 
     def comprobar_login(self):
-        return self.existe(self.ACTIVAR_TERMINAL)
+        return self.exists(self.ACTIVAR_TERMINAL)

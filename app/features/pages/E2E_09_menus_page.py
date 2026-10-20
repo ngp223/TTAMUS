@@ -40,7 +40,7 @@ class MenusPage(BasePage):
         fecha_hora = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.menu_creado = f"Menu diario QA {fecha_hora}"
         self.click(self.NUEVO_MENU)
-        self.escribir(self.NOMBRE_MENU, self.menu_creado)
+        self.write(self.NOMBRE_MENU, self.menu_creado)
         self.click(self.SIGUIENTE)
         self.click(self.SECCION_1)
         self.click(self.TORTILLA)
@@ -50,7 +50,7 @@ class MenusPage(BasePage):
         self.click(self.PULPO)
         self.click(self.LISTO_SECCION_2)
         self.click(self.SECCION_3)
-        self.escribir(self.BUSCAR_PRODUCTO_POSTRE, "Tarta")
+        self.write(self.BUSCAR_PRODUCTO_POSTRE, "Tarta")
         self.click(self.TARTA_QUESO)
         self.click(self.LISTO_SECCION_3)
         self.click(self.CREAR_MENU)
@@ -100,10 +100,10 @@ class MenusPage(BasePage):
     def modify_menu(self):
         elemento_editar = self.find_accion_menu(self.EDITAR)
         elemento_editar.click()
-        campo_nombre = self.esperar_visible(self.NOMBRE_MENU, timeout=15)
+        campo_nombre = self.wait_visibility(self.NOMBRE_MENU, timeout=15)
         nombre_actual = self.find_valor(campo_nombre)
         self.descripcion_modificada = f"{nombre_actual} modificado".strip()
-        self.escribir(self.NOMBRE_MENU, self.descripcion_modificada)
+        self.write(self.NOMBRE_MENU, self.descripcion_modificada)
         self.click(self.SIGUIENTE)
         self.click(self.GUARDAR_CAMBIOS2)
         self.menu_creado = self.descripcion_modificada
