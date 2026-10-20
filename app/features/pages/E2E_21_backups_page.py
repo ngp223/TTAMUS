@@ -12,13 +12,13 @@ class BackupsPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def acceder_copias_seguridad(self):
+    def access_backup(self):
         self.scroll_hasta_texto("Copias de Seguridad")
         self.click(self.COPIAS_SEGURIDAD)
 
-    def descargar_backup(self):
+    def download_backup(self):
         self.escribir(self.PASSWORD, TEST_PASSWORD)
         self.click(self.DESCARGAR_COPIA)
 
-    def comprobar_copia_lista(self):
+    def verify_backup(self):
         return self.existe(self.COPIA_LISTA, timeout=15)
