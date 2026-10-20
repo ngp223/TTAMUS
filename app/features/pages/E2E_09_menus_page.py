@@ -4,115 +4,114 @@ from features.utils.mobile_utils import MobileUtils
 from datetime import datetime
 
 class MenusPage(BasePage):
-    CARTAS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Menús")')
-    NUEVO_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nuevo Menú")')
-    NOMBRE_MENU = (AppiumBy.XPATH, '//*[contains(@text,"Nombre del menú")]/following::android.widget.EditText[1]')
-    SIGUIENTE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
-    SECCION_1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-button-tam-btn-1")')
-    SECCION_2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-button-tam-btn-1")')
-    SECCION_3 = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-button-tam-btn-1")')
-    TORTILLA = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-picker-1-div-picker__list-1-button-picker__item-4")')
-    PULPO = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-div-picker-1-div-picker__list-1-button-picker__item-2")')
-    LISTO_SECCION_1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-picker-1-div-picker__top-1-button-tam-btn-2")')
-    LISTO_SECCION_2 = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-div-picker-1-div-picker__top-1-button-tam-btn-2")')
-    LISTO_SECCION_3 = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-div-picker-1-div-picker__top-1-button-tam-btn-2")')
-    BUSCAR_PRODUCTO_POSTRE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-12")')
-    TARTA_QUESO = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-div-picker-1-div-picker__list-1-button-picker__item-1")')
-    CREAR_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Crear Menú")')
-    MAXIMO = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-section__head-1-div-section__max-1-input-section__max-input-1")')
-    MAXIMO_NUEVO = "3"
-    GUARDAR_CAMBIOS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
-    GUARDAR_CAMBIOS2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
-    EDITAR = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')]
-    PAPELERA = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Borrar")')]
-    ELIMINAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
+    MENUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Menús")')
+    NEW_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nuevo Menú")')
+    MENU_NAME = (AppiumBy.XPATH, '//*[contains(@text,"Nombre del menú")]/following::android.widget.EditText[1]')
+    NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
+    SECTION_1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-button-tam-btn-1")')
+    SECTION_2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-button-tam-btn-1")')
+    SECTION_3 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-button-tam-btn-1")')
+    TORTILLA = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-picker-1-div-picker__list-1-button-picker__item-4")')
+    OCTOPUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-div-picker-1-div-picker__list-1-button-picker__item-2")')
+    SECTION_1_DONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-picker-1-div-picker__top-1-button-tam-btn-2")')
+    SECTION_2_DONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-2-div-picker-1-div-picker__top-1-button-tam-btn-2")')
+    SECTION_3_DONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-div-picker-1-div-picker__top-1-button-tam-btn-2")')
+    SEARCH_DESSERT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-12")')
+    CHEESECAKE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-3-div-picker-1-div-picker__list-1-button-picker__item-1")')
+    CREATE_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Crear Menú")')
+    MAXIMUM = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-section__head-1-div-section__max-1-input-section__max-input-1")')
+    NEW_MAXIMUM = "3"
+    SAVE_CHANGES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
+    SAVE_CHANGES_2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
+    EDIT = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')]
+    TRASH = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Borrar")')]
+    DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
 
     def __init__(self, driver):
         super().__init__(driver)
         self.mobile_utils = MobileUtils(driver)
-        self.menu_creado = None
-        self.descripcion_modificada = None
+        self.created_menu = None
+        self.modified_description = None
 
-    def access_menus(self):
-        self.click(self.CARTAS)
+    def open_menus(self):
+        self.click(self.MENUS)
 
     def create_menu(self):
-        fecha_hora = datetime.now().strftime('%Y%m%d_%H%M%S')
-        self.menu_creado = f"Menu diario QA {fecha_hora}"
-        self.click(self.NUEVO_MENU)
-        self.write(self.NOMBRE_MENU, self.menu_creado)
-        self.click(self.SIGUIENTE)
-        self.click(self.SECCION_1)
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.created_menu = f"Menu diario QA {timestamp}"
+        self.click(self.NEW_MENU)
+        self.write(self.MENU_NAME, self.created_menu)
+        self.click(self.NEXT)
+        self.click(self.SECTION_1)
         self.click(self.TORTILLA)
-        self.click(self.LISTO_SECCION_1)
+        self.click(self.SECTION_1_DONE)
         self.mobile_utils.swipe_up()
-        self.click(self.SECCION_2)
-        self.click(self.PULPO)
-        self.click(self.LISTO_SECCION_2)
-        self.click(self.SECCION_3)
-        self.write(self.BUSCAR_PRODUCTO_POSTRE, "Tarta")
-        self.click(self.TARTA_QUESO)
-        self.click(self.LISTO_SECCION_3)
-        self.click(self.CREAR_MENU)
+        self.click(self.SECTION_2)
+        self.click(self.OCTOPUS)
+        self.click(self.SECTION_2_DONE)
+        self.click(self.SECTION_3)
+        self.write(self.SEARCH_DESSERT, "Tarta")
+        self.click(self.CHEESECAKE)
+        self.click(self.SECTION_3_DONE)
+        self.click(self.CREATE_MENU)
         self.find_menu()
 
     def find_menu(self):
-        if not self.menu_creado:
-            raise Exception("No existe menú creado para buscar")
-        locator_menu = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_creado}")')
+        if not self.created_menu:
+            raise Exception("No menu has been created to search for")
+        menu_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_menu}")')
         for _ in range(8):
             try:
-                menu = self.driver.find_element(*locator_menu)
+                menu = self.driver.find_element(*menu_locator)
                 if menu.is_displayed():
                     return menu
             except Exception:
                 pass
             self.mobile_utils.swipe_up()
-        raise Exception(f"No se encontró el menú creado: {self.menu_creado}")
+        raise Exception(f"Created menu not found: {self.created_menu}")
 
-    def find_accion_menu(self, locators):
+    def find_menu_action(self, locators):
         menu = self.find_menu()
         menu_y = menu.location["y"]
-        elementos = []
+        elements = []
         for locator in locators:
             try:
-                elementos.extend(self.driver.find_elements(*locator))
+                elements.extend(self.driver.find_elements(*locator))
             except Exception:
                 pass
-        if not elementos:
-            raise Exception(f"No se encontraron botones para el menú {self.menu_creado}")
-        elemento_correcto = None
-        distancia_minima = float("inf")
-        for elemento in elementos:
-            if not elemento.is_displayed():
+        if not elements:
+            raise Exception(f"No buttons found for menu {self.created_menu}")
+        target_element = None
+        min_distance = float("inf")
+        for element in elements:
+            if not element.is_displayed():
                 continue
-            distancia = abs(elemento.location["y"] - menu_y)
-            if distancia < distancia_minima:
-                distancia_minima = distancia
-                elemento_correcto = elemento
-        if elemento_correcto is None:
-            raise Exception(f"No se encontró la acción correspondiente al menú {self.menu_creado}")
-        return elemento_correcto
+            distance = abs(element.location["y"] - menu_y)
+            if distance < min_distance:
+                min_distance = distance
+                target_element = element
+        if target_element is None:
+            raise Exception(f"Corresponding action not found for menu {self.created_menu}")
+        return target_element
 
-    def find_valor(self, campo):
-        return (campo.get_attribute("text") or campo.get_attribute("value") or campo.text or "").strip()
+    def get_field_value(self, field):
+        return (field.get_attribute("text") or field.get_attribute("value") or field.text or "").strip()
 
     def modify_menu(self):
-        elemento_editar = self.find_accion_menu(self.EDITAR)
-        elemento_editar.click()
-        campo_nombre = self.wait_visibility(self.NOMBRE_MENU, timeout=15)
-        nombre_actual = self.find_valor(campo_nombre)
-        self.descripcion_modificada = f"{nombre_actual} modificado".strip()
-        self.write(self.NOMBRE_MENU, self.descripcion_modificada)
-        self.click(self.SIGUIENTE)
-        self.click(self.GUARDAR_CAMBIOS2)
-        self.menu_creado = self.descripcion_modificada
+        edit_element = self.find_menu_action(self.EDIT)
+        edit_element.click()
+        name_field = self.wait_visibility(self.MENU_NAME, timeout=15)
+        current_name = self.get_field_value(name_field)
+        self.modified_description = f"{current_name} modificado".strip()
+        self.write(self.MENU_NAME, self.modified_description)
+        self.click(self.NEXT)
+        self.click(self.SAVE_CHANGES_2)
+        self.created_menu = self.modified_description
 
     def verify_menu_modificated(self):
-        self.menu_creado = self.descripcion_modificada
+        self.created_menu = self.modified_description
         self.find_menu()
 
     def delete_menu(self):
-        elemento_papelera = self.find_accion_menu(self.PAPELERA)
-        elemento_papelera.click()
-        self.click(self.ELIMINAR)
+        trash_element = self.find_menu_action(self.TRASH)
+        trash_element.click()
