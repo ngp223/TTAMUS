@@ -1,7 +1,5 @@
 
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.config.test_config import TEST_EMAIL, TEST_PASSWORD, REST1, REST1_PIN, REST1_USER, REST1_USER_PIN
 from features.pages.base_page import BasePage
 
@@ -17,7 +15,7 @@ class LoginPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def login_in(self):
+    def login_in(self, context):
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
         self.driver.hide_keyboard()
@@ -34,6 +32,7 @@ class LoginPage(BasePage):
             pin_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")')
             self.click(pin_button)
         self.click(self.OPEN_POS)
+        context.logged_in = True
         print("Login completado")
 
     def active_terminal(self):
