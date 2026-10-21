@@ -6,8 +6,8 @@ from features.utils.tickets_history_store import load_ticket_history
 
 class TicketsHistoryPage(BasePage):
     TICKET_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Tickets")')
-    DATE_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-2")')
-    AMOUNT_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-3")')
+    DATE_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-2")')
+    AMOUNT_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-3")')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -18,10 +18,9 @@ class TicketsHistoryPage(BasePage):
     def verify_tickets_history(self):
         saved_ticket = load_ticket_history()
         if not saved_ticket:
-            print("ERROR: No existe ningún ticket guardado para comprobar el historial")
-            return False
+            raise AssertionError("No existe ningún ticket guardado para comprobar el historial")
         print(f"Ticket guardado: {saved_ticket!r}")
-        return self.find_ticket(saved_ticket["date"], saved_ticket["amount"])
+        assert self.find_ticket(saved_ticket["date"], saved_ticket["amount"]), "No se encontró el ticket esperado en el historial"
 
     def find_ticket(self, expected_date, expected_amount):
         try:

@@ -10,5 +10,4 @@ def open_tickets_history(context):
 
 @then("veo el historial de tickets")
 def verify_tickets_history(context):
-    result = context.tickets_history.verify_tickets_history()
-    assert result, "No se encontró el ticket esperado en el historial"
+    context.tickets_history.verify_tickets_history()

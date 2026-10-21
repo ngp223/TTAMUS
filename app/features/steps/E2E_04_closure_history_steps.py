@@ -10,5 +10,4 @@ def open_closure_history(context):
 
 @then("veo el cierre en el historial")
 def verify_closure_history(context):
-    result = context.closures_history.verify_closure_history()
-    assert result, "No se encontró el cierre esperado en el historial"
+    context.closures_history.verify_closure_history()

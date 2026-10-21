@@ -3,12 +3,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.tickets_store import load_ticket
+
+
 class ClosureHistoryPage(BasePage):
     CLOSING_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Cierres")')
+
     def __init__(self, driver):
         super().__init__(driver)
+
     def open_closure_history(self):
         self.click(self.CLOSING_HISTORY)
+
     def verify_closure_history(self):
         saved_closure = load_ticket()
         if not saved_closure:
@@ -22,7 +27,9 @@ class ClosureHistoryPage(BasePage):
             raise AssertionError("El cierre guardado no contiene fecha")
         if not expected_amount:
             raise AssertionError("El cierre guardado no contiene importe")
-        return self.find_closure(expected_datetime, expected_amount)
+        result = self.find_closure(expected_datetime, expected_amount)
+        assert result, "No se encontró el cierre esperado en el historial"
+
     def find_closure(self, expected_datetime, expected_amount):
         expected_datetime = expected_datetime.strip()
         expected_amount = expected_amount.strip()

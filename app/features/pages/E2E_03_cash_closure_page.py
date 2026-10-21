@@ -1,10 +1,9 @@
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
+from features.utils.tickets_store import save_ticket
+from datetime import datetime
 import re
-
 
 class CashClosurePage(BasePage):
     CASH_CLOSURE_BUTTON = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cierre de Caja")')
@@ -53,6 +52,15 @@ class CashClosurePage(BasePage):
             __import__("time").sleep(0.5)
 
         raise Exception("No se encontró ningún importe con € en el cierre de caja")
+
+    def complete_cash_closure(self, context):
+        context.last_closure_date = datetime.now().strftime("%d/%m/%Y, %H:%M")
+        context.last_closure_amount = self.get_closure_total()
+        print(f"Fecha cierre: {context.last_closure_date}")
+        print(f"Importe cierre: {context.last_closure_amount}")
+        self.finalize_closure()
+        save_ticket(context.last_closure_date, context.last_closure_amount)
+        print("Ticket guardado correctamente")
 
     def finalize_closure(self):
         self.click(self.FINALIZE_CLOSURE)

@@ -1,7 +1,5 @@
 from behave import when, then
-from datetime import datetime
 from features.pages.E2E_03_cash_closure_page import CashClosurePage
-from features.utils.tickets_store import save_ticket
 
 
 @when("accedo al cierre de caja")
@@ -32,10 +30,4 @@ def scroll_to_finalize(context):
 
 @then("realizo el cierre de caja")
 def finalize_closure(context):
-    context.last_closure_date = datetime.now().strftime("%d/%m/%Y, %H:%M")
-    context.last_closure_amount = context.cash.get_closure_total()
-    print(f"Fecha cierre: {context.last_closure_date}")
-    print(f"Importe cierre: {context.last_closure_amount}")
-    context.cash.finalize_closure()
-    save_ticket(context.last_closure_date, context.last_closure_amount)
-    print("Ticket guardado correctamente")
+    context.cash.complete_cash_closure(context)
