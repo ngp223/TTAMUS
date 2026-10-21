@@ -15,8 +15,8 @@ def modify_menu(context):
     context.menus_page.modify_menu()
 
 @then('compruebo el menu modificado')
-def verify_menu_modificated(context):
-    context.menus_page.verify_menu_modificated()
+def verify_modified_menu(context):
+    context.menus_page.verify_modified_menu()
 
 @then('borro el menu')
 def delete_menu(context):

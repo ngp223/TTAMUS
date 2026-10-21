@@ -1,4 +1,3 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.tickets_history_store import save_ticket_history
@@ -37,9 +36,10 @@ class ReservationPage(BasePage):
         time.sleep(2)
 
     def select_guests(self):
+        if self.exists(self.MEATS, timeout=3):
+            print("La mesa ya tiene comensales; se omite la selección")
+            return
         self.click(self.DINERS)
-
-    def click_accept_guests(self):
         self.click(self.ACCEPT)
 
     def select_product(self):

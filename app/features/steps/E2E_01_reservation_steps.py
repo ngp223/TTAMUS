@@ -16,7 +16,6 @@ def select_table(context):
 @when("selecciono comensales")
 def select_guests(context):
     context.reservation_page.select_guests()
-    context.reservation_page.click_accept_guests()
 
 
 @when("selecciono el producto")

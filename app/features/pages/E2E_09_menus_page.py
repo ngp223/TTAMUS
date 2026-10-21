@@ -22,7 +22,6 @@ class MenusPage(BasePage):
     MAXIMUM = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-section-1-div-section__head-1-div-section__max-1-input-section__max-input-1")')
     NEW_MAXIMUM = "3"
     SAVE_CHANGES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
-    SAVE_CHANGES_2 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-1-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2")')
     EDIT = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')]
     TRASH = [(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")'), (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Borrar")')]
     DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
@@ -58,7 +57,7 @@ class MenusPage(BasePage):
 
     def find_menu(self):
         if not self.created_menu:
-            raise Exception("No menu has been created to search for")
+            raise Exception("No existe menu")
         menu_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_menu}")')
         for _ in range(8):
             try:
@@ -94,24 +93,20 @@ class MenusPage(BasePage):
             raise Exception(f"Corresponding action not found for menu {self.created_menu}")
         return target_element
 
-    def get_field_value(self, field):
-        return (field.get_attribute("text") or field.get_attribute("value") or field.text or "").strip()
-
     def modify_menu(self):
         edit_element = self.find_menu_action(self.EDIT)
         edit_element.click()
-        name_field = self.wait_visibility(self.MENU_NAME, timeout=15)
-        current_name = self.get_field_value(name_field)
-        self.modified_description = f"{current_name} modificado".strip()
+        self.modified_description = f"Menu diario QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.write(self.MENU_NAME, self.modified_description)
         self.click(self.NEXT)
-        self.click(self.SAVE_CHANGES_2)
+        self.click(self.SAVE_CHANGES)
         self.created_menu = self.modified_description
 
-    def verify_menu_modificated(self):
+    def verify_modified_menu(self):
         self.created_menu = self.modified_description
         self.find_menu()
 
     def delete_menu(self):
         trash_element = self.find_menu_action(self.TRASH)
         trash_element.click()
+        self.click(self.DELETE)

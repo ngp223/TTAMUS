@@ -75,6 +75,7 @@ def close_popups(context):
 
 
 def after_scenario(context, scenario):
+    cleanup_error = None
     try:
         close_popups(context)
         if getattr(context, "logged_in", False):
@@ -82,6 +83,7 @@ def after_scenario(context, scenario):
             logout_page.logout()
             print("Sesión cerrada correctamente al terminar el escenario")
     except Exception as e:
+        cleanup_error = e
         print(f"ERROR al cerrar la sesión: {type(e).__name__}: {e}")
     finally:
         try:
@@ -89,7 +91,11 @@ def after_scenario(context, scenario):
             context.driver.terminate_app(APP_PACKAGE)
             print("Aplicación cerrada al terminar el escenario")
         except Exception as e:
-            print(f"ERROR al cerrar la aplicación: {e}")
+            print(f"ERROR al cerrar la aplicación: {type(e).__name__}: {e}")
+            if cleanup_error is None:
+                cleanup_error = e
+    if cleanup_error is not None:
+        raise cleanup_error
 
 
 def after_all(context):

@@ -22,6 +22,7 @@ class CardsPage(BasePage):
     CLOSE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Cerrar")')
     EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")')
     SEE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Ver")')
+    DESCRIPTION = (AppiumBy.XPATH, '//*[contains(@text,"Descripción")]/following::android.widget.EditText[1]')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -93,22 +94,14 @@ class CardsPage(BasePage):
         edit_correct = self.find_nearest_button(self.EDIT, menu_type, "Editar")
         edit_correct.click()
 
-    def field_below_label(self, label):
-        return (
-            AppiumBy.XPATH,f'//*[contains(@text,"{label}")]/following::android.widget.EditText[1]')
-
-    def field_description(self):
-        return self.field_below_label("Descripción")
-
     def modify_created_card(self):
         if not self.menu_type_created:
             raise Exception("No existe carta creada para modificar")
         self.edit_menu_type_created()
         self.description_modified = f"DescripcionQA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        self.write(self.field_description(), self.description_modified)
-        self.click(self.NEXT)
-        self.click(self.NEXT)
-        self.click(self.NEXT)
+        self.write(self.DESCRIPTION, self.description_modified)
+        for _ in range(3):
+            self.click(self.NEXT)
         self.click(self.FINISH_AND_SAVE)
         locator_menu_type = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
         self.wait_visibility(locator_menu_type, timeout=15)
@@ -122,7 +115,7 @@ class CardsPage(BasePage):
         self.wait_visibility(self.PREVIOUS, timeout=10)
         time.sleep(1)
         self.click(self.PREVIOUS)
-        description = self.wait_visibility(self.field_description(), timeout=10)
+        description = self.wait_visibility(self.DESCRIPTION, timeout=10)
         value_description = (description.get_attribute("text") or description.text or "").strip()
         print(f"Descripción esperada: {self.description_modified!r}")
         print(f"Descripción encontrada: {value_description!r}")
