@@ -1,14 +1,13 @@
 import json
 from pathlib import Path
 
-FILE = Path("tmp/last_ticket.json")
-
+TICKET_FILE = Path(__file__).resolve().parents[2] / "tmp" / "last_ticket.json"
 
 def save_ticket(date, amount):
 
-    FILE.parent.mkdir(exist_ok=True)
+    TICKET_FILE.parent.mkdir(exist_ok=True)
 
-    with open(FILE, "w", encoding="utf-8") as f:
+    with open(TICKET_FILE, "w", encoding="utf-8") as f:
         json.dump({
             "date": date,
             "amount": amount
@@ -17,11 +16,11 @@ def save_ticket(date, amount):
 
 def load_ticket():
 
-    if not FILE.exists():
+    if not TICKET_FILE.exists():
         return None
 
     try:
-        with open(FILE, "r", encoding="utf-8") as f:
+        with open(TICKET_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
     except Exception:

@@ -6,4 +6,6 @@ REST1_USER = "E Elena Aguirre Propietario"
 REST1_USER_PIN = "1234"
 INITIAL_USER = "EA"
 REST2_PIN = "2222"
+WEBVIEW_CONTEXT = "WEBVIEW_com.tamus.pos"
+WAIT_TIMEOUT = 10
 

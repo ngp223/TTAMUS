@@ -1,6 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.tickets_history_store import save_ticket_history
+from features.utils.tickets_store import save_ticket
 from datetime import datetime
 import time
 
@@ -67,7 +67,7 @@ class ReservationPage(BasePage):
             raise AssertionError(f"Texto inesperado en el botón de cobro: {button_text!r}")
         amount = button_text.replace("Cobrar ", "", 1).strip()
         date = datetime.now().strftime("%d/%m/%Y, %H:%M")
-        save_ticket_history(date, amount)
+        save_ticket(date, amount)
         print(f"Ticket guardado: fecha={date!r}, importe={amount!r}")
 
     def click_pay(self):

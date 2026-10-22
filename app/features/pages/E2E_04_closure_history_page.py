@@ -1,12 +1,16 @@
+
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
-from features.utils.tickets_store import load_ticket
+from features.utils.tickets_history_store import load_ticket_history
+from features.config.test_config import WAIT_TIMEOUT
 
 
 class ClosureHistoryPage(BasePage):
     CLOSING_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Cierres")')
+    DATE_FIRST_CLOSURE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-cierres-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-4")')
+    AMOUNT_FIRST_CLOSURE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-cierres-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-6")')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -15,38 +19,28 @@ class ClosureHistoryPage(BasePage):
         self.click(self.CLOSING_HISTORY)
 
     def verify_closure_history(self):
-        saved_closure = load_ticket()
+        saved_closure = load_ticket_history()
         if not saved_closure:
-            raise AssertionError("No se encontró ningún cierre guardado en tmp/last_ticket.json")
-        expected_datetime = saved_closure.get("date")
-        expected_amount = saved_closure.get("amount")
+            raise AssertionError("No existe ningún cierre guardado para comprobar el historial")
         print(f"Cierre guardado: {saved_closure!r}")
-        print(f"Fecha buscada: {expected_datetime!r}")
-        print(f"Importe buscado: {expected_amount!r}")
-        if not expected_datetime:
-            raise AssertionError("El cierre guardado no contiene fecha")
-        if not expected_amount:
-            raise AssertionError("El cierre guardado no contiene importe")
-        result = self.find_closure(expected_datetime, expected_amount)
-        assert result, "No se encontró el cierre esperado en el historial"
+        assert self.find_closure(saved_closure["date"], saved_closure["amount"]), "No se encontró el cierre esperado en el historial"
 
     def find_closure(self, expected_datetime, expected_amount):
-        expected_datetime = expected_datetime.strip()
-        expected_amount = expected_amount.strip()
-        print(f"Buscando fecha: {expected_datetime!r}")
-        print(f"Buscando importe: {expected_amount!r}")
-        date_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_datetime}")')
-        date_element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(date_locator))
-        print(f"Fecha encontrada: {date_element.text!r}")
-        amount_elements = self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{expected_amount}")')
-        print(f"Importes encontrados: {len(amount_elements)}")
-        for amount_element in amount_elements:
-            print(f"Importe encontrado: {amount_element.text!r}")
-            date_rect = date_element.rect
-            amount_rect = amount_element.rect
-            if abs(date_rect["y"] - amount_rect["y"]) < 50:
-                print("Cierre encontrado correctamente")
-                print("Fecha e importe pertenecen a la misma fila")
-                return True
-        print(f"No se encontró el cierre esperado: fecha={expected_datetime!r}, importe={expected_amount!r}")
-        return False
+        try:
+            date_element = WebDriverWait(self.driver, WAIT_TIMEOUT).until(
+                EC.visibility_of_element_located(self.DATE_FIRST_CLOSURE)
+            )
+            amount_element = WebDriverWait(self.driver, WAIT_TIMEOUT).until(
+                EC.visibility_of_element_located(self.AMOUNT_FIRST_CLOSURE)
+            )
+            actual_date = date_element.text.strip()
+            actual_amount = amount_element.text.strip()
+            print(f"Fecha encontrada: {actual_date!r} | esperada: {expected_datetime!r}")
+            print(f"Importe encontrado: {actual_amount!r} | esperado: {expected_amount!r}")
+            result = actual_date == expected_datetime.strip() and actual_amount == expected_amount.strip()
+            print("Cierre encontrado correctamente en la primera fila" if result else "ERROR: La fecha o el importe no coinciden con el cierre guardado")
+            return result
+        except Exception as e:
+            print(f"ERROR al localizar la primera fila del historial de cierres: {e}")
+            print(f"Contexto Appium: {self.driver.current_context}")
+            return False

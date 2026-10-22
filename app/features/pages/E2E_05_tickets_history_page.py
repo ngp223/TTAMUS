@@ -1,7 +1,7 @@
 import time
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.tickets_history_store import load_ticket_history
+from features.utils.tickets_store import load_ticket
 
 
 class TicketsHistoryPage(BasePage):
@@ -16,7 +16,7 @@ class TicketsHistoryPage(BasePage):
         self.click(self.TICKET_HISTORY)
 
     def verify_tickets_history(self):
-        saved_ticket = load_ticket_history()
+        saved_ticket = load_ticket()
         if not saved_ticket:
             raise AssertionError("No existe ningún ticket guardado para comprobar el historial")
         print(f"Ticket guardado: {saved_ticket!r}")
