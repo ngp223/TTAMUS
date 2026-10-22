@@ -1,12 +1,13 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from features.config.test_config import TEST_EMAIL, TEST_PASSWORD, REST1, REST1_PIN, REST1_USER, REST1_USER_PIN
 from features.pages.base_page import BasePage
 
 class LoginPage(BasePage):
-    EMAIL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-1")')
-    PASSWORD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-2")')
-    ACTIVE_TERMINAL = (AppiumBy.XPATH, '//android.widget.Button[@text="Activar terminal"]')
+    EMAIL = (AppiumBy.CSS_SELECTOR, 'input[type="email"]')
+    PASSWORD = (AppiumBy.CSS_SELECTOR, 'input[type="password"]')
+    ACTIVE_TERMINAL = (AppiumBy.XPATH, '//button[contains(normalize-space(.), "Activar terminal")]')
     REST1 = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{REST1}")')
     OPEN_REST1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Entrar a este restaurante")')
     REST1_USER = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{REST1_USER}")')
@@ -16,24 +17,34 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def login_in(self, context):
+        webview = next((c for c in self.driver.contexts if "WEBVIEW" in c.upper()), None)
+        if not webview:
+            raise Exception("No se encuentra el contexto WEBVIEW para iniciar sesión")
+        self.driver.switch_to.context(webview)
+        WebDriverWait(self.driver, 15).until(EC.visibility_of_element_located(self.EMAIL))
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
-        self.driver.hide_keyboard()
-        if self.exists(self.ACTIVE_TERMINAL, timeout=3):
-            self.click(self.ACTIVE_TERMINAL)
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.ACTIVE_TERMINAL)).click()
+        self.driver.switch_to.context("NATIVE_APP")
         self.click(self.REST1)
         for digit in REST1_PIN:
-            pin_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")')
-            self.click(pin_button)
+            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
         self.scroll_text("Entrar a este restaurante")
         self.click(self.OPEN_REST1)
         self.click(self.REST1_USER)
         for digit in REST1_USER_PIN:
-            pin_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")')
-            self.click(pin_button)
+            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
         self.click(self.OPEN_POS)
         context.logged_in = True
         print("Login completado")
 
     def active_terminal(self):
-        return self.exists(self.ACTIVE_TERMINAL)
+        webview = next((c for c in self.driver.contexts if "WEBVIEW" in c.upper()), None)
+        if not webview:
+            return False
+        contexto_anterior = self.driver.current_context
+        try:
+            self.driver.switch_to.context(webview)
+            return self.exists(self.ACTIVE_TERMINAL, timeout=3)
+        finally:
+            self.driver.switch_to.context(contexto_anterior)
