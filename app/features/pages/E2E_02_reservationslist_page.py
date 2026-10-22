@@ -1,7 +1,10 @@
+
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
+from features.config.test_config import WAIT_TIMEOUT
 import time
+
 
 class ReservationPage(BasePage):
     RESERVATIONS_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Reservas")')
@@ -16,32 +19,32 @@ class ReservationPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.reserva_creada = None
+        self.created_reservation = None
 
     def access_reservation(self):
         self.click(self.RESERVATIONS_MENU)
 
     def create_reservation(self):
-        fecha_hora = datetime.now().strftime('%d%m%Y%H%M%S')
-        self.reserva_creada = f"ClienteQA_{fecha_hora}"
-        self.value_write(self.CUSTOMER, self.reserva_creada)
+        date_time = datetime.now().strftime('%d%m%Y%H%M%S')
+        self.created_reservation = f"ClienteQA_{date_time}"
+        self.value_write(self.CUSTOMER, self.created_reservation)
         self.click(self.SAVE_RESERVATION)
 
     def verify_create_reservation(self):
-        if not self.reserva_creada:
+        if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        self.write(self.SEARCH_RESERVATION, self.reserva_creada)
+        self.write(self.SEARCH_RESERVATION, self.created_reservation)
         try:
             self.driver.hide_keyboard()
         except Exception:
             pass
-        locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
-        self.wait_visibility(locator_reserva, timeout=15)
+        reservation_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_reservation}")')
+        self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
 
     def search_reservation(self):
-        if not self.reserva_creada:
+        if not self.created_reservation:
             raise Exception("No existe reserva creada para buscar")
-        self.write(self.SEARCH_RESERVATION, self.reserva_creada)
+        self.write(self.SEARCH_RESERVATION, self.created_reservation)
         try:
             self.driver.hide_keyboard()
         except Exception:
@@ -49,51 +52,51 @@ class ReservationPage(BasePage):
 
     def find_reservation(self):
         self.search_reservation()
-        locator_reserva = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.reserva_creada}")')
-        return self.wait_visibility(locator_reserva, timeout=15)
+        reservation_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_reservation}")')
+        return self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
 
-    def localizar_accion_reserva(self, locator):
-        reserva = self.find_reservation()
-        reserva_y = reserva.location["y"]
-        elementos = self.driver.find_elements(*locator)
-        if not elementos:
+    def find_reservation_action(self, locator):
+        reservation = self.find_reservation()
+        reservation_y = reservation.location["y"]
+        elements = self.driver.find_elements(*locator)
+        if not elements:
             raise Exception(f"No se encontraron elementos para la acción: {locator}")
-        elemento_correcto = None
-        distancia_minima = float("inf")
-        for elemento in elementos:
-            if not elemento.is_displayed():
+        correct_element = None
+        minimum_distance = float("inf")
+        for element in elements:
+            if not element.is_displayed():
                 continue
-            distancia = abs(elemento.location["y"] - reserva_y)
-            if distancia < distancia_minima:
-                distancia_minima = distancia
-                elemento_correcto = elemento
-        if elemento_correcto is None:
-            raise Exception(f"No se encontró la acción para la reserva {self.reserva_creada}")
-        return elemento_correcto
+            distance = abs(element.location["y"] - reservation_y)
+            if distance < minimum_distance:
+                minimum_distance = distance
+                correct_element = element
+        if correct_element is None:
+            raise Exception(f"No se encontró la acción para la reserva {self.created_reservation}")
+        return correct_element
 
     def check_reservation(self):
-        elemento_marcar = self.localizar_accion_reserva(self.RECORD_ARRIVAL)
-        elemento_marcar.click()
+        arrival_element = self.find_reservation_action(self.RECORD_ARRIVAL)
+        arrival_element.click()
 
     def edit_reservation(self):
         self.find_reservation()
         self.click(self.EDIT)
-        campo = self.wait_visibility(self.DINERS, timeout=15)
-        campo.clear()
+        diners_field = self.wait_visibility(self.DINERS, timeout=WAIT_TIMEOUT)
+        diners_field.clear()
         self.value_write(self.DINERS, "3")
         try:
             self.driver.hide_keyboard()
         except Exception:
             pass
         self.click(self.SAVE_RESERVATION)
-        
+
     def cancel_reservation(self):
-        elemento_cancel = self.localizar_accion_reserva(self.CANCEL)
-        elemento_cancel.click()
+        cancel_element = self.find_reservation_action(self.CANCEL)
+        cancel_element.click()
 
     def verify_cancel_reservation(self):
-        if not self.reserva_creada:
+        if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
         self.find_reservation()
         time.sleep(2)
-        self.wait_visibility(self.NO_RESERVATIONS, timeout=10)
+        self.wait_visibility(self.NO_RESERVATIONS, timeout=WAIT_TIMEOUT)

@@ -3,7 +3,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
-from features.utils.tickets_history_store import load_ticket_history
+from features.utils.save_load_files import load_ticket_history
 from features.config.test_config import WAIT_TIMEOUT
 
 

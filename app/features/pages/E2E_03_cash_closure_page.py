@@ -1,7 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
-from features.utils.tickets_history_store import save_ticket_history
+from features.utils.save_load_files import save_ticket_history
 from datetime import datetime
 import re
 

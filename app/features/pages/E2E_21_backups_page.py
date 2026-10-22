@@ -1,5 +1,6 @@
+
 from appium.webdriver.common.appiumby import AppiumBy
-from features.config.test_config import TEST_PASSWORD
+from features.config.test_config import TEST_PASSWORD, WAIT_TIMEOUT
 from features.pages.base_page import BasePage
 
 
@@ -21,4 +22,4 @@ class BackupsPage(BasePage):
         self.click(self.DOWNLOAD_BACKUP)
 
     def verify_backup(self):
-        return self.exists(self.LIST_COPY, timeout=15)
+        return self.exists(self.LIST_COPY, timeout=WAIT_TIMEOUT)

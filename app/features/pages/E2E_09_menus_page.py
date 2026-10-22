@@ -1,7 +1,11 @@
+
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
+from features.config.test_config import WAIT_TIMEOUT
 from datetime import datetime
+import time
+
 
 class MenusPage(BasePage):
     MENUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Menús")')
@@ -59,7 +63,8 @@ class MenusPage(BasePage):
         if not self.created_menu:
             raise Exception("No existe menu")
         menu_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_menu}")')
-        for _ in range(8):
+        end_time = time.time() + WAIT_TIMEOUT
+        while time.time() < end_time:
             try:
                 menu = self.driver.find_element(*menu_locator)
                 if menu.is_displayed():

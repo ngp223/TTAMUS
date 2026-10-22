@@ -1,6 +1,8 @@
+
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.tickets_store import save_ticket
+from features.utils.save_load_files import save_ticket
+from features.config.test_config import WAIT_TIMEOUT
 from datetime import datetime
 import time
 
@@ -27,11 +29,11 @@ class ReservationPage(BasePage):
         super().__init__(driver)
 
     def access_see_tables(self):
-        return self.wait_visibility(self.SEE_TABLES)
+        return self.wait_visibility(self.SEE_TABLES, timeout=WAIT_TIMEOUT)
 
     def select_table(self):
         self.click(self.MAIN_HALL)
-        self.wait_visibility(self.TABLE)
+        self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
         self.click(self.TABLE)
         time.sleep(2)
 

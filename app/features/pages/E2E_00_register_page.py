@@ -1,6 +1,7 @@
+
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
-from features.config.test_config import TEST_PASSWORD
+from features.config.test_config import TEST_PASSWORD, WAIT_TIMEOUT
 from features.pages.base_page import BasePage
 import time
 
@@ -70,4 +71,4 @@ class RegisterPage(BasePage):
         time.sleep(2)
 
     def verify_user(self):
-        self.wait_visibility(self.SALES)
+        self.wait_visibility(self.SALES, timeout=WAIT_TIMEOUT)

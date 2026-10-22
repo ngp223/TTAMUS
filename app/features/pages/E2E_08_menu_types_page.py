@@ -2,11 +2,12 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
+from features.config.test_config import WAIT_TIMEOUT
 from datetime import datetime
 import time
 
 
-class CardsPage(BasePage):
+class MenuTypesPage(BasePage):
     MENU_TYPES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cartas")')
     ADD_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir Carta")')
     NAME_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-4")')
@@ -30,96 +31,93 @@ class CardsPage(BasePage):
         self.mobile_utils = MobileUtils(driver)
         self.menu_type_created = None
 
-    def open_cards(self):
+    def open_menutypes(self):
         self.click(self.MENU_TYPES)
 
-    def create_new_card(self):
+    def create_new_menutype(self):
         self.menu_type_created = f"Carta QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.click(self.ADD_MENU_TYPE)
         self.write(self.NAME_MENU_TYPE, self.menu_type_created)
-        self.click(self.NEXT)
-        self.click(self.STARTERS)
-        self.click(self.PEPPERS)
-        self.click(self.SALADS)
-        self.click(self.SALAD_CESAR)
-        self.click(self.NEXT)
-        self.click(self.NEXT)
-        self.click(self.FINISH_AND_SAVE)
+        for locator in (self.NEXT, self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
+            self.click(locator)
 
-    def scroll_to_created_card(self):
+    def delete_created_menutypes(self):
         if not self.menu_type_created:
             raise Exception("No existe carta creada para buscar")
-        locator_menu_type = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
+        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
+        menu_type = None
         for _ in range(8):
             try:
-                menu_type = self.driver.find_element(*locator_menu_type)
+                menu_type = self.driver.find_element(*locator)
                 if menu_type.is_displayed():
-                    return menu_type
+                    break
             except Exception:
                 pass
-            self.scroll_cards_list()
-        raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
-
-    def scroll_cards_list(self):
-        self.mobile_utils.swipe_up()
-
-    def find_nearest_button(self, locator, menu_type, button_name):
-        menu_type_pos = menu_type.location
-        elements = self.driver.find_elements(*locator)
-        if not elements:
-            raise Exception(f"No se encontraron botones {button_name}")
-        button_correct = None
-        minimum_distance = float("inf")
-        for element in elements:
-            if not element.is_displayed():
-                continue
-            distance = abs(element.location["y"] - menu_type_pos["y"])
-            if distance < minimum_distance:
-                minimum_distance = distance
-                button_correct = element
-        if button_correct is None:
-            raise Exception(f"No encontrado {button_name} para {self.menu_type_created}")
-        return button_correct
-
-    def delete_created_card(self):
-        if not self.menu_type_created:
-            raise Exception("No existe carta creada para borrar")
-        menu_type = self.scroll_to_created_card()
-        bin_correct = self.find_nearest_button(self.BIN, menu_type, "Eliminar")
-        bin_correct.click()
+            self.mobile_utils.swipe_up()
+        if menu_type is None or not menu_type.is_displayed():
+            raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
+        bin_buttons = self.driver.find_elements(*self.BIN)
+        bin_button = min((element for element in bin_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
+        if bin_button is None:
+            raise Exception(f"No encontrado Eliminar para {self.menu_type_created}")
+        bin_button.click()
         self.click(self.DELETE)
 
-    def edit_menu_type_created(self):
-        menu_type = self.scroll_to_created_card()
-        edit_correct = self.find_nearest_button(self.EDIT, menu_type, "Editar")
-        edit_correct.click()
-
-    def modify_created_card(self):
+    def modify_created_menutypes(self):
         if not self.menu_type_created:
-            raise Exception("No existe carta creada para modificar")
-        self.edit_menu_type_created()
+            raise Exception("No existe carta creada para buscar")
+        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
+        menu_type = None
+        for _ in range(8):
+            try:
+                menu_type = self.driver.find_element(*locator)
+                if menu_type.is_displayed():
+                    break
+            except Exception:
+                pass
+            self.mobile_utils.swipe_up()
+        if menu_type is None or not menu_type.is_displayed():
+            raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
+        edit_buttons = self.driver.find_elements(*self.EDIT)
+        edit_button = min((element for element in edit_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
+        if edit_button is None:
+            raise Exception(f"No encontrado Editar para {self.menu_type_created}")
+        edit_button.click()
         self.description_modified = f"DescripcionQA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.write(self.DESCRIPTION, self.description_modified)
         for _ in range(3):
             self.click(self.NEXT)
         self.click(self.FINISH_AND_SAVE)
-        locator_menu_type = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
-        self.wait_visibility(locator_menu_type, timeout=15)
+        self.wait_visibility(locator, timeout=WAIT_TIMEOUT)
 
     def verify_modification(self):
         if not self.menu_type_created:
-            raise Exception("No existe menu_type creada para verificar")
-        menu_type = self.scroll_to_created_card()
-        see_correct = self.find_nearest_button(self.SEE, menu_type, "Ver")
-        see_correct.click()
-        self.wait_visibility(self.PREVIOUS, timeout=10)
+            raise Exception("No existe carta creada para buscar")
+        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
+        menu_type = None
+        for _ in range(8):
+            try:
+                menu_type = self.driver.find_element(*locator)
+                if menu_type.is_displayed():
+                    break
+            except Exception:
+                pass
+            self.mobile_utils.swipe_up()
+        if menu_type is None or not menu_type.is_displayed():
+            raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
+        see_buttons = self.driver.find_elements(*self.SEE)
+        see_button = min((element for element in see_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
+        if see_button is None:
+            raise Exception(f"No encontrado Ver para {self.menu_type_created}")
+        see_button.click()
+        self.wait_visibility(self.PREVIOUS, timeout=WAIT_TIMEOUT)
         time.sleep(1)
         self.click(self.PREVIOUS)
-        description = self.wait_visibility(self.DESCRIPTION, timeout=10)
-        value_description = (description.get_attribute("text") or description.text or "").strip()
+        description = self.wait_visibility(self.DESCRIPTION, timeout=WAIT_TIMEOUT)
+        found_description = (description.get_attribute("text") or description.text or "").strip()
         print(f"Descripción esperada: {self.description_modified!r}")
-        print(f"Descripción encontrada: {value_description!r}")
-        if value_description != self.description_modified:
-            raise AssertionError(f"La descripción no coincide: esperada={self.description_modified!r}, encontrada={value_description!r}")
+        print(f"Descripción encontrada: {found_description!r}")
+        if found_description != self.description_modified:
+            raise AssertionError(f"La descripción no coincide: esperada={self.description_modified!r}, encontrada={found_description!r}")
         print(f"Modificación encontrada: {self.description_modified}")
         self.click(self.CLOSE)

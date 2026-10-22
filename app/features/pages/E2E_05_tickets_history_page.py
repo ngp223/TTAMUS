@@ -1,7 +1,7 @@
 import time
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.tickets_store import load_ticket
+from features.utils.save_load_files import load_ticket
 
 
 class TicketsHistoryPage(BasePage):
