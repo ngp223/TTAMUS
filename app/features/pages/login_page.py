@@ -12,6 +12,7 @@ class LoginPage(BasePage):
     OPEN_REST1 = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Entrar a este restaurante")')
     REST1_USER = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{REST1_USER}")')
     OPEN_POS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Entrar al POS")')
+    EXPAND = (AppiumBy.ACCESSIBILITY_ID, "Expandir menú")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -35,6 +36,7 @@ class LoginPage(BasePage):
         for digit in REST1_USER_PIN:
             self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
         self.click(self.OPEN_POS)
+        self.click(self.EXPAND)
         context.logged_in = True
         print("Login completado")
 
