@@ -18,11 +18,21 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def login_in(self, context):
-        webview = next((c for c in self.driver.contexts if "WEBVIEW" in c.upper()), None)
-        if not webview:
-            raise Exception("No se encuentra el contexto WEBVIEW para iniciar sesión")
-        self.driver.switch_to.context(webview)
-        WebDriverWait(self.driver, 15).until(EC.visibility_of_element_located(self.EMAIL))
+        email_encontrado = False
+        for contexto in self.driver.contexts:
+            try:
+                self.driver.switch_to.context(contexto)
+                elementos = self.driver.find_elements(*self.EMAIL)
+                if any(e.is_displayed() for e in elementos):
+                    print(f"Campo email encontrado en {contexto}")
+                    email_encontrado = True
+                    break
+            except Exception:
+                continue
+        if not email_encontrado:
+            self.driver.switch_to.context("NATIVE_APP")
+            raise Exception("No se encuentra el campo email en ningún contexto")
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.EMAIL))
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.ACTIVE_TERMINAL)).click()

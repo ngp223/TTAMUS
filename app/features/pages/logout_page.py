@@ -12,13 +12,22 @@ class LogoutPage(BasePage):
     ACTIVE_TERMINAL = (AppiumBy.XPATH, '//*[normalize-space(.)="Activar terminal"]')
 
     def find_user(self):
-        webview = next((c for c in self.driver.contexts if "WEBVIEW" in c.upper()), None)
-        if not webview:
-            return None
-        self.driver.switch_to.context(webview)
-        for element in self.driver.find_elements(*self.USER_MENU):
-            if element.is_displayed() and element.is_enabled():
-                return element
+        for contexto in self.driver.contexts:
+            try:
+                self.driver.switch_to.context(contexto)
+                if contexto == "NATIVE_APP":
+                    locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{INITIAL_USER}")')
+                elif "WEBVIEW" in contexto.upper():
+                    locator = (AppiumBy.XPATH, f'//*[normalize-space(.)="{INITIAL_USER}"]')
+                else:
+                    continue
+                for elemento in self.driver.find_elements(*locator):
+                    if elemento.is_displayed() and elemento.is_enabled():
+                        print(f"Iniciales {INITIAL_USER} encontradas en {contexto}")
+                        return elemento
+            except Exception:
+                continue
+        self.driver.switch_to.context("NATIVE_APP")
         return None
 
     def logout(self):
