@@ -15,12 +15,12 @@ class ReservationPage(BasePage):
     ACCEPT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
     MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Carnes")')
     SELECT_MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Con opciones Solomillo al foie 24,50 €")')
-    SELECT_VEGETABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("radio_button_unchecked Verduras a la plancha")')
-    RARE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("radio_button_unchecked Poco hecho")')
+    SELECT_VEGETABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Verduras a la plancha")')
+    RARE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Poco hecho")')
     ADD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir")')
     RICES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Arroces")')
     SELECT_RICES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Risotto de setas 15,50 €")')
-    SEND_TO_KITCHEN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Enviar a cocina")')
+    SEND_TO_KITCHEN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cocina")')
     INCREASE_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("＋")')
     CHARGE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cobrar 64,50 €")')
     CHARGE_BUTTON = (AppiumBy.ID, "tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-sales-view-1-tam-payment-view-fill-1-div-pay-1-tam-card-tam-card-2-div-pay__actions-1-button-tam-btn-2")
@@ -46,6 +46,7 @@ class ReservationPage(BasePage):
 
     def select_product(self):
         self.click(self.MEATS)
+        
         self.click(self.SELECT_MEATS)
         self.click(self.SELECT_VEGETABLE)
         self.click(self.RARE)
