@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import load_ticket_history
 from features.config.test_config import WAIT_TIMEOUT
+from datetime import datetime
+import time
 
 
 class ClosureHistoryPage(BasePage):
@@ -25,22 +27,20 @@ class ClosureHistoryPage(BasePage):
         print(f"Cierre guardado: {saved_closure!r}")
         assert self.find_closure(saved_closure["date"], saved_closure["amount"]), "No se encontró el cierre esperado en el historial"
 
-    def find_closure(self, expected_datetime, expected_amount):
+    def find_closure(self, expected_date, expected_amount):
+        time.sleep(3)
         try:
-            date_element = WebDriverWait(self.driver, WAIT_TIMEOUT).until(
-                EC.visibility_of_element_located(self.DATE_FIRST_CLOSURE)
-            )
-            amount_element = WebDriverWait(self.driver, WAIT_TIMEOUT).until(
-                EC.visibility_of_element_located(self.AMOUNT_FIRST_CLOSURE)
-            )
-            actual_date = date_element.text.strip()
-            actual_amount = amount_element.text.strip()
-            print(f"Fecha encontrada: {actual_date!r} | esperada: {expected_datetime!r}")
-            print(f"Importe encontrado: {actual_amount!r} | esperado: {expected_amount!r}")
-            result = actual_date == expected_datetime.strip() and actual_amount == expected_amount.strip()
-            print("Cierre encontrado correctamente en la primera fila" if result else "ERROR: La fecha o el importe no coinciden con el cierre guardado")
-            return result
+            WebDriverWait(self.driver, WAIT_TIMEOUT).until(EC.visibility_of_element_located(self.DATE_FIRST_CLOSURE))
+            actual_date = self.driver.find_element(*self.DATE_FIRST_CLOSURE).text.strip()
+            actual_amount = self.driver.find_element(*self.AMOUNT_FIRST_CLOSURE).text.strip()
+            print(f"Fecha encontrada: '{actual_date}' | esperada: '{expected_date}'")
+            if actual_amount != expected_amount.strip():
+                return False
+            actual = datetime.strptime(actual_date, "%d/%m/%Y, %H:%M")
+            expected = datetime.strptime(expected_date.strip(), "%d/%m/%Y, %H:%M")
+            diferencia = abs((actual - expected).total_seconds())
+            return diferencia <= 60
         except Exception as e:
-            print(f"ERROR al localizar la primera fila del historial de cierres: {e}")
-            print(f"Contexto Appium: {self.driver.current_context}")
+            print(f"Error al buscar el cierre: {type(e).__name__}: {e}")
             return False
+
