@@ -1,3 +1,4 @@
+
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,20 +19,6 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def login_in(self, context):
-        email_encontrado = False
-        for contexto in self.driver.contexts:
-            try:
-                self.driver.switch_to.context(contexto)
-                elementos = self.driver.find_elements(*self.EMAIL)
-                if any(e.is_displayed() for e in elementos):
-                    print(f"Campo email encontrado en {contexto}")
-                    email_encontrado = True
-                    break
-            except Exception:
-                continue
-        if not email_encontrado:
-            self.driver.switch_to.context("NATIVE_APP")
-            raise Exception("No se encuentra el campo email en ningún contexto")
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.EMAIL))
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
@@ -51,12 +38,4 @@ class LoginPage(BasePage):
         print("Login completado")
 
     def active_terminal(self):
-        webview = next((c for c in self.driver.contexts if "WEBVIEW" in c.upper()), None)
-        if not webview:
-            return False
-        contexto_anterior = self.driver.current_context
-        try:
-            self.driver.switch_to.context(webview)
-            return self.exists(self.ACTIVE_TERMINAL, timeout=3)
-        finally:
-            self.driver.switch_to.context(contexto_anterior)
+        return self.exists(self.ACTIVE_TERMINAL, timeout=3)
