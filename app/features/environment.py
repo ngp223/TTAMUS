@@ -14,6 +14,7 @@ if BASE_DIR not in sys.path:
 APP_PACKAGE = "com.tamus.pos"
 APP_ACTIVITY = "com.tamus.pos.MainActivity"
 DEVICE_ID = "HA2ATXGT"
+WEBVIEW_CONTEXT = "WEBVIEW_com.tamus.pos"
 POPUP_CLOSE = [
     (AppiumBy.ACCESSIBILITY_ID, "Descartar"),
     (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cerrar")'),
@@ -32,6 +33,17 @@ def before_all(context):
     options.full_reset = False
     context.driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
 
+def switch_to_webview(context):
+    for _ in range(10):
+        try:
+            if WEBVIEW_CONTEXT in context.driver.contexts:
+                context.driver.switch_to.context(WEBVIEW_CONTEXT)
+                return True
+        except Exception:
+            pass
+        time.sleep(1)
+    return False
+
 def before_scenario(context, scenario):
     context.logged_in = False
     try:
@@ -48,6 +60,7 @@ def before_scenario(context, scenario):
             print("Sesión anterior cerrada correctamente")
         else:
             print("No se encontró una sesión iniciada; se continuará con el login")
+    switch_to_webview(context)
 
 def close_popups(context):
     driver = context.driver
@@ -68,10 +81,7 @@ def close_popups(context):
                     except Exception:
                         continue
     finally:
-        try:
-            driver.switch_to.context("NATIVE_APP")
-        except Exception:
-            pass
+        switch_to_webview(context)
 
 def after_scenario(context, scenario):
     cleanup_error = None
