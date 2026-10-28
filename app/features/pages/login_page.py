@@ -1,9 +1,9 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.config.test_config import TEST_EMAIL, TEST_PASSWORD, REST1, REST1_PIN, REST1_USER, REST1_USER_PIN
 from features.pages.base_page import BasePage
+
 
 class LoginPage(BasePage):
     EMAIL = (AppiumBy.CSS_SELECTOR, 'input[type="email"]')
