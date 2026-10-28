@@ -52,27 +52,26 @@ def before_scenario(context, scenario):
 def close_popups(context):
     driver = context.driver
     try:
-        driver.switch_to.context("NATIVE_APP")
-        for _ in range(5):
-            closed = False
-            for locator in POPUP_CLOSE:
-                buttons = driver.find_elements(*locator)
-                for button in buttons:
-                    if button.is_displayed() and button.is_enabled():
-                        button.click()
-                        time.sleep(0.5)
-                        closed = True
-                        break
-                if closed:
+        for contexto in driver.contexts:
+            if "WEBVIEW" not in contexto.upper():
+                continue
+            driver.switch_to.context(contexto)
+            for _ in range(10):
+                botones = driver.find_elements(AppiumBy.CSS_SELECTOR, "div.tam-toast--danger button.tam-toast__close")
+                visibles = [boton for boton in botones if boton.is_displayed() and boton.is_enabled()]
+                if not visibles:
                     break
-            if not closed:
-                break
+                for boton in visibles:
+                    try:
+                        boton.click()
+                        time.sleep(0.2)
+                    except Exception:
+                        continue
     finally:
         try:
             driver.switch_to.context("NATIVE_APP")
         except Exception:
             pass
-
 
 def after_scenario(context, scenario):
     cleanup_error = None
@@ -96,7 +95,6 @@ def after_scenario(context, scenario):
                 cleanup_error = e
     if cleanup_error is not None:
         raise cleanup_error
-
 
 def after_all(context):
     if hasattr(context, "driver") and context.driver:
