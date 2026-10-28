@@ -23,7 +23,6 @@ class LogoutPage(BasePage):
                     continue
                 for elemento in self.driver.find_elements(*locator):
                     if elemento.is_displayed() and elemento.is_enabled():
-                        print(f"Iniciales {INITIAL_USER} encontradas en {contexto}")
                         return elemento
             except Exception:
                 continue
