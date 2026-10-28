@@ -21,6 +21,7 @@ POPUP_CLOSE = [
     (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Cerrar")')
 ]
 
+
 def before_all(context):
     context.config.stdout_capture = False
     options = UiAutomator2Options()
@@ -44,6 +45,7 @@ def switch_to_webview(context):
         time.sleep(1)
     return False
 
+
 def before_scenario(context, scenario):
     context.logged_in = False
     try:
@@ -61,6 +63,7 @@ def before_scenario(context, scenario):
         else:
             print("No se encontró una sesión iniciada; se continuará con el login")
     switch_to_webview(context)
+
 
 def close_popups(context):
     driver = context.driver
@@ -82,6 +85,7 @@ def close_popups(context):
                         continue
     finally:
         switch_to_webview(context)
+
 
 def after_scenario(context, scenario):
     cleanup_error = None
@@ -105,6 +109,7 @@ def after_scenario(context, scenario):
                 cleanup_error = e
     if cleanup_error is not None:
         raise cleanup_error
+
 
 def after_all(context):
     if hasattr(context, "driver") and context.driver:
