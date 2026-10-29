@@ -8,7 +8,7 @@ import time
 class ReservationPage(BasePage):
     RESERVATIONS_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Reservas")')
     RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nueva reserva")')
-    NAME = (AppiumBy.CSS_SELECTOR, "input#tam-input-4")
+    NAME = (AppiumBy.CSS_SELECTOR, "input#reservation-name")
     SEARCH_RESERVATION = (AppiumBy.CSS_SELECTOR, "input#tam-input-3")
     SAVE_RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guardar reserva")')
     RECORD_ARRIVAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Marcar llegada")')
@@ -32,7 +32,6 @@ class ReservationPage(BasePage):
         date_time = datetime.now().strftime('%H%M%S%d%m%Y')
         self.created_reservation = f"ClienteQA_{date_time}"
         self.write_webview(self.NAME, self.created_reservation, timeout=WAIT_TIMEOUT)
-        self.driver.execute_script("document.activeElement.blur();")
         self.driver.switch_to.context("NATIVE_APP")
         self.click(self.SAVE_RESERVATION)
 
