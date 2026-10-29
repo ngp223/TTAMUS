@@ -9,13 +9,14 @@ class ReservationPage(BasePage):
     RESERVATIONS_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Reservas")')
     RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nueva reserva")')
     NAME = (AppiumBy.CSS_SELECTOR, "input#reservation-name")
-    SEARCH_RESERVATION = (AppiumBy.CSS_SELECTOR, "input#tam-input-3")
+    SEARCH_RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("reservations-search")')
     SAVE_RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guardar reserva")')
     RECORD_ARRIVAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Marcar llegada")')
     OPTIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-2")')
     OPTIONS_SEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-1")')
     EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
     CANCEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cancelar")')
+    NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
     NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
     DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-6")')
     RESERVATION_LOCATOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{}")')
@@ -38,9 +39,13 @@ class ReservationPage(BasePage):
     def verify_create_reservation(self):
         if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        self.write_webview(self.SEARCH_RESERVATION, self.created_reservation, timeout=WAIT_TIMEOUT)
         self.driver.switch_to.context("NATIVE_APP")
-        reservation_locator = (self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
+        search_field = self.wait_visibility(self.SEARCH_RESERVATION, timeout=WAIT_TIMEOUT)
+        search_field.click()
+        search_field.clear()
+        search_field.send_keys(self.created_reservation)
+        reservation_locator = (
+        self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
         self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
 
     def check_reservation(self):
@@ -67,5 +72,4 @@ class ReservationPage(BasePage):
     def verify_cancel_reservation(self):
         if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        time.sleep(2)
         self.wait_visibility(self.NO_RESERVATIONS, timeout=WAIT_TIMEOUT)
