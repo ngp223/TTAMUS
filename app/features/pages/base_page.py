@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.common.keys import Keys
 
 class BasePage:
     def __init__(self, driver):
@@ -24,12 +25,15 @@ class BasePage:
         self.driver.execute_script("mobile: type", {"text": str(texto)})
         return element
 
-    def write_webview(self, locator, texto, timeout=15):
+    def write_webview(self, locator, texto, timeout=15, replace=False):
         try:
             self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
             element = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
             element.click()
-            element.clear()
+            if replace:
+                element.send_keys(Keys.CONTROL, "a") # selecciona con control+a para reemplazar
+            else:
+                element.clear()
             element.send_keys(str(texto))
             return element
         except Exception as e:

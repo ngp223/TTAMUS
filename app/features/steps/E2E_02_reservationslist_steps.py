@@ -15,7 +15,7 @@ def create_reservation(context):
 
 @when('veo la reserva creada')
 def verify_create_reservation(context):
-    context.reservation_page.verify_create_reservation()
+    context.reservation_page.search_reservation()
 
 
 @when('edito la reserva')

@@ -17,7 +17,7 @@ class ReservationPage(BasePage):
     EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
     CANCEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cancelar")')
     NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
-    DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-6")')
+    DINERS = (AppiumBy.CSS_SELECTOR, "input#reservation-party-size")
     RESERVATION_LOCATOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{}")')
 
     def __init__(self, driver):
@@ -47,17 +47,10 @@ class ReservationPage(BasePage):
     def check_reservation(self):
         self.click(self.RECORD_ARRIVAL)
 
-
     def edit_reservation(self):
         self.click(self.OPTIONS)
         self.click(self.EDIT)
-        diners_field = self.wait_visibility(self.DINERS, timeout=WAIT_TIMEOUT)
-        diners_field.clear()
-        self.value_write(self.DINERS, "3")
-        try:
-            self.driver.hide_keyboard()
-        except Exception:
-            pass
+        self.write_webview(self.DINERS, "3", timeout=WAIT_TIMEOUT, replace=True)
         self.click(self.SAVE_RESERVATION)
 
     def cancel_reservation(self):

@@ -7,7 +7,7 @@ Feature: Reservations POS
     When accedo a Reservas
     And creo una nueva reserva
     And veo la reserva creada
-#    And edito la reserva
+    And edito la reserva
     And marco la reserva como llegada
     Then cancelo la reserva
     And no veo la reserva cancelada
