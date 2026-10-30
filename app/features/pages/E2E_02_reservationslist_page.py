@@ -17,7 +17,6 @@ class ReservationPage(BasePage):
     EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
     CANCEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cancelar")')
     NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
-    NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
     DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-6")')
     RESERVATION_LOCATOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{}")')
 
@@ -33,19 +32,16 @@ class ReservationPage(BasePage):
         date_time = datetime.now().strftime('%H%M%S%d%m%Y')
         self.created_reservation = f"ClienteQA_{date_time}"
         self.write_webview(self.NAME, self.created_reservation, timeout=WAIT_TIMEOUT)
-        self.driver.switch_to.context("NATIVE_APP")
         self.click(self.SAVE_RESERVATION)
 
-    def verify_create_reservation(self):
+    def search_reservation(self):
         if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        self.driver.switch_to.context("NATIVE_APP")
         search_field = self.wait_visibility(self.SEARCH_RESERVATION, timeout=WAIT_TIMEOUT)
         search_field.click()
         search_field.clear()
         search_field.send_keys(self.created_reservation)
-        reservation_locator = (
-        self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
+        reservation_locator = (self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
         self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
 
     def check_reservation(self):

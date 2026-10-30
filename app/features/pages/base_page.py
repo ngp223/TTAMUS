@@ -24,6 +24,19 @@ class BasePage:
         self.driver.execute_script("mobile: type", {"text": str(texto)})
         return element
 
+    def write_webview(self, locator, texto, timeout=15):
+        try:
+            self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
+            element = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+            element.click()
+            element.clear()
+            element.send_keys(str(texto))
+            return element
+        except Exception as e:
+            raise Exception(f"No se ha podido escribir en el campo {locator}: {e}")
+        finally:
+            self.driver.switch_to.context("NATIVE_APP")
+
     def exists(self, locator, timeout=3):
         try:
             WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
