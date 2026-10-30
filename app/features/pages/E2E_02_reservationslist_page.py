@@ -50,11 +50,10 @@ class ReservationPage(BasePage):
     def edit_reservation(self):
         self.click(self.OPTIONS)
         self.click(self.EDIT)
-        self.write_webview(self.DINERS, "3", timeout=WAIT_TIMEOUT, replace=True)
+        self.write_webview(self.DINERS, "3", timeout=WAIT_TIMEOUT)
         self.click(self.SAVE_RESERVATION)
 
     def cancel_reservation(self):
-        print("llega aqui")
         self.click(self.OPTIONS_SEL)
         self.click(self.CANCEL)
 
