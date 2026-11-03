@@ -8,11 +8,11 @@ import time
 class BillingPage(BasePage):
     INVOICE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Facturación")')
     NEW_INVOICE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nueva Factura")')
-    CONCEPT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-10")')
-    QUANTITY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-11")')
-    PRICE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-12")')
-    CUSTOMER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-select-1")')
-    OPTION_CUSTOMER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-select-1-opt-1")')
+    CONCEPT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("invoice-new-line-concept-draft-line-1")')
+    QUANTITY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("invoice-new-line-quantity-draft-line-1")')
+    PRICE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("invoice-new-line-price-draft-line-1")')
+    CUSTOMER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("invoice-new-saved-customer")')
+    OPTION_CUSTOMER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("invoice-new-saved-customer-opt-2")')
     CONFIRM_INVOICE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Confirmar y Emitir Factura")')
     CONCEPT_VALUE = "ProductoQA"
     QUANTITY_VALUE = "2"

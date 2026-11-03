@@ -7,8 +7,3 @@ Feature: Historial de Cierres POS
     When accedo al historial de cierres
     Then veo el cierre en el historial
     
-    
-
-    
-    
-    

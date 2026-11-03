@@ -2,7 +2,6 @@ from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.config.test_config import WAIT_TIMEOUT
-import time
 
 
 class ReservationPage(BasePage):
