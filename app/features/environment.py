@@ -1,28 +1,27 @@
+
 import sys
 import os
 import time
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-from features.pages.logout_page import LogoutPage
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from features.pages.logout_page import LogoutPage
+from features.pages.login_page import LoginPage
+
 APP_PACKAGE = "com.tamus.pos"
 APP_ACTIVITY = "com.tamus.pos.MainActivity"
 DEVICE_ID = "HA2ATXGT"
 WEBVIEW_CONTEXT = "WEBVIEW_com.tamus.pos"
-POPUP_CLOSE = [
-    (AppiumBy.ACCESSIBILITY_ID, "Descartar"),
-    (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cerrar")'),
-    (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Cerrar")')
-]
-
 
 def before_all(context):
     context.config.stdout_capture = False
+    context.all_mode = context.config.userdata.get("all") == "true"
+    context.logged_in = False
     options = UiAutomator2Options()
     options.platform_name = "Android"
     options.automation_name = "UiAutomator2"
@@ -44,74 +43,60 @@ def switch_to_webview(context):
         time.sleep(1)
     return False
 
+def switch_to_native(context):
+    context.driver.switch_to.context("NATIVE_APP")
+
+def expand_menu(context):
+    switch_to_native(context)
+    page = LoginPage(context.driver)
+    if page.exists(page.EXPAND, timeout=3):
+        page.click(page.EXPAND)
+        print("Menú expandido")
+    else:
+        print("EXPAND no disponible; se continúa")
 
 def before_scenario(context, scenario):
-    context.logged_in = False
-    try:
-        app_state = context.driver.query_app_state(APP_PACKAGE)
-    except Exception:
-        app_state = 1
-    app_was_running = app_state in (2, 3, 4)
+    print(f"\nINICIO: {scenario.name}")
     context.driver.activate_app(APP_PACKAGE)
     time.sleep(1)
-    close_popups(context)
-    if app_was_running:
-        logout_page = LogoutPage(context.driver)
-        if logout_page.logout_if_exists():
-            print("Sesión anterior cerrada correctamente")
-        else:
-            print("No se encontró una sesión iniciada; se continuará con el login")
-    switch_to_webview(context)
-
+    if not context.logged_in:
+        switch_to_webview(context)
+        if LogoutPage(context.driver).find_user():
+            context.logged_in = True
+    if context.logged_in:
+        expand_menu(context)
 
 def close_popups(context):
-    driver = context.driver
-    try:
-        for contexto in driver.contexts:
-            if "WEBVIEW" not in contexto.upper():
-                continue
-            driver.switch_to.context(contexto)
-            for _ in range(10):
-                botones = driver.find_elements(AppiumBy.CSS_SELECTOR, "div.tam-toast--danger button.tam-toast__close")
-                visibles = [boton for boton in botones if boton.is_displayed() and boton.is_enabled()]
-                if not visibles:
-                    break
-                for boton in visibles:
-                    try:
-                        boton.click()
-                        time.sleep(0.2)
-                    except Exception:
-                        continue
-    finally:
-        switch_to_webview(context)
-
+    context.driver.switch_to.context(WEBVIEW_CONTEXT)
+    botones = context.driver.find_elements(AppiumBy.CSS_SELECTOR, "div.tam-toast--danger button.tam-toast__close")
+    for boton in botones:
+        try:
+            if boton.is_displayed() and boton.is_enabled():
+                boton.click()
+                time.sleep(0.2)
+        except Exception:
+            continue
 
 def after_scenario(context, scenario):
-    cleanup_error = None
     try:
         close_popups(context)
-        if getattr(context, "logged_in", False):
-            logout_page = LogoutPage(context.driver)
-            logout_page.logout()
-            print("Sesión cerrada correctamente al terminar el escenario")
-    except Exception as e:
-        cleanup_error = e
-        print(f"ERROR al cerrar la sesión: {type(e).__name__}: {e}")
-    finally:
-        try:
-            context.driver.switch_to.context("NATIVE_APP")
-            context.driver.terminate_app(APP_PACKAGE)
-            print("Aplicación cerrada al terminar el escenario")
-        except Exception as e:
-            print(f"ERROR al cerrar la aplicación: {type(e).__name__}: {e}")
-            if cleanup_error is None:
-                cleanup_error = e
-    if cleanup_error is not None:
-        raise cleanup_error
-
+    except Exception:
+        pass
 
 def after_all(context):
-    if hasattr(context, "driver") and context.driver:
+    if not hasattr(context, "driver") or not context.driver:
+        return
+    try:
+        # if context.all_mode and context.logged_in:
+        #     LogoutPage(context.driver).logout()
+        #     context.logged_in = False
+        pass
+    finally:
+        try:
+            switch_to_native(context)
+            context.driver.terminate_app(APP_PACKAGE)
+        except Exception:
+            pass
         try:
             context.driver.quit()
         except Exception:
