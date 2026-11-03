@@ -10,7 +10,7 @@ import time
 class MenuTypesPage(BasePage):
     MENU_TYPES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cartas")')
     ADD_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir Carta")')
-    NAME_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-4")')
+    NAME_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("carta-wizard-name")')
     NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
     STARTERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Entrantes")')
     PEPPERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("check_box_outline_blank Pimientos de Gernika")')
@@ -38,7 +38,8 @@ class MenuTypesPage(BasePage):
         self.menu_type_created = f"Carta QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.click(self.ADD_MENU_TYPE)
         self.write(self.NAME_MENU_TYPE, self.menu_type_created)
-        for locator in (self.NEXT, self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
+        self.click(self.NEXT)
+        for locator in (self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
             self.click(locator)
 
     def delete_created_menutypes(self):
