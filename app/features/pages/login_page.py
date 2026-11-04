@@ -19,7 +19,7 @@ class LoginPage(BasePage):
         super().__init__(driver)
 
     def login_in(self, context):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.EMAIL))
+        self.wait_visibility_contexts(self.EMAIL)
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.ACTIVE_TERMINAL)).click()
