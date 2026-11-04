@@ -8,6 +8,7 @@ import time
 
 
 class ReservationPage(BasePage):
+    EXPECTED_AMOUNT = "64,50 €"
     SEE_TABLES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Vista de mesas")')
     MAIN_HALL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salón principal")')
     TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
@@ -32,6 +33,8 @@ class ReservationPage(BasePage):
         return self.wait_visibility(self.SEE_TABLES, timeout=WAIT_TIMEOUT)
 
     def select_table(self):
+        self.click(self.SEE_TABLES)
+        self.wait_visibility(self.MAIN_HALL, timeout=WAIT_TIMEOUT)
         self.click(self.MAIN_HALL)
         self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
         self.click(self.TABLE)
@@ -43,21 +46,27 @@ class ReservationPage(BasePage):
             return
         self.click(self.DINERS)
         self.click(self.ACCEPT)
+        self.wait_visibility(self.MEATS, timeout=WAIT_TIMEOUT)
 
     def select_product(self):
         self.click(self.MEATS)
-        
+        self.wait_visibility(self.SELECT_MEATS, timeout=WAIT_TIMEOUT)
         self.click(self.SELECT_MEATS)
+        self.wait_visibility(self.SELECT_VEGETABLE, timeout=WAIT_TIMEOUT)
         self.click(self.SELECT_VEGETABLE)
+        self.wait_visibility(self.RARE, timeout=WAIT_TIMEOUT)
         self.click(self.RARE)
+        self.wait_visibility(self.ADD, timeout=WAIT_TIMEOUT)
         self.click(self.ADD)
+        self.wait_visibility(self.RICES, timeout=WAIT_TIMEOUT)
         self.click(self.RICES)
+        self.wait_visibility(self.SELECT_RICES, timeout=WAIT_TIMEOUT)
         self.click(self.SELECT_RICES)
 
     def increase_product(self):
         self.click(self.INCREASE_PRODUCT)
 
-    def save_ticket_data(self):
+    def check_amount(self):
         try:
             button = self.driver.find_element(*self.CHARGE_BUTTON)
         except Exception:
@@ -65,15 +74,20 @@ class ReservationPage(BasePage):
             if not buttons:
                 raise AssertionError("No se encuentra el botón de cobro")
             button = buttons[0]
-        button_text = button.text.strip()
-        if not button_text.startswith("Cobrar "):
-            raise AssertionError(f"Texto inesperado en el botón de cobro: {button_text!r}")
-        amount = button_text.replace("Cobrar ", "", 1).strip()
+        amount = button.text.strip().replace("Cobrar ", "", 1).strip()
+        print(f"Importe de la comanda: {amount}")
+        if amount != self.EXPECTED_AMOUNT:
+            raise AssertionError(f"Importe incorrecto: esperado {self.EXPECTED_AMOUNT}, encontrado {amount}. No se continúa con el cobro.")
+        return amount
+
+    def save_ticket_data(self):
+        amount = self.check_amount()
         date = datetime.now().strftime("%d/%m/%Y, %H:%M")
         save_ticket(date, amount)
         print(f"Ticket guardado: fecha={date!r}, importe={amount!r}")
 
     def click_pay(self):
+        self.check_amount()
         self.click(self.SEND_TO_KITCHEN)
         self.save_ticket_data()
         self.click(self.CHARGE)
