@@ -1,4 +1,3 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import save_ticket
@@ -9,6 +8,7 @@ import time
 
 class ReservationPage(BasePage):
     EXPECTED_AMOUNT = "64,50 €"
+    CHECK_AMOUNTS = ["24,50 €", "40,00 €", "64,50 €"]
     SEE_TABLES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Vista de mesas")')
     MAIN_HALL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salón principal")')
     TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
@@ -58,36 +58,42 @@ class ReservationPage(BasePage):
         self.click(self.RARE)
         self.wait_visibility(self.ADD, timeout=WAIT_TIMEOUT)
         self.click(self.ADD)
+        self.check_amount(self.CHECK_AMOUNTS[0])
         self.wait_visibility(self.RICES, timeout=WAIT_TIMEOUT)
         self.click(self.RICES)
         self.wait_visibility(self.SELECT_RICES, timeout=WAIT_TIMEOUT)
         self.click(self.SELECT_RICES)
+        self.check_amount(self.CHECK_AMOUNTS[1])
 
     def increase_product(self):
         self.click(self.INCREASE_PRODUCT)
+        self.check_amount(self.CHECK_AMOUNTS[2])
 
-    def check_amount(self):
-        try:
-            button = self.driver.find_element(*self.CHARGE_BUTTON)
-        except Exception:
-            buttons = self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textStartsWith("Cobrar ")')
-            if not buttons:
-                raise AssertionError("No se encuentra el botón de cobro")
-            button = buttons[0]
-        amount = button.text.strip().replace("Cobrar ", "", 1).strip()
-        print(f"Importe de la comanda: {amount}")
-        if amount != self.EXPECTED_AMOUNT:
-            raise AssertionError(f"Importe incorrecto: esperado {self.EXPECTED_AMOUNT}, encontrado {amount}. No se continúa con el cobro.")
-        return amount
+    def check_amount(self, expected):
+        start_time = time.time()
+        amount = ""
+        while time.time() - start_time < 5:
+            try:
+                button = self.driver.find_element(*self.CHARGE_BUTTON)
+            except Exception:
+                buttons = self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textStartsWith("Cobrar ")')
+                button = buttons[0] if buttons else None
+            if button and button.is_displayed():
+                amount = button.text.strip().replace("Cobrar ", "", 1).strip()
+                print(f"Importe leído: {amount}")
+                if amount == expected:
+                    print(f"Importe correcto: {amount}")
+                    return amount
+            time.sleep(0.5)
+        raise AssertionError(f"Importe incorrecto: esperado {expected}, encontrado {amount}. No se continúa.")
 
     def save_ticket_data(self):
-        amount = self.check_amount()
+        amount = self.check_amount(self.EXPECTED_AMOUNT)
         date = datetime.now().strftime("%d/%m/%Y, %H:%M")
         save_ticket(date, amount)
         print(f"Ticket guardado: fecha={date!r}, importe={amount!r}")
 
     def click_pay(self):
-        self.check_amount()
         self.click(self.SEND_TO_KITCHEN)
         self.save_ticket_data()
         self.click(self.CHARGE)

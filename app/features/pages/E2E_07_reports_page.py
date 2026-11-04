@@ -22,4 +22,5 @@ class ReportsPage(BasePage):
     def verify_categories_report(self):
         self.wait_visibility(self.TITLE_CATEGORIES, timeout=15)
         self.wait_visibility(self.DISTRIBUTION, timeout=15)
+        self.mobile.swipe_up()
         self.wait_visibility(self.CARNES, timeout=15)
