@@ -7,17 +7,17 @@ from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
 from features.config.test_config import WAIT_TIMEOUT
 
+
 class TablesMapPage(BasePage):
     TABLES_MAP = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Mapa de mesas")')
     NEW_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nueva")')
     ZONE_NAME = (AppiumBy.XPATH, '//*[contains(@text,"Nombre de la zona")]/following::android.widget.EditText[1]')
     CREATE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Crear Zona")')
-    SAVE_ZONE = (AppiumBy.ID, 'cdk-dialog-2-tam-floor-edit-modal-1-tam-dialog-layout-tam-dialog-1-footer-tam-dialog__foot-1-button-tam-btn-2')
-    TERRACE_SUPPLEMENT = (AppiumBy.ID, 'cdk-dialog-2-tam-floor-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-tam-form-stack-1-tam-field-tam-field-1-div-ze__fees-1-button-fee-2')
     RECTANGULAR_TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Rectangular")')
     TABLE = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-canvas-1-div-mesa-")]')
     TABLE_NAME = (AppiumBy.XPATH, './/*[contains(@resource-id,"span-mesa__name")]')
-    TABLE_RESIZE_HANDLE = (AppiumBy.ID, 'tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-mapa-mesas-1-div-mapa__body-1-section-canvasarea-1-div-canvaswrap-1-div-canvasbox-1-div-canvas-1-div-mesa-1-span-sel-1-span-sel__h-2')
+    TABLE_BY_NUMBER = (AppiumBy.XPATH,'//*[contains(@resource-id,"div-canvas-1-div-mesa-")] [.//*[contains(@resource-id,"span-mesa__name") and normalize-space()="{table_number}"]]')
+    EDIT_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Editar")
     DELETE_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar mesa")
     EDIT_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
     DELETE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
@@ -25,13 +25,12 @@ class TablesMapPage(BasePage):
     ZONE_ROW = '//*[starts-with(@resource-id,"cdk-drop-list-0-div-cdk-drag-") and .//*[@text="{zone_name}"]]'
     ZONE_MENU = (AppiumBy.XPATH, ZONE_ROW + '//*[@resource-id and contains(@resource-id,"button-tam-btn-1")]')
     ZONE_OPTION = (AppiumBy.XPATH, ZONE_ROW + '//*[@text="{option}"]')
-    TABLE_BY_NUMBER = (AppiumBy.XPATH,'//*[contains(@resource-id,"div-canvas-1-div-mesa-")] [.//*[contains(@resource-id,"span-mesa__name") and normalize-space()="{table_number}"]]')
     ZONE_TIMEOUT = 15
     ACTION_TIMEOUT = 2
-    ZOOM_CLICKS = 3
-    RESIZE_OFFSET_X = 80
-    RESIZE_OFFSET_Y = 80
-    GESTURE_SPEED = 800
+    SAVE_TABLE_TEXT = "Guardar"
+    TABLE_NAME_INPUT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("place-edit-name")')
+    UPDATED_TABLE_NAME = "Mesa QA"
+    TABLE_EDIT_TIMEOUT = 15
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -84,14 +83,26 @@ class TablesMapPage(BasePage):
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(updated_locator))
 
     def modify_table(self):
-        time.sleep(1)
+        self.click(self.EDIT_TABLE, timeout=self.ZONE_TIMEOUT)
+        print("Pulsado el botón Editar mesa")
+        time.sleep(self.ACTION_TIMEOUT)
+        confirm_buttons = self.driver.find_elements(*self.EDIT_TABLE)
+        if confirm_buttons:
+            confirm_buttons[-1].click()
+        print("Dentro de la edicion")
+        table_input = WebDriverWait(self.driver, self.TABLE_EDIT_TIMEOUT).until(EC.visibility_of_element_located(self.TABLE_NAME_INPUT))
+        table_input.clear()
+        table_input.send_keys(self.UPDATED_TABLE_NAME)
+        save_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{self.SAVE_TABLE_TEXT}")')
+        self.click(save_button, timeout=self.TABLE_EDIT_TIMEOUT)
+        print(f"Mesa modificada a {self.UPDATED_TABLE_NAME}")
+        self.created_table_number = self.UPDATED_TABLE_NAME
 
     def delete_table(self):
         self.click(self.DELETE_TABLE, timeout=self.ZONE_TIMEOUT)
         print("Pulsado el botón Eliminar mesa")
         time.sleep(self.ACTION_TIMEOUT)
-        confirm_locator = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Eliminar")')
-        confirm_buttons = self.driver.find_elements(*confirm_locator)
+        confirm_buttons = self.driver.find_elements(*self.DELETE_TABLE)
         if confirm_buttons:
             confirm_buttons[-1].click()
         print("Eliminación de mesa ejecutada")

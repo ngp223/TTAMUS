@@ -5,7 +5,7 @@ from features.pages.base_page import BasePage
 
 
 class BackupsPage(BasePage):
-    PASSWORD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tam-input-3")')
+    PASSWORD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("settings-backup-export-password")')
     BACKUPS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Copias de Seguridad").instance(0)')
     DOWNLOAD_BACKUP = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Descargar copia cifrada")')
     LIST_COPY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Copia lista")')
