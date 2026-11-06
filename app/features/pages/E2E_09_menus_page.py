@@ -1,4 +1,3 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.config.test_config import WAIT_TIMEOUT
@@ -7,15 +6,15 @@ from datetime import datetime
 
 class MenusPage(BasePage):
     MENUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Menús")')
-    NEW_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nuevo Menú")')
-    MENU_NAME = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("menu-edit-name")')
-    NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
-    PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{product}")')
-    ADD_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1")')
-    SAVE_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("menu-edit-save")')
-    EDIT = "contains(@resource-id,'-span-col-1-button-tam-btn-2')"
-    TRASH = "starts-with(@resource-id,'menus-delete-')"
-    DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
+    NEW_MENU = (AppiumBy.CSS_SELECTOR, '#menus-add')
+    MENU_NAME = (AppiumBy.CSS_SELECTOR, '#menu-edit-name')
+    NEXT = (AppiumBy.CSS_SELECTOR, '#menu-edit-next')
+    ADD_PRODUCT = (AppiumBy.CSS_SELECTOR, '#cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1')
+    PRODUCT = (AppiumBy.CSS_SELECTOR, '[id*="button-picker__item-"]')
+    SAVE_MENU = (AppiumBy.CSS_SELECTOR, '#menu-edit-save')
+    EDIT = (AppiumBy.CSS_SELECTOR, '[id$="-span-col-1-button-tam-btn-2-span-tam-btn__content-1-span-tam-btn__icon-1"]')
+    TRASH = (AppiumBy.CSS_SELECTOR, '[id*="menus-delete-"]')
+    DELETE = (AppiumBy.CSS_SELECTOR, '#confirm-modal-accept')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -23,24 +22,15 @@ class MenusPage(BasePage):
         self.modified_description = None
 
     def select_product(self, section, product):
-        self.driver.switch_to.context("NATIVE_APP")
-        try:
-            if self.driver.is_keyboard_shown():
-                self.driver.hide_keyboard()
-        except Exception:
-            pass
         add_product = (self.ADD_PRODUCT[0], self.ADD_PRODUCT[1].format(section=section))
         self.click(add_product)
-        try:
-            self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
-            products = self.driver.find_elements(AppiumBy.CSS_SELECTOR, '[id*="button-picker__item-"]')
-            next(element for element in products if element.text.strip() == product).click()
-        finally:
-            self.driver.switch_to.context("NATIVE_APP")
+        products = self.driver.find_elements(*self.PRODUCT)
+        next(element for element in products if element.text.strip() == product).click()
 
     def open_menus(self):
         self.driver.switch_to.context("NATIVE_APP")
         self.click(self.MENUS)
+        self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
 
     def create_menu(self):
         self.created_menu = f"Menu diario QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -56,13 +46,13 @@ class MenusPage(BasePage):
     def find_menu(self):
         if not self.created_menu:
             raise Exception("No existe menu")
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_menu}")')
+        locator = (AppiumBy.XPATH, f'//*[normalize-space(text())="{self.created_menu}"]')
         return self.wait_visibility(locator, WAIT_TIMEOUT)
 
     def find_menu_action(self, action):
         self.find_menu()
-        locator = (AppiumBy.XPATH, f'//*[@text="{self.created_menu}"]/ancestor::*[.//*[@resource-id and {action}]][1]//*[@resource-id and {action}]')
-        return self.wait_visibility(locator, WAIT_TIMEOUT)
+        elementos = self.driver.find_elements(*action)
+        return elementos[0]
 
     def modify_menu(self):
         self.find_menu_action(self.EDIT).click()

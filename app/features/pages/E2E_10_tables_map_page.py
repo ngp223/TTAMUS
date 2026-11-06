@@ -66,22 +66,28 @@ class TablesMapPage(BasePage):
         self.created_table_locator = (
         self.TABLE_BY_NUMBER[0], self.TABLE_BY_NUMBER[1].format(table_number=self.created_table_number))
 
-
     def modify_zone(self):
         zone_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_zone}")')
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(zone_locator))
+        row_locator = (AppiumBy.XPATH, self.ZONE_ROW.format(zone_name=self.created_zone))
         menu_locator = (AppiumBy.XPATH, self.ZONE_MENU[1].format(zone_name=self.created_zone))
+        print("CONTEXTO:", self.driver.current_context)
+        print("ZONA:", self.created_zone)
+        print("ZONA ENCONTRADA:", len(self.driver.find_elements(*zone_locator)))
+        print("FILA ENCONTRADA:", len(self.driver.find_elements(*row_locator)))
+        print("MENU ENCONTRADO:", len(self.driver.find_elements(*menu_locator)))
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(menu_locator)).click()
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(self.EDIT_ZONE)).click()
-        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.ZONE_NAME))
+        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(
+            EC.visibility_of_element_located(self.ZONE_NAME))
         self.updated_zone = f"{self.created_zone} modificada"
         zone_name.clear()
         zone_name.send_keys(self.updated_zone)
-        self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'),timeout=self.ZONE_TIMEOUT)
+        self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'),
+                   timeout=self.ZONE_TIMEOUT)
         self.click(self.UPDATE_ZONE, timeout=self.ZONE_TIMEOUT)
         updated_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.updated_zone}")')
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(updated_locator))
-
     def modify_table(self):
         self.click(self.EDIT_TABLE, timeout=self.ZONE_TIMEOUT)
         print("Pulsado el botón Editar mesa")
