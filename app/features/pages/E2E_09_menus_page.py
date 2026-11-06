@@ -10,6 +10,7 @@ class MenusPage(BasePage):
     NEW_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nuevo Menú")')
     MENU_NAME = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("menu-edit-name")')
     NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
+    PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{product}")')
     ADD_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1")')
     SAVE_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("menu-edit-save")')
     EDIT = "contains(@resource-id,'-span-col-1-button-tam-btn-2')"
@@ -28,11 +29,12 @@ class MenusPage(BasePage):
                 self.driver.hide_keyboard()
         except Exception:
             pass
-        self.click((self.ADD_PRODUCT[0], self.ADD_PRODUCT[1].format(section=section)))
+        add_product = (self.ADD_PRODUCT[0], self.ADD_PRODUCT[1].format(section=section))
+        self.click(add_product)
         try:
             self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
-            locator = (AppiumBy.XPATH, f'//*[contains(@id,"section-section-{section}-") and contains(@id,"button-picker__item-") and normalize-space(.)="{product}"]')
-            self.click(locator)
+            products = self.driver.find_elements(AppiumBy.CSS_SELECTOR, '[id*="button-picker__item-"]')
+            next(element for element in products if element.text.strip() == product).click()
         finally:
             self.driver.switch_to.context("NATIVE_APP")
 
