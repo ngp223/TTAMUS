@@ -9,12 +9,12 @@ class MenusPage(BasePage):
     NEW_MENU = (AppiumBy.CSS_SELECTOR, '#menus-add')
     MENU_NAME = (AppiumBy.CSS_SELECTOR, '#menu-edit-name')
     NEXT = (AppiumBy.CSS_SELECTOR, '#menu-edit-next')
-    ADD_PRODUCT = (AppiumBy.CSS_SELECTOR, '#cdk-dialog-0-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1')
     PRODUCT = (AppiumBy.CSS_SELECTOR, '[id*="button-picker__item-"]')
     SAVE_MENU = (AppiumBy.CSS_SELECTOR, '#menu-edit-save')
     EDIT = (AppiumBy.CSS_SELECTOR, '[id$="-span-col-1-button-tam-btn-2-span-tam-btn__content-1-span-tam-btn__icon-1"]')
     TRASH = (AppiumBy.CSS_SELECTOR, '[id*="menus-delete-"]')
     DELETE = (AppiumBy.CSS_SELECTOR, '#confirm-modal-accept')
+    ADD_PRODUCT = (AppiumBy.CSS_SELECTOR,'[id^="cdk-dialog-"][id*="-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1"]')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -23,7 +23,7 @@ class MenusPage(BasePage):
 
     def select_product(self, section, product):
         add_product = (self.ADD_PRODUCT[0], self.ADD_PRODUCT[1].format(section=section))
-        self.click(add_product)
+        self.click(add_product, timeout=45)
         products = self.driver.find_elements(*self.PRODUCT)
         next(element for element in products if element.text.strip() == product).click()
 
