@@ -1,4 +1,3 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from features.config.test_config import TEST_PASSWORD, WAIT_TIMEOUT
 from features.pages.base_page import BasePage

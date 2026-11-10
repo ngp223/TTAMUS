@@ -1,4 +1,4 @@
-Feature: Registro de usuario
+Feature: Register POS
 
   @E2E_01
   Scenario: Registrar un nuevo usuario

@@ -3,7 +3,7 @@ Feature: Categories POS
   Background:
     Given estoy logueado en el POS
 
-  Scenario: Crear, modificar y eliminar una categoría
+  Scenario: Categorías
     When accedo a las categorías
     Then creo una categoría
     And la categoría aparece listada

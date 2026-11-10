@@ -3,7 +3,7 @@ Feature: Menu_types POS
   Background:
     Given estoy logueado en el POS
 
-  Scenario: Crear una nueva carta
+  Scenario: Cartas
     When accedo al módulo de cartas
     Then creo una nueva carta con datos válidos
     And modifico la carta creada

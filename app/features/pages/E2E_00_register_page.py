@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.config.test_config import TEST_PASSWORD, WAIT_TIMEOUT

@@ -1,6 +1,5 @@
-
 from behave import then, when
-from features.pages.E2E_modifiers_page import ModifiersPage
+from features.pages.E2E_13_modifiers_page import ModifiersPage
 
 
 @when('accedo a los modificadores')

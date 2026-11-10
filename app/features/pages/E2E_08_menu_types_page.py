@@ -1,4 +1,3 @@
-
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils

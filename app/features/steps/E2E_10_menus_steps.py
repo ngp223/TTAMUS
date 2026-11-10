@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_09_menus_page import MenusPage
+from features.pages.E2E_10_menus_page import MenusPage
 
 
 @when('accedo al módulo de menus')

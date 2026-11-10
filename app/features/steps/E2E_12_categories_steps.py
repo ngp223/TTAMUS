@@ -1,5 +1,5 @@
 from behave import then, when
-from features.pages.E2E_categories_page import CategoriesPage
+from features.pages.E2E_12_categories_page import CategoriesPage
 
 
 @when('accedo a las categorías')

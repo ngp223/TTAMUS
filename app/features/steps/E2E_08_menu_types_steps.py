@@ -1,4 +1,3 @@
-
 from behave import when, then
 from features.pages.E2E_08_menu_types_page import MenuTypesPage
 

@@ -1,9 +1,9 @@
-Feature: Categories POS
+Feature: Modifiers POS
 
   Background:
     Given estoy logueado en el POS
 
-  Scenario: Crear modificadores
+  Scenario: Modificadores
     When accedo a los modificadores
     Then creo un modificador
     And el modificador aparece listado
