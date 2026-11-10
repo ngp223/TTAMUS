@@ -21,9 +21,10 @@ class TablesMapPage(BasePage):
     DELETE_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar mesa")
     EDIT_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
     DELETE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
+    CONFIRM_DELETE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
     UPDATE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Actualizar")')
-    ZONE_ROW = '//*[starts-with(@resource-id,"cdk-drop-list-0-div-cdk-drag-") and .//*[@text="{zone_name}"]]'
-    ZONE_MENU = (AppiumBy.XPATH, ZONE_ROW + '//*[@resource-id and contains(@resource-id,"button-tam-btn-1")]')
+    ZONE_ROW = '//*[starts-with(@resource-id,"cdk-drop-list-") and contains(@resource-id,"div-cdk-drag-") and .//*[@text="{zone_name}"]]'
+    ZONE_MENU = (AppiumBy.XPATH, ZONE_ROW + '//*[@resource-id and contains(@resource-id,"button-tam-btn-")]')
     ZONE_OPTION = (AppiumBy.XPATH, ZONE_ROW + '//*[@text="{option}"]')
     ZONE_TIMEOUT = 15
     ACTION_TIMEOUT = 2
@@ -120,5 +121,8 @@ class TablesMapPage(BasePage):
         print(f"Zona localizada para borrar: {zone_name}")
         menu_locator = (AppiumBy.XPATH, self.ZONE_MENU[1].format(zone_name=zone_name))
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(menu_locator)).click()
-        self.click(self.DELETE_ZONE)
+        self.click(self.DELETE_ZONE, timeout=self.ZONE_TIMEOUT)
+        WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(
+            EC.element_to_be_clickable(self.CONFIRM_DELETE_ZONE)).click()
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.invisibility_of_element_located(zone_locator))
+        print(f"Zona eliminada correctamente: {zone_name}")
