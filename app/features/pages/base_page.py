@@ -58,5 +58,8 @@ class BasePage:
     def wait_visibility(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
+    def wait_invisibility(self, locator, timeout=15):
+        WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
+
     def scroll_text(self, texto):
         return self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("{texto}"))')

@@ -1,4 +1,3 @@
-
 from behave import then, when
 from features.pages.E2E_14_products_page import ProductsPage
 

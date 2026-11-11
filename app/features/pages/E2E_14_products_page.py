@@ -1,3 +1,4 @@
+
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,12 +16,10 @@ class ProductsPage(BasePage):
     DELETE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar")
     CONFIRM_DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
 
-
     def __init__(self, driver):
         super().__init__(driver)
         self.created_product = None
         self.modified_product = None
-
 
     def access_products(self):
         self.scroll_text("Productos")
@@ -32,7 +31,7 @@ class ProductsPage(BasePage):
         self.write(self.PRODUCT_NAME, self.created_product)
         self.driver.hide_keyboard()
         self.click(self.CREATE_SAVE)
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(self.PRODUCT_NAME))
+        self.wait_invisibility(self.PRODUCT_NAME)
 
     def check_product_created(self):
         search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.PRODUCTS_SEARCH))
@@ -50,7 +49,7 @@ class ProductsPage(BasePage):
         self.created_product += f"_modificado_{datetime.now():%d%m%Y%H%M%S}"
         self.write(self.PRODUCT_NAME, self.created_product)
         self.click(self.CREATE_SAVE)
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(self.PRODUCT_NAME))
+        self.wait_invisibility(self.PRODUCT_NAME)
         self.modified_product = self.created_product
 
     def check_product_modified(self):
@@ -66,9 +65,9 @@ class ProductsPage(BasePage):
         search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.PRODUCTS_SEARCH))
         search.click()
         search.clear()
-        search.send_keys(self.created_product)
+        search.send_keys(self.modified_product)
         self.driver.hide_keyboard()
         self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_product}")')
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(locator))
+        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_product}")')
+        self.wait_invisibility(locator)

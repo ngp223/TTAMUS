@@ -1,3 +1,4 @@
+
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
@@ -25,7 +26,7 @@ class CategoriesPage(BasePage):
         self.click(self.CATEGORIES)
 
     def create_category(self):
-        self.created_category = f"categoriaqa{datetime.now():%d%m%Y%H%M%S}"
+        self.created_category = f"Categoria QA{datetime.now():%d%m%H%M%S}"
         self.click(self.ADD_CATEGORY)
         self.write(self.CATEGORY_NAME, self.created_category)
         self.click(self.CATEGORY_ORDER)
@@ -33,7 +34,7 @@ class CategoriesPage(BasePage):
         order.clear()
         self.value_write(self.CATEGORY_ORDER, "0")
         self.click(self.CREATE_SAVE)
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(self.CATEGORY_NAME))
+        self.wait_invisibility(self.CATEGORY_NAME)
 
     def check_category_created(self):
         self.write(self.SEARCH_CATEGORIES, self.created_category)
@@ -45,10 +46,10 @@ class CategoriesPage(BasePage):
         self.write(self.SEARCH_CATEGORIES, self.created_category)
         self.driver.hide_keyboard()
         self.click(self.EDIT)
-        self.created_category += f"_modificado_{datetime.now():%d%m%Y%H%M%S}"
+        self.created_category += f"_modificado_{datetime.now():%H%M%S}"
         self.write(self.CATEGORY_NAME, self.created_category)
         self.click(self.CREATE_SAVE)
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(self.CATEGORY_NAME))
+        self.wait_invisibility(self.CATEGORY_NAME)
 
     def check_category_modified(self):
         self.write(self.SEARCH_CATEGORIES, self.created_category)
@@ -62,4 +63,4 @@ class CategoriesPage(BasePage):
         self.click(self.DELETE_ICON)
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_category}")')
-        WebDriverWait(self.driver, 15).until(EC.invisibility_of_element_located(locator))
+        self.wait_invisibility(locator)
