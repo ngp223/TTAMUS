@@ -19,6 +19,9 @@ class BasePage:
             self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
             return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
+    def wait_clickable(self, locator, timeout=15):
+        return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
+
     def click(self, locator, timeout=15):
         element = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
         element.click()

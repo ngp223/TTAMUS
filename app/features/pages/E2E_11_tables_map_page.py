@@ -1,3 +1,4 @@
+
 from datetime import datetime
 import time
 from appium.webdriver.common.appiumby import AppiumBy
@@ -6,7 +7,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
 from features.config.test_config import WAIT_TIMEOUT
-from selenium.common.exceptions import TimeoutException
 
 
 class TablesMapPage(BasePage):
@@ -17,7 +17,7 @@ class TablesMapPage(BasePage):
     RECTANGULAR_TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Rectangular")')
     TABLE = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-canvas-1-div-mesa-")]')
     TABLE_NAME = (AppiumBy.XPATH, './/*[contains(@resource-id,"span-mesa__name")]')
-    TABLE_BY_NUMBER = (AppiumBy.XPATH,'//*[contains(@resource-id,"div-canvas-1-div-mesa-")] [.//*[contains(@resource-id,"span-mesa__name") and normalize-space()="{table_number}"]]')
+    TABLE_BY_NUMBER = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-canvas-1-div-mesa-")] [.//*[contains(@resource-id,"span-mesa__name") and normalize-space()="{table_number}"]]')
     EDIT_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Editar")
     DELETE_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar mesa")
     EDIT_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
@@ -47,7 +47,7 @@ class TablesMapPage(BasePage):
         self.click(self.TABLES_MAP)
 
     def create_zone(self):
-        self.created_zone = f"Zona QA {datetime.now().strftime('%H%M%S_%d%m')}"
+        self.created_zone = f"Zona QA {datetime.now():%H%M%S_%d%m}"
         self.click(self.NEW_ZONE)
         zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.ZONE_NAME))
         zone_name.clear()
@@ -66,29 +66,23 @@ class TablesMapPage(BasePage):
         if not self.created_table_number:
             raise Exception("No se ha podido recuperar el número de la mesa creada")
         self.created_table_locator = (
-        self.TABLE_BY_NUMBER[0], self.TABLE_BY_NUMBER[1].format(table_number=self.created_table_number))
+            self.TABLE_BY_NUMBER[0], self.TABLE_BY_NUMBER[1].format(table_number=self.created_table_number))
 
     def modify_zone(self):
         zone_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_zone}")')
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(zone_locator))
-        row_locator = (AppiumBy.XPATH, self.ZONE_ROW.format(zone_name=self.created_zone))
         menu_locator = (AppiumBy.XPATH, self.ZONE_MENU[1].format(zone_name=self.created_zone))
-        WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(menu_locator)).click()
-        WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(self.EDIT_ZONE)).click()
-        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(
-            EC.visibility_of_element_located(self.ZONE_NAME))
+        self.wait_clickable(menu_locator, timeout=self.ZONE_TIMEOUT).click()
+        self.wait_clickable(self.EDIT_ZONE, timeout=self.ZONE_TIMEOUT).click()
+        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.ZONE_NAME))
         self.updated_zone = f"{self.created_zone} modificada"
         zone_name.clear()
         zone_name.send_keys(self.updated_zone)
-        self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'),
-                   timeout=self.ZONE_TIMEOUT)
+        self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'), timeout=self.ZONE_TIMEOUT)
         self.click(self.UPDATE_ZONE, timeout=self.ZONE_TIMEOUT)
         updated_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.updated_zone}")')
-        try:
-            WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(updated_locator))
-        except TimeoutException:
-            WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(updated_locator))
-            
+        WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(updated_locator))
+
     def modify_table(self):
         self.click(self.EDIT_TABLE, timeout=self.ZONE_TIMEOUT)
         print("Pulsado el botón Editar mesa")
@@ -120,9 +114,8 @@ class TablesMapPage(BasePage):
         WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.presence_of_element_located(zone_locator))
         print(f"Zona localizada para borrar: {zone_name}")
         menu_locator = (AppiumBy.XPATH, self.ZONE_MENU[1].format(zone_name=zone_name))
-        WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.element_to_be_clickable(menu_locator)).click()
+        self.wait_clickable(menu_locator, timeout=self.ZONE_TIMEOUT).click()
         self.click(self.DELETE_ZONE, timeout=self.ZONE_TIMEOUT)
-        WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(
-            EC.element_to_be_clickable(self.CONFIRM_DELETE_ZONE)).click()
+        self.wait_clickable(self.CONFIRM_DELETE_ZONE, timeout=self.ZONE_TIMEOUT).click()
         self.wait_invisibility(zone_locator, timeout=self.ZONE_TIMEOUT)
         print(f"Zona eliminada correctamente: {zone_name}")

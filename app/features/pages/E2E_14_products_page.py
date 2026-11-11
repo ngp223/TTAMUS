@@ -1,8 +1,6 @@
 
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 
 
@@ -34,7 +32,7 @@ class ProductsPage(BasePage):
         self.wait_invisibility(self.PRODUCT_NAME)
 
     def check_product_created(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.PRODUCTS_SEARCH))
+        search = self.wait_clickable(self.PRODUCTS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.created_product)
@@ -53,7 +51,7 @@ class ProductsPage(BasePage):
         self.modified_product = self.created_product
 
     def check_product_modified(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.PRODUCTS_SEARCH))
+        search = self.wait_clickable(self.PRODUCTS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.modified_product)
@@ -62,7 +60,7 @@ class ProductsPage(BasePage):
         self.wait_visibility(locator)
 
     def delete_product(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.PRODUCTS_SEARCH))
+        search = self.wait_clickable(self.PRODUCTS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.modified_product)

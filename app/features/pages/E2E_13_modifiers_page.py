@@ -1,8 +1,6 @@
 
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 
 
@@ -34,7 +32,7 @@ class ModifiersPage(BasePage):
         self.wait_invisibility(self.MODIFIER_NAME)
 
     def check_modifier_created(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.MODIFIERS_SEARCH))
+        search = self.wait_clickable(self.MODIFIERS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.created_modifier)
@@ -53,7 +51,7 @@ class ModifiersPage(BasePage):
         self.modified_modifier = self.created_modifier
 
     def check_modifier_modified(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.MODIFIERS_SEARCH))
+        search = self.wait_clickable(self.MODIFIERS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.modified_modifier)
@@ -62,7 +60,7 @@ class ModifiersPage(BasePage):
         self.wait_visibility(locator)
 
     def delete_modifier(self):
-        search = WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.MODIFIERS_SEARCH))
+        search = self.wait_clickable(self.MODIFIERS_SEARCH)
         search.click()
         search.clear()
         search.send_keys(self.modified_modifier)
