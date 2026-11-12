@@ -50,9 +50,9 @@ class MenusPage(BasePage):
         return self.wait_visibility(locator, WAIT_TIMEOUT)
 
     def find_menu_action(self, action):
-        self.find_menu()
-        elementos = self.driver.find_elements(*action)
-        return elementos[0]
+        menu_name = self.find_menu()
+        row = menu_name.find_element(AppiumBy.XPATH, './ancestor::*[starts-with(@id,"cdk-drop-list-") and contains(@id,"div-cdk-drag-")][last()]')
+        return row.find_element(*action)
 
     def modify_menu(self):
         self.find_menu_action(self.EDIT).click()
