@@ -4,8 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
-from features.utils.mobile_utils import MobileUtils
-from features.config.test_config import WAIT_TIMEOUT
+from features.config.test_config import WAIT_TIMEOUT, ZONE_SUPPLEMENT
 
 
 class TablesMapPage(BasePage):
@@ -16,7 +15,6 @@ class TablesMapPage(BasePage):
     RECTANGULAR_TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Rectangular")')
     TABLE = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-canvas-1-div-mesa-")]')
     TABLE_NAME = (AppiumBy.XPATH, './/*[contains(@resource-id,"span-mesa__name")]')
-    TABLE_BY_NUMBER = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-canvas-1-div-mesa-")] [.//*[contains(@resource-id,"span-mesa__name") and normalize-space()="{table_number}"]]')
     EDIT_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Editar")
     DELETE_TABLE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar mesa")
     EDIT_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
@@ -25,7 +23,6 @@ class TablesMapPage(BasePage):
     UPDATE_ZONE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Actualizar")')
     ZONE_ROW = '//*[starts-with(@resource-id,"cdk-drop-list-") and contains(@resource-id,"div-cdk-drag-") and .//*[@text="{zone_name}"]]'
     ZONE_MENU = (AppiumBy.XPATH, ZONE_ROW + '//*[@resource-id and contains(@resource-id,"button-tam-btn-")]')
-    ZONE_OPTION = (AppiumBy.XPATH, ZONE_ROW + '//*[@text="{option}"]')
     ZONE_TIMEOUT = 15
     ACTION_TIMEOUT = 2
     SAVE_TABLE_TEXT = "Guardar"
@@ -35,12 +32,9 @@ class TablesMapPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.mobile_utils = MobileUtils(driver)
         self.created_zone = None
         self.updated_zone = None
-        self.created_table = None
         self.created_table_number = None
-        self.created_table_locator = None
 
     def tables_map(self):
         self.click(self.TABLES_MAP)
@@ -58,12 +52,9 @@ class TablesMapPage(BasePage):
         self.click(self.RECTANGULAR_TABLE)
         table = self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
         table_name = WebDriverWait(table, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.TABLE_NAME))
-        self.created_table = table_name.text.strip()
-        self.created_table_number = self.created_table
+        self.created_table_number = table_name.text.strip()
         if not self.created_table_number:
             raise Exception("No se ha podido recuperar el número de la mesa creada")
-        self.created_table_locator = (
-            self.TABLE_BY_NUMBER[0], self.TABLE_BY_NUMBER[1].format(table_number=self.created_table_number))
 
     def modify_zone(self):
         zone_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_zone}")')
@@ -73,7 +64,7 @@ class TablesMapPage(BasePage):
         self.wait_clickable(self.EDIT_ZONE, timeout=self.ZONE_TIMEOUT).click()
         self.updated_zone = f"{self.created_zone} modificada"
         self.write(self.ZONE_NAME, self.updated_zone, timeout=self.ZONE_TIMEOUT)
-        self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'), timeout=self.ZONE_TIMEOUT)
+        self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{ZONE_SUPPLEMENT}")'), timeout=self.ZONE_TIMEOUT)
         self.click(self.UPDATE_ZONE, timeout=self.ZONE_TIMEOUT)
         updated_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.updated_zone}")')
         WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(updated_locator))
@@ -99,7 +90,8 @@ class TablesMapPage(BasePage):
         confirm_buttons = self.driver.find_elements(*self.DELETE_TABLE)
         if confirm_buttons:
             confirm_buttons[-1].click()
-        print("Eliminación de mesa ejecutada")
+        self.wait_invisibility(self.TABLE, timeout=self.ZONE_TIMEOUT)
+        print("Mesa eliminada correctamente")
 
     def delete_zone(self):
         zone_name = self.updated_zone or self.created_zone

@@ -10,9 +10,6 @@ class BackupsPage(BasePage):
     DOWNLOAD_BACKUP = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Descargar copia cifrada")')
     LIST_COPY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Copia lista")')
 
-    def __init__(self, driver):
-        super().__init__(driver)
-
     def access_backup(self):
         self.scroll_text("Copias de Seguridad")
         self.click(self.BACKUPS)

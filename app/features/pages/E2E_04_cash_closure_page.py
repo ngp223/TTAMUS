@@ -1,9 +1,9 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.mobile_utils import MobileUtils
 from features.utils.save_load_files import save_ticket_history
 from datetime import datetime
 import re
+import time
 
 
 class CashClosurePage(BasePage):
@@ -12,16 +12,12 @@ class CashClosurePage(BasePage):
     STAY_CONNECTED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-cancel")')
     LOGIN_USER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.mobile_utils = MobileUtils(driver)
-
     def open_cash_closure(self):
         self.click(self.CASH_CLOSURE_BUTTON)
 
     def get_closure_total(self):
-        end_time = __import__("time").time() + 10
-        while __import__("time").time() < end_time:
+        end_time = time.time() + 10
+        while time.time() < end_time:
             elements = self.driver.find_elements(AppiumBy.XPATH, '//*[contains(@text,"€")]')
             for element in elements:
                 try:
@@ -32,7 +28,7 @@ class CashClosurePage(BasePage):
 
                 except Exception:
                     continue
-            __import__("time").sleep(0.5)
+            time.sleep(0.5)
 
         raise Exception("No se encontró ningún importe con € en el cierre de caja")
 
@@ -45,4 +41,3 @@ class CashClosurePage(BasePage):
         self.click(self.STAY_CONNECTED)
         save_ticket_history(context.last_closure_date, context.last_closure_amount)
         print("Ticket guardado correctamente")
-

@@ -1,7 +1,5 @@
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 
 

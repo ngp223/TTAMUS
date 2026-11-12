@@ -1,29 +1,32 @@
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import save_ticket
-from features.config.test_config import WAIT_TIMEOUT
+from features.config.test_config import (
+    WAIT_TIMEOUT, ORDER_HALL, ORDER_TABLE, ORDER_DINERS, ORDER_MEAT_CATEGORY, ORDER_MEAT_PRODUCT,
+    ORDER_MEAT_SIDE, ORDER_MEAT_COOKING, ORDER_RICE_CATEGORY, ORDER_RICE_PRODUCT, ORDER_AMOUNTS)
 from datetime import datetime
-import time
 
 
 class ReservationPage(BasePage):
-    EXPECTED_AMOUNT = "64,50 €"
-    CHECK_AMOUNTS = ["24,50 €", "40,00 €", "64,50 €"]
+    EXPECTED_AMOUNT = ORDER_AMOUNTS[-1]
+    CHECK_AMOUNTS = ORDER_AMOUNTS
     SEE_TABLES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Vista de mesas")')
-    MAIN_HALL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Salón principal")')
-    TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("SAL-04")')
-    DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("3")')
+    MAIN_HALL = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_HALL}")')
+    TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_TABLE}")')
+    DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_DINERS}")')
     ACCEPT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
-    MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Carnes")')
-    SELECT_MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Con opciones Solomillo al foie 24,50 €")')
-    SELECT_VEGETABLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Verduras a la plancha")')
-    RARE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Poco hecho")')
+    MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_CATEGORY}")')
+    SELECT_MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_PRODUCT}")')
+    SELECT_VEGETABLE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_SIDE}")')
+    RARE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_COOKING}")')
     ADD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir")')
-    RICES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Arroces")')
-    SELECT_RICES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Risotto de setas 15,50 €")')
+    RICE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_RICE_CATEGORY}")')
+    SELECT_RICE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_RICE_PRODUCT}")')
     SEND_TO_KITCHEN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cocina")')
     INCREASE_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("＋")')
-    CHARGE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cobrar 64,50 €")')
+    CHARGE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("Cobrar {EXPECTED_AMOUNT}")')
     CHARGE_BUTTON = (AppiumBy.ID, "tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-sales-view-1-tam-payment-view-fill-1-div-pay-1-tam-card-tam-card-2-div-pay__actions-1-button-tam-btn-2")
 
     def __init__(self, driver):
@@ -38,7 +41,8 @@ class ReservationPage(BasePage):
         self.click(self.MAIN_HALL)
         self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
         self.click(self.TABLE)
-        time.sleep(2)
+        WebDriverWait(self.driver, WAIT_TIMEOUT).until(
+            lambda d: d.find_elements(*self.ACCEPT) or d.find_elements(*self.MEATS))
 
     def select_guests(self):
         if self.exists(self.MEATS, timeout=3):
@@ -59,10 +63,10 @@ class ReservationPage(BasePage):
         self.wait_visibility(self.ADD, timeout=WAIT_TIMEOUT)
         self.click(self.ADD)
         self.check_amount(self.CHECK_AMOUNTS[0])
-        self.wait_visibility(self.RICES, timeout=WAIT_TIMEOUT)
-        self.click(self.RICES)
-        self.wait_visibility(self.SELECT_RICES, timeout=WAIT_TIMEOUT)
-        self.click(self.SELECT_RICES)
+        self.wait_visibility(self.RICE, timeout=WAIT_TIMEOUT)
+        self.click(self.RICE)
+        self.wait_visibility(self.SELECT_RICE, timeout=WAIT_TIMEOUT)
+        self.click(self.SELECT_RICE)
         self.check_amount(self.CHECK_AMOUNTS[1])
 
     def increase_product(self):
@@ -70,22 +74,22 @@ class ReservationPage(BasePage):
         self.check_amount(self.CHECK_AMOUNTS[2])
 
     def check_amount(self, expected):
-        start_time = time.time()
         amount = ""
-        while time.time() - start_time < 5:
-            try:
-                button = self.driver.find_element(*self.CHARGE_BUTTON)
-            except Exception:
-                buttons = self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textStartsWith("Cobrar ")')
-                button = buttons[0] if buttons else None
-            if button and button.is_displayed():
-                amount = button.text.strip().replace("Cobrar ", "", 1).strip()
-                print(f"Importe leído: {amount}")
-                if amount == expected:
-                    print(f"Importe correcto: {amount}")
-                    return amount
-            time.sleep(0.5)
-        raise AssertionError(f"Importe incorrecto: esperado {expected}, encontrado {amount}. No se continúa.")
+
+        def amount_matches(driver):
+            nonlocal amount
+            buttons = driver.find_elements(*self.CHARGE_BUTTON) or driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textStartsWith("Cobrar ")')
+            if buttons and buttons[0].is_displayed():
+                amount = buttons[0].text.strip().replace("Cobrar ", "", 1).strip()
+                return amount == expected
+            return False
+
+        try:
+            WebDriverWait(self.driver, 5, poll_frequency=0.5, ignored_exceptions=(StaleElementReferenceException,)).until(amount_matches)
+        except TimeoutException:
+            raise AssertionError(f"Importe incorrecto: esperado {expected}, encontrado {amount}. No se continúa.") from None
+        print(f"Importe correcto: {amount}")
+        return amount
 
     def save_ticket_data(self):
         amount = self.check_amount(self.EXPECTED_AMOUNT)

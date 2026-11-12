@@ -1,7 +1,9 @@
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
-from features.config.test_config import WAIT_TIMEOUT
+from features.config.test_config import (
+    WAIT_TIMEOUT, MENU_TYPE_STARTERS, MENU_TYPE_PEPPERS, MENU_TYPE_SALADS, MENU_TYPE_SALAD_CESAR)
 from datetime import datetime
 import time
 
@@ -11,10 +13,10 @@ class MenuTypesPage(BasePage):
     ADD_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir Carta")')
     NAME_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("carta-wizard-name")')
     NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
-    STARTERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Entrantes")')
-    PEPPERS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Pimientos de Gernika")')
-    SALADS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Ensaladas")')
-    SALAD_CESAR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Ensalada César")')
+    STARTERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_STARTERS}")')
+    PEPPERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_PEPPERS}")')
+    SALADS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_SALADS}")')
+    SALAD_CESAR = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_SALAD_CESAR}")')
     FINISH_AND_SAVE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Finalizar y Guardar")')
     BIN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")')
     DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
@@ -40,7 +42,7 @@ class MenuTypesPage(BasePage):
         for locator in (self.NEXT, self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
             self.click(locator)
 
-    def delete_created_menutypes(self):
+    def click_menutype_action(self, action):
         if not self.menu_type_created:
             raise Exception("No existe carta creada para buscar")
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
@@ -50,38 +52,23 @@ class MenuTypesPage(BasePage):
                 menu_type = self.driver.find_element(*locator)
                 if menu_type.is_displayed():
                     break
-            except Exception:
+            except (NoSuchElementException, StaleElementReferenceException):
                 pass
             self.mobile_utils.swipe_up()
         if menu_type is None or not menu_type.is_displayed():
             raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
-        bin_buttons = self.driver.find_elements(*self.BIN)
-        bin_button = min((element for element in bin_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
-        if bin_button is None:
-            raise Exception(f"No encontrado Eliminar para {self.menu_type_created}")
-        bin_button.click()
+        buttons = [element for element in self.driver.find_elements(*action) if element.is_displayed()]
+        if not buttons:
+            raise Exception(f"No se encontró el botón {action[1]} para {self.menu_type_created}")
+        min(buttons, key=lambda element: abs(element.location["y"] - menu_type.location["y"])).click()
+        return locator
+
+    def delete_created_menutypes(self):
+        self.click_menutype_action(self.BIN)
         self.click(self.DELETE)
 
     def modify_created_menutypes(self):
-        if not self.menu_type_created:
-            raise Exception("No existe carta creada para buscar")
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
-        menu_type = None
-        for _ in range(8):
-            try:
-                menu_type = self.driver.find_element(*locator)
-                if menu_type.is_displayed():
-                    break
-            except Exception:
-                pass
-            self.mobile_utils.swipe_up()
-        if menu_type is None or not menu_type.is_displayed():
-            raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
-        edit_buttons = self.driver.find_elements(*self.EDIT)
-        edit_button = min((element for element in edit_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
-        if edit_button is None:
-            raise Exception(f"No encontrado Editar para {self.menu_type_created}")
-        edit_button.click()
+        locator = self.click_menutype_action(self.EDIT)
         self.description_modified = f"DescripcionQA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.write(self.DESCRIPTION, self.description_modified)
         for _ in range(3):
@@ -90,25 +77,7 @@ class MenuTypesPage(BasePage):
         self.wait_visibility(locator, timeout=WAIT_TIMEOUT)
 
     def verify_modification(self):
-        if not self.menu_type_created:
-            raise Exception("No existe carta creada para buscar")
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
-        menu_type = None
-        for _ in range(8):
-            try:
-                menu_type = self.driver.find_element(*locator)
-                if menu_type.is_displayed():
-                    break
-            except Exception:
-                pass
-            self.mobile_utils.swipe_up()
-        if menu_type is None or not menu_type.is_displayed():
-            raise Exception(f"No se encontró la carta creada: {self.menu_type_created}")
-        see_buttons = self.driver.find_elements(*self.SEE)
-        see_button = min((element for element in see_buttons if element.is_displayed()), key=lambda element: abs(element.location["y"] - menu_type.location["y"]), default=None)
-        if see_button is None:
-            raise Exception(f"No encontrado Ver para {self.menu_type_created}")
-        see_button.click()
+        self.click_menutype_action(self.SEE)
         self.wait_visibility(self.PREVIOUS, timeout=WAIT_TIMEOUT)
         time.sleep(1)
         self.click(self.PREVIOUS)
