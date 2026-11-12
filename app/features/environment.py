@@ -66,9 +66,10 @@ def before_scenario(context, scenario):
     time.sleep(1)
     if switch_to_webview(context):
         close_popups(context)
-    if not context.logged_in:
         if switch_to_webview(context) and LogoutPage(context.driver).find_user():
             context.logged_in = True
+        else:
+            context.logged_in = False
     if context.logged_in:
         expand_menu(context)
         if switch_to_webview(context):
