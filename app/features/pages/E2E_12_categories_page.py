@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
@@ -30,8 +29,7 @@ class CategoriesPage(BasePage):
         self.click(self.ADD_CATEGORY)
         self.write(self.CATEGORY_NAME, self.created_category)
         self.click(self.CATEGORY_ORDER)
-        order = self.driver.find_element(*self.CATEGORY_ORDER)
-        order.clear()
+        self.wait_visibility(self.CATEGORY_ORDER).clear()
         self.value_write(self.CATEGORY_ORDER, "0")
         self.click(self.CREATE_SAVE)
         self.wait_invisibility(self.CATEGORY_NAME)

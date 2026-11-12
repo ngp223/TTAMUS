@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
@@ -32,10 +31,7 @@ class ProductsPage(BasePage):
         self.wait_invisibility(self.PRODUCT_NAME)
 
     def check_product_created(self):
-        search = self.wait_clickable(self.PRODUCTS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.created_product)
+        self.write(self.PRODUCTS_SEARCH, self.created_product)
         self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_product}")')
         self.wait_visibility(locator)
@@ -51,19 +47,13 @@ class ProductsPage(BasePage):
         self.modified_product = self.created_product
 
     def check_product_modified(self):
-        search = self.wait_clickable(self.PRODUCTS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.modified_product)
+        self.write(self.PRODUCTS_SEARCH, self.modified_product)
         self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_product}")')
         self.wait_visibility(locator)
 
     def delete_product(self):
-        search = self.wait_clickable(self.PRODUCTS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.modified_product)
+        self.write(self.PRODUCTS_SEARCH, self.modified_product)
         self.driver.hide_keyboard()
         self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)

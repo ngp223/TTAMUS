@@ -36,10 +36,7 @@ class ReservationPage(BasePage):
     def search_reservation(self):
         if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        search_field = self.wait_visibility(self.SEARCH_RESERVATION, timeout=WAIT_TIMEOUT)
-        search_field.click()
-        search_field.clear()
-        search_field.send_keys(self.created_reservation)
+        self.write(self.SEARCH_RESERVATION, self.created_reservation, timeout=WAIT_TIMEOUT)
         reservation_locator = (self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
         self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
 

@@ -1,6 +1,4 @@
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import load_ticket_history
 from features.config.test_config import WAIT_TIMEOUT
@@ -29,7 +27,7 @@ class ClosureHistoryPage(BasePage):
     def find_closure(self, expected_date, expected_amount):
         time.sleep(3)
         try:
-            WebDriverWait(self.driver, WAIT_TIMEOUT).until(EC.visibility_of_element_located(self.DATE_FIRST_CLOSURE))
+            self.wait_visibility(self.DATE_FIRST_CLOSURE, timeout=WAIT_TIMEOUT)
             actual_date = self.driver.find_element(*self.DATE_FIRST_CLOSURE).text.strip()
             actual_amount = self.driver.find_element(*self.AMOUNT_FIRST_CLOSURE).text.strip()
             print(f"Fecha encontrada: '{actual_date}' | esperada: '{expected_date}'")
@@ -42,4 +40,3 @@ class ClosureHistoryPage(BasePage):
         except Exception as e:
             print(f"Error al buscar el cierre: {type(e).__name__}: {e}")
             return False
-

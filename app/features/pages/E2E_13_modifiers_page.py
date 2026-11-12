@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
@@ -32,10 +31,7 @@ class ModifiersPage(BasePage):
         self.wait_invisibility(self.MODIFIER_NAME)
 
     def check_modifier_created(self):
-        search = self.wait_clickable(self.MODIFIERS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.created_modifier)
+        self.write(self.MODIFIERS_SEARCH, self.created_modifier)
         self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_modifier}")')
         self.wait_visibility(locator)
@@ -51,19 +47,13 @@ class ModifiersPage(BasePage):
         self.modified_modifier = self.created_modifier
 
     def check_modifier_modified(self):
-        search = self.wait_clickable(self.MODIFIERS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.modified_modifier)
+        self.write(self.MODIFIERS_SEARCH, self.modified_modifier)
         self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_modifier}")')
         self.wait_visibility(locator)
 
     def delete_modifier(self):
-        search = self.wait_clickable(self.MODIFIERS_SEARCH)
-        search.click()
-        search.clear()
-        search.send_keys(self.modified_modifier)
+        self.write(self.MODIFIERS_SEARCH, self.modified_modifier)
         self.driver.hide_keyboard()
         self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)

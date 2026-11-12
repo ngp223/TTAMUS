@@ -1,23 +1,11 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common.exceptions import TimeoutException, InvalidSelectorException
 
 
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 15)
-
-    def wait_visibility_contexts(self, locator, timeout=15):
-        try:
-            self.driver.switch_to.context("NATIVE_APP")
-            return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-        except (TimeoutException, InvalidSelectorException) as e:
-            if "WEBVIEW_com.tamus.pos" not in self.driver.contexts:
-                raise e
-            self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
-            return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
     def wait_clickable(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))

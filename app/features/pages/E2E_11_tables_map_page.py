@@ -1,4 +1,3 @@
-
 from datetime import datetime
 import time
 from appium.webdriver.common.appiumby import AppiumBy
@@ -49,9 +48,7 @@ class TablesMapPage(BasePage):
     def create_zone(self):
         self.created_zone = f"Zona QA {datetime.now():%H%M%S_%d%m}"
         self.click(self.NEW_ZONE)
-        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.ZONE_NAME))
-        zone_name.clear()
-        zone_name.send_keys(self.created_zone)
+        self.write(self.ZONE_NAME, self.created_zone, timeout=self.ZONE_TIMEOUT)
         self.click(self.CREATE_ZONE, timeout=self.ZONE_TIMEOUT)
         time.sleep(self.ACTION_TIMEOUT)
         exact_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_zone}")')
@@ -59,7 +56,7 @@ class TablesMapPage(BasePage):
 
     def create_table(self):
         self.click(self.RECTANGULAR_TABLE)
-        table = WebDriverWait(self.driver, WAIT_TIMEOUT).until(EC.visibility_of_element_located(self.TABLE))
+        table = self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
         table_name = WebDriverWait(table, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.TABLE_NAME))
         self.created_table = table_name.text.strip()
         self.created_table_number = self.created_table
@@ -74,10 +71,8 @@ class TablesMapPage(BasePage):
         menu_locator = (AppiumBy.XPATH, self.ZONE_MENU[1].format(zone_name=self.created_zone))
         self.wait_clickable(menu_locator, timeout=self.ZONE_TIMEOUT).click()
         self.wait_clickable(self.EDIT_ZONE, timeout=self.ZONE_TIMEOUT).click()
-        zone_name = WebDriverWait(self.driver, self.ZONE_TIMEOUT).until(EC.visibility_of_element_located(self.ZONE_NAME))
         self.updated_zone = f"{self.created_zone} modificada"
-        zone_name.clear()
-        zone_name.send_keys(self.updated_zone)
+        self.write(self.ZONE_NAME, self.updated_zone, timeout=self.ZONE_TIMEOUT)
         self.click((AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Suplemento terraza")'), timeout=self.ZONE_TIMEOUT)
         self.click(self.UPDATE_ZONE, timeout=self.ZONE_TIMEOUT)
         updated_locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.updated_zone}")')
@@ -91,9 +86,7 @@ class TablesMapPage(BasePage):
         if confirm_buttons:
             confirm_buttons[-1].click()
         print("Dentro de la edicion")
-        table_input = WebDriverWait(self.driver, self.TABLE_EDIT_TIMEOUT).until(EC.visibility_of_element_located(self.TABLE_NAME_INPUT))
-        table_input.clear()
-        table_input.send_keys(self.UPDATED_TABLE_NAME)
+        self.write(self.TABLE_NAME_INPUT, self.UPDATED_TABLE_NAME, timeout=self.TABLE_EDIT_TIMEOUT)
         save_button = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{self.SAVE_TABLE_TEXT}")')
         self.click(save_button, timeout=self.TABLE_EDIT_TIMEOUT)
         print(f"Mesa modificada a {self.UPDATED_TABLE_NAME}")
