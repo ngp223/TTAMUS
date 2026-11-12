@@ -23,3 +23,4 @@ class BackupsPage(BasePage):
 
     def verify_backup(self):
         self.wait_visibility(self.LIST_COPY, timeout=WAIT_TIMEOUT)
+        return True
