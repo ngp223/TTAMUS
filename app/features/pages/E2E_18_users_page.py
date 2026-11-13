@@ -67,7 +67,6 @@ class UsersPage(BasePage):
     def modify_user(self):
         self.wait_visibility(self.USERS_SEARCH)
         self.write(self.USERS_SEARCH, self.created_user)
-        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_user}")')
         self.wait_visibility(locator)
         self.click(self.EDIT)
@@ -82,7 +81,6 @@ class UsersPage(BasePage):
     def check_user_modified(self):
         self.wait_visibility(self.USERS_SEARCH)
         self.write(self.USERS_SEARCH, self.modified_user)
-        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_user}")')
         self.wait_visibility(locator)
 

@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
@@ -35,13 +34,11 @@ class PromotionsPage(BasePage):
 
     def check_promotion_created(self):
         self.write(self.PROMOTIONS_SEARCH, self.created_promotion)
-        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_promotion}")')
         self.wait_visibility(locator)
 
     def modify_promotion(self):
         self.write(self.PROMOTIONS_SEARCH, self.created_promotion)
-        self.driver.hide_keyboard()
         self.click(self.EDIT)
         self.created_promotion += f"_modificado_{datetime.now():%d%m%H%M}"
         self.write(self.PROMOTION_NAME, self.created_promotion)
@@ -53,13 +50,11 @@ class PromotionsPage(BasePage):
 
     def check_promotion_modified(self):
         self.write(self.PROMOTIONS_SEARCH, self.modified_promotion)
-        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_promotion}")')
         self.wait_visibility(locator)
 
     def delete_promotion(self):
         self.write(self.PROMOTIONS_SEARCH, self.modified_promotion)
-        self.driver.hide_keyboard()
         self.wait_clickable(self.DELETE).click()
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_promotion}")')

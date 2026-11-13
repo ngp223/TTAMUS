@@ -38,7 +38,6 @@ class ModifiersPage(BasePage):
 
     def modify_modifier(self):
         self.write(self.MODIFIERS_SEARCH, self.created_modifier)
-        self.driver.hide_keyboard()
         self.click(self.EDIT)
         self.created_modifier += f"_modificado_{datetime.now():%d%m%Y%H%M%S}"
         self.write(self.MODIFIER_NAME, self.created_modifier)
@@ -48,13 +47,11 @@ class ModifiersPage(BasePage):
 
     def check_modifier_modified(self):
         self.write(self.MODIFIERS_SEARCH, self.modified_modifier)
-        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_modifier}")')
         self.wait_visibility(locator)
 
     def delete_modifier(self):
         self.write(self.MODIFIERS_SEARCH, self.modified_modifier)
-        self.driver.hide_keyboard()
         self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_modifier}")')
