@@ -24,13 +24,8 @@ class BasePage:
         element.send_keys(text)
         return element
 
-    def search(self, locator, text, timeout=15):
-        element = self.write(locator, text, timeout)
-        self.driver.hide_keyboard()
-        return element
-
     def search_and_find(self, search_locator, text, timeout=15):
-        self.search(search_locator, text, timeout)
+        self.write(search_locator, text, timeout)
         return self.wait_visibility((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'), timeout)
 
     def value_write(self, locator, text, timeout=15):

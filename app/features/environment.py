@@ -4,6 +4,8 @@ import time
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.common.exceptions import WebDriverException
+from features.config.test_config import WEBVIEW_CONTEXT
 from features.pages.logout_page import LogoutPage
 from features.pages.login_page import LoginPage
 
@@ -15,7 +17,6 @@ if BASE_DIR not in sys.path:
 APP_PACKAGE = "com.tamus.pos"
 APP_ACTIVITY = "com.tamus.pos.MainActivity"
 DEVICE_ID = "HA2ATXGT"
-WEBVIEW_CONTEXT = "WEBVIEW_com.tamus.pos"
 
 
 def before_all(context):
@@ -78,21 +79,21 @@ def before_scenario(context, scenario):
 def close_popups(context):
     try:
         context.driver.switch_to.context(WEBVIEW_CONTEXT)
-        botones = context.driver.find_elements(AppiumBy.CSS_SELECTOR, "div.tam-toast--danger button.tam-toast__close")
-        for boton in botones:
+        toast_buttons = context.driver.find_elements(AppiumBy.CSS_SELECTOR, "div.tam-toast--danger button.tam-toast__close")
+        for button in toast_buttons:
             try:
-                if boton.is_displayed():
-                    boton.click()
+                if button.is_displayed():
+                    button.click()
                     print("Popup de aviso cerrado")
-            except Exception:
+            except WebDriverException:
                 continue
-        errores = context.driver.find_elements(AppiumBy.XPATH, "//*[normalize-space()='ERROR']/following::button[1]")
-        for boton in errores:
+        error_buttons = context.driver.find_elements(AppiumBy.XPATH, "//*[normalize-space()='ERROR']/following::button[1]")
+        for button in error_buttons:
             try:
-                if boton.is_displayed():
-                    boton.click()
+                if button.is_displayed():
+                    button.click()
                     print("Popup ERROR cerrado")
-            except Exception:
+            except WebDriverException:
                 continue
     finally:
         switch_to_native(context)
@@ -102,7 +103,7 @@ def after_scenario(context, scenario):
     try:
         if switch_to_webview(context):
             close_popups(context)
-    except Exception:
+    except WebDriverException:
         pass
     finally:
         switch_to_native(context)

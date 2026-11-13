@@ -1,9 +1,8 @@
-
 import random
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.config.test_config import WAIT_TIMEOUT
+from features.config.test_config import WAIT_TIMEOUT, WEBVIEW_CONTEXT
 
 
 class MenusPage(BasePage):
@@ -40,7 +39,7 @@ class MenusPage(BasePage):
     def open_menus(self):
         self.driver.switch_to.context("NATIVE_APP")
         self.click(self.MENUS)
-        self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
+        self.driver.switch_to.context(WEBVIEW_CONTEXT)
 
     def create_menu(self):
         self.created_menu = f"Menu diario QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -79,3 +78,4 @@ class MenusPage(BasePage):
     def delete_menu(self):
         self.find_menu_action(self.TRASH).click()
         self.click(self.DELETE)
+        self.wait_invisibility((AppiumBy.XPATH, f'//*[normalize-space(text())="{self.created_menu}"]'))

@@ -33,12 +33,10 @@ class PromotionsPage(BasePage):
         self.wait_invisibility(self.PROMOTION_NAME)
 
     def check_promotion_created(self):
-        self.write(self.PROMOTIONS_SEARCH, self.created_promotion)
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_promotion}")')
-        self.wait_visibility(locator)
+        self.search_and_find(self.PROMOTIONS_SEARCH, self.created_promotion)
 
     def modify_promotion(self):
-        self.write(self.PROMOTIONS_SEARCH, self.created_promotion)
+        self.check_promotion_created()
         self.click(self.EDIT)
         self.created_promotion += f"_modificado_{datetime.now():%d%m%H%M}"
         self.write(self.PROMOTION_NAME, self.created_promotion)
@@ -49,13 +47,11 @@ class PromotionsPage(BasePage):
         self.modified_promotion = self.created_promotion
 
     def check_promotion_modified(self):
-        self.write(self.PROMOTIONS_SEARCH, self.modified_promotion)
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_promotion}")')
-        self.wait_visibility(locator)
+        self.search_and_find(self.PROMOTIONS_SEARCH, self.modified_promotion)
 
     def delete_promotion(self):
-        self.write(self.PROMOTIONS_SEARCH, self.modified_promotion)
-        self.wait_clickable(self.DELETE).click()
+        self.check_promotion_modified()
+        self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_promotion}")')
         self.wait_invisibility(locator)

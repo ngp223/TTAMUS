@@ -33,14 +33,10 @@ class CategoriesPage(BasePage):
         self.wait_invisibility(self.CATEGORY_NAME)
 
     def check_category_created(self):
-        self.write(self.SEARCH_CATEGORIES, self.created_category)
-        self.driver.hide_keyboard()
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_category}")')
-        self.wait_visibility(locator)
+        self.search_and_find(self.SEARCH_CATEGORIES, self.created_category)
 
     def modify_category(self):
-        self.write(self.SEARCH_CATEGORIES, self.created_category)
-        self.driver.hide_keyboard()
+        self.check_category_created()
         self.click(self.EDIT)
         self.created_category += f"_modificado_{datetime.now():%H%M%S}"
         self.write(self.CATEGORY_NAME, self.created_category)
@@ -48,14 +44,10 @@ class CategoriesPage(BasePage):
         self.wait_invisibility(self.CATEGORY_NAME)
 
     def check_category_modified(self):
-        self.write(self.SEARCH_CATEGORIES, self.created_category)
-        self.driver.hide_keyboard()
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_category}")')
-        self.wait_visibility(locator)
+        self.check_category_created()
 
     def delete_category(self):
-        self.write(self.SEARCH_CATEGORIES, self.created_category)
-        self.driver.hide_keyboard()
+        self.check_category_modified()
         self.click(self.DELETE_ICON)
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_category}")')

@@ -23,19 +23,17 @@ class ProductsPage(BasePage):
         self.click(self.PRODUCTS)
 
     def create_product(self):
-        self.created_product = f"Producto QA{datetime.now():%d%m%H%M}"
+        self.created_product = f"Producto QA{datetime.now():%d%m%Y%H%M%S}"
         self.click(self.NEW_PRODUCT)
         self.write(self.PRODUCT_NAME, self.created_product)
         self.click(self.CREATE_SAVE)
         self.wait_invisibility(self.PRODUCT_NAME)
 
     def check_product_created(self):
-        self.write(self.PRODUCTS_SEARCH, self.created_product)
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_product}")')
-        self.wait_visibility(locator)
+        self.search_and_find(self.PRODUCTS_SEARCH, self.created_product)
 
     def modify_product(self):
-        self.write(self.PRODUCTS_SEARCH, self.created_product)
+        self.check_product_created()
         self.click(self.EDIT)
         self.created_product += f"_modificado_{datetime.now():%H%M%S}"
         self.write(self.PRODUCT_NAME, self.created_product)
@@ -44,14 +42,11 @@ class ProductsPage(BasePage):
         self.modified_product = self.created_product
 
     def check_product_modified(self):
-        self.write(self.PRODUCTS_SEARCH, self.modified_product)
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_product}")')
-        self.wait_visibility(locator)
+        self.search_and_find(self.PRODUCTS_SEARCH, self.modified_product)
 
     def delete_product(self):
-        self.write(self.PRODUCTS_SEARCH, self.modified_product)
-        self.driver.hide_keyboard()
-        self.wait_clickable(self.DELETE).click()
+        self.check_product_modified()
+        self.click(self.DELETE)
         self.click(self.CONFIRM_DELETE)
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.modified_product}")')
         self.wait_invisibility(locator)

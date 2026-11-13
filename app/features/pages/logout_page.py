@@ -1,7 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from features.pages.base_page import BasePage
 from features.config.test_config import INITIAL_USER, WEBVIEW_CONTEXT
 
@@ -30,15 +29,3 @@ class LogoutPage(BasePage):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.EXIT_POS_MODE)).click()
         WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(self.ACTIVE_TERMINAL))
         self.driver.switch_to.context("NATIVE_APP")
-
-    def logout_if_exists(self):
-        try:
-            element = WebDriverWait(self.driver, 3).until(lambda driver: self.find_user())
-            element.click()
-            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.EXIT_POS_MODE)).click()
-            WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(self.ACTIVE_TERMINAL))
-            return True
-        except TimeoutException:
-            return False
-        finally:
-            self.driver.switch_to.context("NATIVE_APP")
