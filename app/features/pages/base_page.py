@@ -24,6 +24,15 @@ class BasePage:
         element.send_keys(text)
         return element
 
+    def search(self, locator, text, timeout=15):
+        element = self.write(locator, text, timeout)
+        self.driver.hide_keyboard()
+        return element
+
+    def search_and_find(self, search_locator, text, timeout=15):
+        self.search(search_locator, text, timeout)
+        return self.wait_visibility((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'), timeout)
+
     def value_write(self, locator, text, timeout=15):
         element = self.wait_visibility(locator, timeout)
         element.click()
@@ -51,15 +60,15 @@ class BasePage:
 
     def wait_visibility(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-    
+
     def wait_visibility_contexts(self, locator, timeout=15):
         try:
             self.driver.switch_to.context("NATIVE_APP")
             return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
         except (TimeoutException, InvalidSelectorException) as e:
-            if "WEBVIEW_com.tamus.pos" not in self.driver.contexts:
+            if WEBVIEW_CONTEXT not in self.driver.contexts:
                 raise e
-            self.driver.switch_to.context("WEBVIEW_com.tamus.pos")
+            self.driver.switch_to.context(WEBVIEW_CONTEXT)
             return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
     def wait_invisibility(self, locator, timeout=15):

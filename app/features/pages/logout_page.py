@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from features.pages.base_page import BasePage
-from features.config.test_config import INITIAL_USER
+from features.config.test_config import INITIAL_USER, WEBVIEW_CONTEXT
 
 
 class LogoutPage(BasePage):
@@ -12,29 +12,29 @@ class LogoutPage(BasePage):
     ACTIVE_TERMINAL = (AppiumBy.XPATH, '//*[normalize-space(.)="Activar terminal"]')
 
     def find_user(self):
-        for contexto in ["NATIVE_APP", "WEBVIEW_com.tamus.pos"]:
+        for context_name in ["NATIVE_APP", WEBVIEW_CONTEXT]:
             try:
-                self.driver.switch_to.context(contexto)
-                locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{INITIAL_USER}")') if contexto == "NATIVE_APP" else self.USER_MENU
-                for elemento in self.driver.find_elements(*locator):
-                    if elemento.is_displayed() and elemento.is_enabled():
-                        return elemento
+                self.driver.switch_to.context(context_name)
+                locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{INITIAL_USER}")') if context_name == "NATIVE_APP" else self.USER_MENU
+                for element in self.driver.find_elements(*locator):
+                    if element.is_displayed() and element.is_enabled():
+                        return element
             except Exception:
                 continue
         self.driver.switch_to.context("NATIVE_APP")
         return None
 
     def logout(self):
-        elemento = WebDriverWait(self.driver, 10).until(lambda driver: self.find_user())
-        elemento.click()
+        element = WebDriverWait(self.driver, 10).until(lambda driver: self.find_user())
+        element.click()
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.EXIT_POS_MODE)).click()
         WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(self.ACTIVE_TERMINAL))
         self.driver.switch_to.context("NATIVE_APP")
 
     def logout_if_exists(self):
         try:
-            elemento = WebDriverWait(self.driver, 3).until(lambda driver: self.find_user())
-            elemento.click()
+            element = WebDriverWait(self.driver, 3).until(lambda driver: self.find_user())
+            element.click()
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.EXIT_POS_MODE)).click()
             WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(self.ACTIVE_TERMINAL))
             return True
