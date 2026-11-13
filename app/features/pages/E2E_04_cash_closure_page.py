@@ -1,6 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.save_load_files import save_ticket_history
+from features.utils.save_load_files import save_closure
 from datetime import datetime
 import re
 import time
@@ -39,5 +39,5 @@ class CashClosurePage(BasePage):
         print(f"Importe cierre: {context.last_closure_amount}")
         self.click(self.FINALIZE_CLOSURE)
         self.click(self.STAY_CONNECTED)
-        save_ticket_history(context.last_closure_date, context.last_closure_amount)
-        print("Ticket guardado correctamente")
+        save_closure(context.last_closure_date, context.last_closure_amount)
+        print("Cierre guardado correctamente")

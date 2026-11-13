@@ -1,10 +1,9 @@
-
 import json
 from pathlib import Path
 
 TMP_DIR = Path(__file__).resolve().parents[2] / "tmp"
 TICKET_FILE = TMP_DIR / "last_ticket.json"
-TICKET_HISTORY_FILE = TMP_DIR / "last_ticket_history.json"
+CLOSURE_FILE = TMP_DIR / "last_closure.json"
 
 
 def _save(file_path, date, amount):
@@ -31,9 +30,9 @@ def load_ticket():
     return _load(TICKET_FILE)
 
 
-def save_ticket_history(date, amount):
-    _save(TICKET_HISTORY_FILE, date, amount)
+def save_closure(date, amount):
+    _save(CLOSURE_FILE, date, amount)
 
 
-def load_ticket_history():
-    return _load(TICKET_HISTORY_FILE)
+def load_closure():
+    return _load(CLOSURE_FILE)

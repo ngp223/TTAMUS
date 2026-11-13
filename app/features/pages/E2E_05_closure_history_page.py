@@ -1,6 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
-from features.utils.save_load_files import load_ticket_history
+from features.utils.save_load_files import load_closure
 from features.config.test_config import WAIT_TIMEOUT
 
 
@@ -13,7 +13,7 @@ class ClosureHistoryPage(BasePage):
         self.click(self.CLOSING_HISTORY)
 
     def verify_closure_history(self):
-        saved_closure = load_ticket_history()
+        saved_closure = load_closure()
         if not saved_closure:
             raise AssertionError("No existe ningún cierre guardado para comprobar el historial")
         print(f"Cierre guardado: {saved_closure!r}")
