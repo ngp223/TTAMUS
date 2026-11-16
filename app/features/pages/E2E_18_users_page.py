@@ -49,6 +49,7 @@ class UsersPage(BasePage):
         date = datetime.now().strftime("%d%m%H%M")
         self.created_user = f"Usuari@ QA{date}"
         email = f"USERQA{date}@qa.com"
+        self.driver.hide_keyboard()
         self.click(self.NEW_USER)
         self.write(self.USER_NAME, self.created_user)
         self.write(self.EMAIL_USER, email)
@@ -61,6 +62,7 @@ class UsersPage(BasePage):
     def check_user_created(self):
         self.wait_visibility(self.USERS_SEARCH)
         self.write(self.USERS_SEARCH, self.created_user)
+        self.driver.hide_keyboard()
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.created_user}")')
         self.wait_visibility(locator)
 
@@ -71,6 +73,7 @@ class UsersPage(BasePage):
         self.wait_visibility(locator)
         self.click(self.EDIT)
         self.wait_visibility(self.USER_NAME)
+        self.driver.hide_keyboard()
         self.wait_visibility(self.ROL_USER)
         self.modified_user = f"{self.created_user}_modificado_{datetime.now():%H%M}"
         self.write(self.USER_NAME, self.modified_user)
