@@ -1,5 +1,5 @@
 from behave import when, then
-from features.pages.E2E_07_reports_page import ReportsPage
+from features.pages.E2E_08_reports_page import ReportsPage
 
 
 @when("accedo al módulo de informes")
