@@ -15,27 +15,22 @@ class LoginPage(BasePage):
     OPEN_POS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Entrar al POS")')
     EXPAND = (AppiumBy.ACCESSIBILITY_ID, "Expandir menú")
 
-    def __init__(self, driver):
-        super().__init__(driver)
+    def _enter_pin(self, pin):
+        for digit in pin:
+            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
 
-    def login_in(self, context):
+    def login_in(self):
         self.wait_visibility_contexts(self.EMAIL)
         self.write(self.EMAIL, TEST_EMAIL)
         self.write(self.PASSWORD, TEST_PASSWORD)
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.ACTIVE_TERMINAL)).click()
         self.driver.switch_to.context("NATIVE_APP")
         self.click(self.REST1)
-        for digit in REST1_PIN:
-            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
+        self._enter_pin(REST1_PIN)
         self.scroll_text("Entrar a este restaurante")
         self.click(self.OPEN_REST1)
         self.click(self.REST1_USER)
-        for digit in REST1_USER_PIN:
-            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{digit}")'))
+        self._enter_pin(REST1_USER_PIN)
         self.click(self.OPEN_POS)
         self.click(self.EXPAND)
-        context.logged_in = True
         print("Login completado")
-
-    def active_terminal(self):
-        return self.exists(self.ACTIVE_TERMINAL, timeout=3)

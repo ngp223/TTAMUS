@@ -1,3 +1,4 @@
+
 from datetime import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,6 +10,14 @@ from features.config.test_config import WEBVIEW_CONTEXT
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
+
+    @staticmethod
+    def by_id(resource_id):
+        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().resourceId("{resource_id}")'
+
+    @staticmethod
+    def by_text(text):
+        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'
 
     def wait_clickable(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
@@ -71,6 +80,9 @@ class BasePage:
 
     def scroll_text(self, text):
         return self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("{text}"))')
+
+    def scroll_id(self, resource_id):
+        return self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("{resource_id}"))')
 
     def wait_date_amount_match(self, date_locator, amount_locator, expected_date, expected_amount, timeout=15, tolerance=60):
         date_format = "%d/%m/%Y, %H:%M"
