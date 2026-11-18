@@ -7,7 +7,7 @@ Feature: Schedules POS
     When accedo a horarios
     Then creo un nuevo turno
     And el turno aparece en el calendario
-    And modifico la hora de fin del turno
-    And la hora de fin del turno está modificada
+    And modifico la hora de inicio del turno
+    And la hora de inicio del turno está modificada
     And elimino el turno
     And el turno no aparece en el calendario

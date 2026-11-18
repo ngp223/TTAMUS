@@ -18,12 +18,12 @@ def shift_created(context):
     context.schedules_page.check_shift_created()
 
 
-@step("modifico la hora de fin del turno")
+@step("modifico la hora de inicio del turno")
 def modify_shift(context):
     context.schedules_page.modify_shift()
 
 
-@step("la hora de fin del turno está modificada")
+@step("la hora de inicio del turno está modificada")
 def shift_modified(context):
     context.schedules_page.check_shift_modified()
 
