@@ -141,13 +141,13 @@ class SchedulesPage(BasePage):
 
     def modify_shift(self):
         shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
-        shift[0].click()
+        shift[-1].click()
         self._pick_time(self.START, NEW_START_TIME)
         self._save()
 
     def check_shift_modified(self):
         shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
-        shift[0].click()
+        shift[-1].click()
         start = self.wait_visibility(self.START)
         value = start.text or start.get_attribute("content-desc") or ""
         expected = f"{NEW_START_TIME[0]}:{NEW_START_TIME[1]}"
@@ -158,7 +158,7 @@ class SchedulesPage(BasePage):
 
     def delete_shift(self):
         shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
-        shift[0].click()
+        shift[-1].click()
         self.wait_clickable(self.DELETE)
         self.click(self.DELETE)
         self.wait_clickable(self.CONFIRM_DELETE)
