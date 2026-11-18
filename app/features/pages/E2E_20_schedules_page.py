@@ -1,3 +1,4 @@
+
 from datetime import datetime, timedelta
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
@@ -7,8 +8,8 @@ from features.config.test_config import SHIFT_EMPLOYEE, WEBVIEW_CONTEXT
 
 DAY_OFFSET = 1
 START_TIME = ("04", "00")
-END_TIME = ("23", "30")
-NEW_START_TIME = ("14",)
+END_TIME = ("22", "30")
+NEW_START_TIME = ("14", "30")
 
 
 class SchedulesPage(BasePage):
@@ -27,7 +28,8 @@ class SchedulesPage(BasePage):
     DATE_PANEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceIdMatches(".*tam-date-picker__panel.*")')
     PICKER_BACKDROP = (AppiumBy.XPATH, '(//*[contains(@resource-id,"cdk-overlay-backdrop")])[last()]')
     DAY_CELL = 'new UiSelector().resourceIdMatches(".*tam-date-picker__day-{}$")'
-    CHIPS = f'//*[contains(@resource-id,"tam-shift-calendar")]//*[@text="{SHIFT_EMPLOYEE[0]}"]'
+    SHIFT_CELL = (AppiumBy.XPATH, '//*[contains(@resource-id,"div-cal__cell-{}-button-person") and contains(@content-desc,"{}")]')
+
     PICK_JS = """
         const panels = document.querySelectorAll('.tam-time-picker__panel');
         const panel = panels[panels.length - 1];
@@ -40,6 +42,7 @@ class SchedulesPage(BasePage):
         cell.click();
         return 'ok';
     """
+
     PANEL_HTML_JS = """
         const p = document.querySelectorAll('.tam-time-picker__panel');
         return p.length ? p[p.length - 1].outerHTML.slice(0, 1500) : 'sin panel';
@@ -47,12 +50,10 @@ class SchedulesPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.count_before = 0
-        self.positions_before = set()
-        self.shift_pos = None
+        self.shift_day = None
 
-    def _chips(self):
-        return self.driver.find_elements(AppiumBy.XPATH, self.CHIPS)
+    def _calendar_shift(self):
+        return self.driver.find_elements(self.SHIFT_CELL[0], self.SHIFT_CELL[1].format(self.shift_day, SHIFT_EMPLOYEE))
 
     def _close_overlays(self):
         for _ in range(4):
@@ -94,6 +95,7 @@ class SchedulesPage(BasePage):
     def _pick_day(self):
         today = datetime.now().date()
         target = today + timedelta(days=DAY_OFFSET)
+        self.shift_day = target.day
         first = today.replace(day=1)
         number = first.weekday() + (target - first).days + 1
         if not 1 <= number <= 42:
@@ -106,22 +108,13 @@ class SchedulesPage(BasePage):
 
     def _pick_time(self, button, time):
         self._open_panel(button, self.PICKER_PANEL)
-        for column, text in enumerate(time):
-            self._pick_cell(column, text)
+        self._pick_cell(0, time[0])
+        if not self.exists(self.PICKER_PANEL, timeout=1):
+            self._open_panel(button, self.PICKER_PANEL)
+        self._pick_cell(1, time[1])
         self._close_panel(self.PICKER_PANEL)
         el = self.wait_visibility(button)
         print(f"Hora {':'.join(time)} -> botón: text={el.text!r} desc={el.get_attribute('content-desc')!r}")
-
-    def _find_new_shift(self):
-        WebDriverWait(self.driver, 15).until(lambda d: len(self._chips()) == self.count_before + 1)
-        new = [c for c in self._chips() if (c.rect["x"], c.rect["y"]) not in self.positions_before]
-        if not new:
-            raise Exception("No se ha podido identificar el turno en el calendario")
-        self.shift_pos = (new[0].rect["x"], new[0].rect["y"])
-
-    def _open_shift(self):
-        x, y = self.shift_pos
-        min(self._chips(), key=lambda c: (abs(c.rect["x"] - x), abs(c.rect["y"] - y))).click()
 
     def _save(self):
         self.click(self.SAVE)
@@ -134,9 +127,6 @@ class SchedulesPage(BasePage):
         self.wait_clickable(self.ADD_SHIFT)
 
     def create_shift(self):
-        chips = self._chips()
-        self.count_before = len(chips)
-        self.positions_before = {(c.rect["x"], c.rect["y"]) for c in chips}
         self.click(self.ADD_SHIFT)
         self.click(self.EMPLOYEE)
         self.click(self.EMPLOYEE_OPTION)
@@ -146,24 +136,35 @@ class SchedulesPage(BasePage):
         self._save()
 
     def check_shift_created(self):
-        self._find_new_shift()
+        WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
+        print(f"Turno creado correctamente: aparece a las {START_TIME[0]}:{START_TIME[1]}")
 
     def modify_shift(self):
-        self._open_shift()
+        shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
+        shift[0].click()
         self._pick_time(self.START, NEW_START_TIME)
         self._save()
-        self._find_new_shift()
 
     def check_shift_modified(self):
-        self._open_shift()
+        shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
+        shift[0].click()
         start = self.wait_visibility(self.START)
         value = start.text or start.get_attribute("content-desc") or ""
-        if NEW_START_TIME[0] not in value:
-            raise Exception(f"Hora de inicio esperada {NEW_START_TIME[0]}, encontrada: {value!r}")
+        expected = f"{NEW_START_TIME[0]}:{NEW_START_TIME[1]}"
+        if expected not in value:
+            raise Exception(f"Hora de inicio esperada {expected}, encontrada: {value!r}")
+        print(f"Turno modificado correctamente: el inicio es {value!r}")
+        self.driver.back()
 
     def delete_shift(self):
+        shift = WebDriverWait(self.driver, 15).until(lambda d: self._calendar_shift())
+        shift[0].click()
+        self.wait_clickable(self.DELETE)
         self.click(self.DELETE)
+        self.wait_clickable(self.CONFIRM_DELETE)
         self.click(self.CONFIRM_DELETE)
+        self.wait_invisibility(self.EMPLOYEE)
 
     def check_shift_deleted(self):
-        WebDriverWait(self.driver, 15).until(lambda d: len(self._chips()) == self.count_before)
+        WebDriverWait(self.driver, 15).until(lambda d: not self._calendar_shift())
+        print(f"Turno eliminado correctamente: ya no aparece a las {NEW_START_TIME[0]}:{NEW_START_TIME[1]}")
