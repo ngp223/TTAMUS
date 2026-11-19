@@ -32,9 +32,14 @@ class BasePage:
         element.send_keys(text)
         return element
 
-    def search_and_find(self, search_locator, text, timeout=15):
-        self.write(search_locator, text, timeout)
-        return self.wait_visibility(self.by_text(text), timeout)
+    def search_and_find(self, search_locator, text, timeout=15, attempts=3):
+        for attempt in range(attempts):
+            self.write(search_locator, text, timeout)
+            try:
+                return self.wait_visibility(self.by_text(text), timeout=5)
+            except TimeoutException:
+                if attempt == attempts - 1:
+                    raise
 
     def value_write(self, locator, text, timeout=15):
         element = self.wait_visibility(locator, timeout)

@@ -1,8 +1,8 @@
-from behave import then
-from features.pages.E2E_21_backups_page import BackupsPage
+from behave import then,when
+from features.pages.E2E_23_backups_page import BackupsPage
 
 
-@then('accedo a copia de seguridad')
+@when('accedo a copia de seguridad')
 def access_backup(context):
     context.backups_page = BackupsPage(context.driver)
     context.backups_page.access_backup()
