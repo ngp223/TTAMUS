@@ -1,0 +1,12 @@
+Feature: Kitchen POS
+
+  Background:
+    Given estoy logueado en el POS
+
+  Scenario: Pantalla de cocina
+    When accedo a la pantalla de cocina
+    Then localizo la mesa más antigua lista para empezar
+    When pongo la mesa en marcha
+    And hago el pase
+    And devuelvo la mesa a cocina
+    And vuelvo al TPV

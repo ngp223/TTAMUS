@@ -1,0 +1,70 @@
+import time
+from appium.webdriver.common.appiumby import AppiumBy
+from features.pages.base_page import BasePage
+
+WAIT_AFTER_START = 5
+TABS = {"En marcha": "tabs__tab-1", "Pase": "tabs__tab-2", "Recogidas": "tabs__tab-3"}
+
+
+def minutes(text):
+    hours, mins = text.strip().split(":")
+    return int(hours) * 60 + int(mins)
+
+
+class KitchenPage(BasePage):
+    MENU = BasePage.by_text("Pantalla de cocina")
+    BACK_TO_POS = BasePage.by_text("Volver al TPV")
+    CLOCK = (AppiumBy.XPATH, '//*[contains(@resource-id,"top__clock")]')
+    ARRIVED = (AppiumBy.XPATH, '//*[contains(@resource-id,"kt__arrived")]')
+    PASS_EMPTY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("El pase está vacío")')
+    TICKET = '//*[contains(@resource-id,"kt__arrived") and @text="{0}"]'
+    BUTTON = TICKET + '/ancestor::*[count(.//*[contains(@resource-id,"kt__arrived")])=1 and .//*[@text="{1}" or @content-desc="{1}"]][1]//*[@text="{1}" or @content-desc="{1}"]'
+
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.table_time = None
+
+    def _ticket(self):
+        return AppiumBy.XPATH, self.TICKET.format(self.table_time)
+
+    def _button(self, label):
+        return AppiumBy.XPATH, self.BUTTON.format(self.table_time, label)
+
+    def _open_tab(self, tab):
+        self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().resourceIdMatches(".*{TABS[tab]}")'))
+
+    def access_kitchen(self):
+        self.scroll_text("Pantalla de cocina")
+        self.click(self.MENU)
+
+    def locate_oldest_table(self):
+        now = minutes(self.wait_visibility(self.CLOCK).text)
+        self.wait_visibility(self.ARRIVED)
+        arrivals = [element.text for element in self.driver.find_elements(*self.ARRIVED)]
+        self.table_time = max(arrivals, key=lambda arrival: (now - minutes(arrival)) % 1440)
+        self.wait_visibility(self._ticket())
+        self.wait_visibility(self._button("Empezar"))
+
+    def put_in_progress(self):
+        self.click(self._button("Empezar"))
+        time.sleep(WAIT_AFTER_START)
+        self.click(self._button("Listo"))
+        self.wait_invisibility(self._ticket())
+
+    def do_pass(self):
+        self._open_tab("Pase")
+        self.wait_visibility(self._ticket())
+        self.click(self._button("Recogida"))
+        self.wait_visibility(self.PASS_EMPTY)
+        self._open_tab("Recogidas")
+
+    def return_to_kitchen(self):
+        self.wait_visibility(self._ticket())
+        self.click(self._button("Devolver a cocina"))
+        self._open_tab("En marcha")
+        self.wait_visibility(self._ticket())
+        self.wait_visibility(self._button("Listo"))
+
+    def back_to_pos(self):
+        self.scroll_text("Volver al TPV")
+        self.click(self.BACK_TO_POS)

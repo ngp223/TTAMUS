@@ -1,0 +1,33 @@
+from behave import step
+from features.pages.E2E_02_kitchen_page import KitchenPage
+
+
+@step("accedo a la pantalla de cocina")
+def access_kitchen(context):
+    context.kitchen_page = KitchenPage(context.driver)
+    context.kitchen_page.access_kitchen()
+
+
+@step("localizo la mesa más antigua lista para empezar")
+def locate_oldest_table(context):
+    context.kitchen_page.locate_oldest_table()
+
+
+@step("pongo la mesa en marcha")
+def put_in_progress(context):
+    context.kitchen_page.put_in_progress()
+
+
+@step("hago el pase")
+def do_pass(context):
+    context.kitchen_page.do_pass()
+
+
+@step("devuelvo la mesa a cocina")
+def return_to_kitchen(context):
+    context.kitchen_page.return_to_kitchen()
+
+
+@step("vuelvo al TPV")
+def back_to_pos(context):
+    context.kitchen_page.back_to_pos()
