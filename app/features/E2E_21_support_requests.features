@@ -1,0 +1,10 @@
+Feature: Support requests POS
+
+  Background:
+    Given estoy logueado en el POS
+
+  Scenario: Crear una petición
+    When accedo a peticiones
+    Then creo una nueva petición con datos válidos
+    And la petición aparece en el listado
+    # no funciona el boton enviar peticiones

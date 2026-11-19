@@ -1,0 +1,34 @@
+from datetime import datetime
+from appium.webdriver.common.appiumby import AppiumBy
+from features.pages.base_page import BasePage
+
+DATE_FORMAT = "%d%m%H%M%S"
+
+
+class SupportRequestsPage(BasePage):
+    MENU = BasePage.by_text("Peticiones")
+    CREATE = BasePage.by_id("support-requests-create")
+    SUBJECT = BasePage.by_id("support-request-new-title")
+    DESCRIPTION = BasePage.by_id("support-request-new-description")
+    SEND = BasePage.by_text("Enviar petición")
+
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.subject = None
+
+    def access_requests(self):
+        self.scroll_text("Peticiones")
+        self.click(self.MENU)
+        self.wait_clickable(self.CREATE)
+
+    def create_request(self):
+        self.subject = f"Peticion QA{datetime.now().strftime(DATE_FORMAT)}"
+        self.click(self.CREATE)
+        self.write(self.SUBJECT, self.subject)
+        self.write(self.DESCRIPTION, f"Descripcion {self.subject}")
+        self.click(self.SEND)
+        self.wait_invisibility(self.SUBJECT)
+
+    def check_request_listed(self):
+        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{self.subject}")')
+        self.wait_visibility(locator)

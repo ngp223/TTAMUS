@@ -1,0 +1,18 @@
+from behave import then, when
+from features.pages.E2E_21_support_requests_page import SupportRequestsPage
+
+
+@when("accedo a peticiones")
+def access_requests(context):
+    context.requests_page = SupportRequestsPage(context.driver)
+    context.requests_page.access_requests()
+
+
+@then("creo una nueva petición con datos válidos")
+def create_request(context):
+    context.requests_page.create_request()
+
+
+@then("la petición aparece en el listado")
+def request_listed(context):
+    context.requests_page.check_request_listed()
