@@ -1,5 +1,5 @@
 from behave import then,when
-from features.pages.E2E_23_backups_page import BackupsPage
+from features.pages.E2E_24_backups_page import BackupsPage
 
 
 @when('accedo a copia de seguridad')

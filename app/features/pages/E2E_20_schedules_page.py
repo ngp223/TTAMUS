@@ -27,7 +27,8 @@ class SchedulesPage(BasePage):
     DATE_PANEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceIdMatches(".*tam-date-picker__panel.*")')
     PICKER_BACKDROP = (AppiumBy.XPATH, '(//*[contains(@resource-id,"cdk-overlay-backdrop")])[last()]')
     DAY_CELL = 'new UiSelector().resourceIdMatches(".*tam-date-picker__day-{}$")'
-    SHIFT = '//*[contains(@resource-id,"button-person") and contains(@content-desc,"{} · {}:{}")]'
+    SHIFT = '(//*[contains(@resource-id,"span-cal__employee") and contains(@text,"{}")]/..//*[contains(@resource-id,"button-chip") and contains(@text,"{}:{}–")] | //*[contains(@resource-id,"button-person") and contains(@content-desc,"{} · {}:{}")])'
+    ANY_SHIFT = '(//*[contains(@resource-id,"span-cal__employee") and contains(@text,"{}")]/..//*[contains(@resource-id,"button-chip")] | //*[contains(@resource-id,"button-person") and contains(@content-desc,"{} ·")])'
 
     PICK_JS = """
         const panels = document.querySelectorAll('.tam-time-picker__panel');
@@ -43,10 +44,29 @@ class SchedulesPage(BasePage):
     """
 
     def _shifts(self, time):
-        return self.driver.find_elements(AppiumBy.XPATH, self.SHIFT.format(SHIFT_EMPLOYEE, time[0], time[1]))
+        locator = self.SHIFT.format(SHIFT_EMPLOYEE, time[0], time[1], SHIFT_EMPLOYEE, time[0], time[1])
+        return self.driver.find_elements(AppiumBy.XPATH, locator)
+
+    def _all_shifts(self):
+        locator = self.ANY_SHIFT.format(SHIFT_EMPLOYEE, SHIFT_EMPLOYEE)
+        return self.driver.find_elements(AppiumBy.XPATH, locator)
 
     def _first_shift(self, time):
         return WebDriverWait(self.driver, 20).until(lambda d: self._shifts(time))[0]
+
+    def _delete_shift(self, shift):
+        shift.click()
+        self.click(self.DELETE)
+        self.click(self.CONFIRM_DELETE)
+        self.wait_invisibility(self.EMPLOYEE)
+
+    def _clear_shifts(self):
+        shifts = self._all_shifts()
+        while shifts:
+            count = len(shifts)
+            self._delete_shift(shifts[0])
+            WebDriverWait(self.driver, 20).until(lambda d: len(self._all_shifts()) < count)
+            shifts = self._all_shifts()
 
     def _close_overlays(self):
         for _ in range(4):
@@ -108,6 +128,7 @@ class SchedulesPage(BasePage):
         self.wait_clickable(self.ADD_SHIFT)
 
     def create_shift(self):
+        self._clear_shifts()
         self.click(self.ADD_SHIFT)
         self.click(self.EMPLOYEE)
         self.click(self.EMPLOYEE_OPTION)
@@ -129,10 +150,7 @@ class SchedulesPage(BasePage):
         WebDriverWait(self.driver, 20).until(lambda d: not self._shifts(START_TIME))
 
     def delete_shift(self):
-        self._first_shift(NEW_START_TIME).click()
-        self.click(self.DELETE)
-        self.click(self.CONFIRM_DELETE)
-        self.wait_invisibility(self.EMPLOYEE)
+        self._delete_shift(self._first_shift(NEW_START_TIME))
 
     def check_shift_deleted(self):
         WebDriverWait(self.driver, 20).until(lambda d: not self._shifts(NEW_START_TIME))
