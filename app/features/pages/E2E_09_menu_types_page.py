@@ -32,14 +32,14 @@ class MenuTypesPage(BasePage):
         self.mobile_utils = MobileUtils(driver)
         self.menu_type_created = None
 
-    def open_menutypes(self):
-        self.click(self.MENU_TYPES)
+    def open_menutypes(self, timeout=max(WAIT_TIMEOUT, 25)):
+        self.click(self.MENU_TYPES, timeout=timeout)
 
-    def create_new_menutype(self):
+    def create_new_menutype(self, timeout=max(WAIT_TIMEOUT, 25)):
         self.menu_type_created = f"Carta QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        self.click(self.ADD_MENU_TYPE)
+        self.click(self.ADD_MENU_TYPE, timeout=timeout)
         self.write(self.NAME_MENU_TYPE, self.menu_type_created)
-        for locator in (self.NEXT, self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
+        for locator in (self.NEXT,self.STARTERS,self.PEPPERS,self.SALADS,self.SALAD_CESAR,self.NEXT,self.NEXT,self.FINISH_AND_SAVE,):
             self.click(locator)
 
     def click_menutype_action(self, action):
