@@ -1,6 +1,7 @@
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.keys import Keys
 from features.pages.base_page import BasePage
 
 
@@ -22,12 +23,18 @@ class ProductsPage(BasePage):
     def _row_locator(self, name):
         return (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{name}").className("android.widget.TextView")')
 
+    def _get_text(self, el):
+        return (el.get_attribute("text") or el.text or "").strip()
+
     def _write_clean(self, locator, text):
         el = self.wait_visibility(locator, timeout=15)
         el.click()
         el.clear()
+        if self._get_text(el):
+            el.send_keys(Keys.CONTROL, "a")
+            el.send_keys(Keys.BACK_SPACE)
         el.send_keys(text)
-        current = (el.get_attribute("text") or el.text or "").strip()
+        current = self._get_text(el)
         if current != text:
             raise AssertionError(f"Error escribiendo '{text}' (actual: '{current}')")
 

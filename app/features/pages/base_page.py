@@ -95,6 +95,25 @@ class BasePage:
                 return found[0]
             self.driver.execute_script("mobile: scrollGesture", {"elementId": self.wait_visibility(container).id, "direction": direction, "percent": percent})
         raise TimeoutException(f"No se ha podido llegar a {locator}")
+    
+    def scroll_text_any(self, text, max_swipes=15):
+        # Igual que scroll_text, pero si el primer scrollable no es el del menú,
+        # prueba con los siguientes. El 0 es el comportamiento actual.
+        try:
+            if self.driver.is_keyboard_shown():
+                self.driver.hide_keyboard()
+        except Exception:
+            pass
+        count = len(self.driver.find_elements(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().scrollable(true)'))
+        for i in range(max(count, 1)):
+            ui = (f'new UiScrollable(new UiSelector().scrollable(true).instance({i}))'
+                  f'.setMaxSearchSwipes({max_swipes})'
+                  f'.scrollIntoView(new UiSelector().text("{text}"))')
+            try:
+                return self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, ui)
+            except NoSuchElementException:
+                continue
+        raise NoSuchElementException(f'No se encontró "{text}" en ninguno de los {count} scrollables')
 
     def wait_date_amount_match(self, date_locator, amount_locator, expected_date, expected_amount, timeout=15, tolerance=60):
         date_format = "%d/%m/%Y, %H:%M"
