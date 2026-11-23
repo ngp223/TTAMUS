@@ -20,7 +20,7 @@ class PromotionsPage(BasePage):
         self.modified_promotion = None
 
     def access_promotions(self):
-        self.scroll_text_any("Promociones") 
+        self.scroll_text_any("Promociones")
         self.click(self.PROMOTIONS)
 
     def create_promotion(self):

@@ -19,7 +19,7 @@ class CategoriesPage(BasePage):
         self.created_category = None
 
     def access_categories(self):
-        self.scroll_text("Categorías")
+        self.scroll_text_any("Categorías")
         self.click(self.CATEGORIES)
 
     def create_category(self):

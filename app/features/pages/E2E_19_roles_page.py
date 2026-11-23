@@ -49,7 +49,7 @@ class RolesPage(BasePage):
         self.wait_invisibility(self.ROLE_NAME)
 
     def access_roles(self):
-        self.scroll_text("Roles")
+        self.scroll_text_any("Roles")
         self.click(self.ROLES_MENU)
         self.wait_clickable(self.ROLE_CREATE)
 

@@ -25,7 +25,7 @@ class UsersPage(BasePage):
         self.created_role = None
 
     def access_users(self):
-        self.scroll_text("Usuarios")
+        self.scroll_text_any("Usuarios")
         self.click(self.USERS)
         self.wait_visibility(self.USERS_SEARCH)
         self.wait_clickable(self.NEW_USER)

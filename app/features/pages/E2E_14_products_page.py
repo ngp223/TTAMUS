@@ -48,10 +48,8 @@ class ProductsPage(BasePage):
             raise AssertionError(f"No aparece en listado: '{name}'")
 
     def access_products(self):
-        if not self.exists(self.PRODUCTS, timeout=2):
-            self.scroll_text("Productos")
+        self.scroll_text_any("Productos")
         self.click(self.PRODUCTS)
-        self.wait_visibility(self.NEW_PRODUCT, timeout=15)
 
     def create_product(self):
         self.created_product = f"Producto QA{datetime.now():%d%m_%H%M%S}"

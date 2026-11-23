@@ -34,7 +34,7 @@ class KitchenPage(BasePage):
         self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().resourceIdMatches(".*{TABS[tab]}")'))
 
     def access_kitchen(self):
-        self.scroll_text("Pantalla de cocina")
+        self.scroll_text_any("Pantalla de cocina")
         self.click(self.MENU)
 
     def locate_oldest_table(self):
@@ -66,5 +66,5 @@ class KitchenPage(BasePage):
         self.wait_visibility(self._button("Listo"))
 
     def back_to_pos(self):
-        self.scroll_text("Volver al TPV")
+        self.scroll_text_any("Volver al TPV")
         self.click(self.BACK_TO_POS)

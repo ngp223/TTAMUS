@@ -17,7 +17,8 @@ class SupportRequestsPage(BasePage):
         self.subject = None
 
     def access_requests(self):
-        self.scroll_text("Peticiones")
+    def access_requests(self):
+        self.scroll_text_any("Peticiones")
         self.click(self.MENU)
         self.wait_clickable(self.CREATE)
 

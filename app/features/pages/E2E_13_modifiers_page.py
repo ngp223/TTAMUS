@@ -19,8 +19,9 @@ class ModifiersPage(BasePage):
         self.modified_modifier = None
 
     def access_modifiers(self):
-        self.scroll_text("Modificadores")
+        self.scroll_text_any("Modificadores")
         self.click(self.MODIFIERS)
+
 
     def create_modifier(self):
         self.created_modifier = f"ModificadorQA{datetime.now():%d%m%Y%H%M%S}"

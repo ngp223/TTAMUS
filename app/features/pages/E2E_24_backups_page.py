@@ -11,7 +11,7 @@ class BackupsPage(BasePage):
     LIST_COPY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Copia lista")')
 
     def access_backup(self):
-        self.scroll_text("Copias de Seguridad")
+        self.scroll_text_any("Copias de Seguridad")
         self.click(self.BACKUPS)
 
     def download_backup(self):

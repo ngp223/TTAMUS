@@ -10,7 +10,7 @@ class ConfigurationGuidePage(BasePage):
     GUIDE_WIZARD_OPEN_CERTIFICATE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("guide-wizard-open-certificate")')
 
     def access_configurationguide(self):
-        self.scroll_text("Guía de configuración")
+        self.scroll_text_any("Guía de configuración")
         self.click(self.GUIDE)
 
     def configure(self):

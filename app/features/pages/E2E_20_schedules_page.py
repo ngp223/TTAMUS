@@ -123,7 +123,7 @@ class SchedulesPage(BasePage):
 
     def access_schedules(self):
         self._close_overlays()
-        self.scroll_text("Horarios")
+        self.scroll_text_any("Horarios")
         self.click(self.MENU)
         self.wait_clickable(self.ADD_SHIFT)
 
