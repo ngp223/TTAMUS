@@ -1,22 +1,49 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class SettingsPage(BasePage):
     SETTINGS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Ajustes")')
     GENERAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("General")')
+    BACK = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Volver")')
     APPEARANCE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Apariencia")')
     ACCESSIBILITY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Accesibilidad")')
     NOTIFICATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Notificaciones")')
     TAXES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Impuestos")')
     BUSINESS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Negocio")')
     ACCOUNT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Cuenta")')
+    TICKET_CUSTOMIZATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Personalización del ticket")')
+    TEMPLATE_STANDARD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("ticket-custom-template-standard")')
+    TEMPLATE_MINIMALIST = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("ticket-custom-template-minimalist")')
+    TEMPLATE_COMPLETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("ticket-custom-template-complete")')
+    TEMPLATE_SAVED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guardado")')
+    TEMPLATE_UNSAVED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cambios sin guardar")')
 
     def access_settings(self):
+        self.scroll_text_any("Ajustes")
         self.click(self.SETTINGS)
+
 
     def general(self):
         self.click(self.GENERAL)
+        self.click(self.TICKET_CUSTOMIZATION)
+        templates = [self.TEMPLATE_STANDARD, self.TEMPLATE_MINIMALIST, self.TEMPLATE_COMPLETE]
+        self.wait_visibility(self.TEMPLATE_STANDARD, timeout=15)
+        selected = None
+        for template in templates:
+            if "check_circle" in self.driver.find_element(*template).text:
+                selected = template
+                break
+        if selected is None:
+            raise AssertionError("No se ha encontrado la plantilla seleccionada")
+        target = next(template for template in templates if template != selected)
+        self.click(target)
+        self.wait_visibility(self.TEMPLATE_UNSAVED, timeout=10)
+        WebDriverWait(self.driver, 20).until(lambda driver: driver.find_element(*self.TEMPLATE_SAVED).is_displayed())
+        WebDriverWait(self.driver, 20).until(lambda driver: "check_circle" in driver.find_element(*target).text)
+        print("Plantilla de ticket cambiada y guardada correctamente")
+        self.click(self.BACK)
 
     def appearance(self):
         self.click(self.APPEARANCE)
