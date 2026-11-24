@@ -1,6 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from selenium.webdriver.support.ui import WebDriverWait
+import random
 
 
 class SettingsPage(BasePage):
@@ -47,6 +48,11 @@ class SettingsPage(BasePage):
 
     def appearance(self):
         self.click(self.APPEARANCE)
+        opciones = [["Claro", "Oscuro", "Sistema"], ["Inter", "Roboto", "IBM Plex Sans", "Manrope"],
+                    ["Discreto", "Medio", "Amplio"], ["Suave", "Neón"]]
+        for grupo in opciones:
+            opcion = random.choice(grupo)
+            self.click((AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{opcion}")'))
 
     def accessibility(self):
         self.click(self.ACCESSIBILITY)
