@@ -20,11 +20,14 @@ class SettingsPage(BasePage):
     TEMPLATE_COMPLETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("ticket-custom-template-complete")')
     TEMPLATE_SAVED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guardado")')
     TEMPLATE_UNSAVED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cambios sin guardar")')
+    SCALE_INCREASE = BasePage.by_id("settings-scale-increase")
+    SCALE_DECREASE = BasePage.by_id("settings-scale-decrease")
+    SCALE_RESET = BasePage.by_id("settings-scale-reset")
+    SCALE_VALUE = BasePage.by_id("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-ajustes-page-1-div-settings-layout-1-section-settings-content-1-div-settings-rows-1-div-settings-row-1-div-settings-row__control-1-div-scale-1-output-scale__value-1")
 
     def access_settings(self):
         self.scroll_text_any("Ajustes")
         self.click(self.SETTINGS)
-
 
     def general(self):
         self.click(self.GENERAL)
@@ -56,6 +59,9 @@ class SettingsPage(BasePage):
 
     def accessibility(self):
         self.click(self.ACCESSIBILITY)
+        self.click(random.choice([self.SCALE_INCREASE, self.SCALE_DECREASE]))
+        assert self.driver.find_element(*self.SCALE_VALUE).text != "100%", "El zoom no ha cambiado"
+        self.click(self.SCALE_RESET)
 
     def notifications(self):
         self.click(self.NOTIFICATIONS)
