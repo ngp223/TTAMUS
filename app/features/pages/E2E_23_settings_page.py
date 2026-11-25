@@ -1,6 +1,6 @@
+
 import random
 from features.pages.base_page import BasePage
-
 
 class SettingsPage(BasePage):
     SETTINGS = BasePage.by_text_contains("Ajustes")
@@ -20,6 +20,12 @@ class SettingsPage(BasePage):
     SCALE_DECREASE = BasePage.by_id("settings-scale-decrease")
     SCALE_RESET = BasePage.by_id("settings-scale-reset")
     SCALE_VALUE = BasePage.by_id("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-ajustes-page-1-div-settings-layout-1-section-settings-content-1-div-settings-rows-1-div-settings-row-1-div-settings-row__control-1-div-scale-1-output-scale__value-1")
+    NOTIFICATIONS_STATUS = BasePage.by_id("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-ajustes-page-1-div-settings-layout-1-section-settings-content-1-div-settings-rows-1-div-settings-row-1-div-settings-row__control-1-div-permission-1-div-permission__copy-1-tam-badge-tam-badge-1")
+    NOTIFICATIONS_ENABLE = BasePage.by_id("settings-notifications-enable")
+    NOTIFICATIONS_ALLOW = BasePage.by_id("com.android.permissioncontroller:id/permission_allow_button")
+    NOTIFICATIONS_GRANTED = BasePage.by_text("Concedido")
+    NOTIFICATIONS_TEST = BasePage.by_id("settings-notifications-test")
+    NOTIFICATIONS_DONE = BasePage.by_text("Listo")
 
     def access_settings(self):
         self.scroll_text_any("Ajustes")
@@ -50,6 +56,11 @@ class SettingsPage(BasePage):
 
     def notifications(self):
         self.click(self.NOTIFICATIONS)
+        self.wait_visibility(self.NOTIFICATIONS_STATUS)
+        assert self.driver.find_element(*self.NOTIFICATIONS_STATUS).text == "Sin activar", "Las notificaciones no están inicialmente desactivadas"
+        self.click(self.NOTIFICATIONS_ENABLE)
+        self.click(self.NOTIFICATIONS_ALLOW)
+        self.wait_text(self.NOTIFICATIONS_GRANTED, "Concedido", 15)
 
     def taxes(self):
         self.click(self.TAXES)
