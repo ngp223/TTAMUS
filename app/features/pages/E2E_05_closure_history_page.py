@@ -1,13 +1,13 @@
-from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import load_closure
 from features.config.test_config import WAIT_TIMEOUT
 
 
 class ClosureHistoryPage(BasePage):
-    CLOSING_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Cierres")')
-    DATE_FIRST_CLOSURE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-cierres-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-4")')
-    AMOUNT_FIRST_CLOSURE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-cierres-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-6")')
+    ROW = "tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-cierres-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-"
+    CLOSING_HISTORY = BasePage.by_text("Historial de Cierres")
+    DATE_FIRST_CLOSURE = BasePage.by_id(ROW + "4")
+    AMOUNT_FIRST_CLOSURE = BasePage.by_id(ROW + "6")
 
     def open_closure_history(self):
         self.click(self.CLOSING_HISTORY)

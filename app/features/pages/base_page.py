@@ -7,6 +7,10 @@ from features.config.test_config import WEBVIEW_CONTEXT
 
 
 class BasePage:
+    EDIT = (AppiumBy.ACCESSIBILITY_ID, "Editar")
+    DELETE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar")
+    CONFIRM_DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
+
     def __init__(self, driver):
         self.driver = driver
 
@@ -18,6 +22,10 @@ class BasePage:
     def by_text(text):
         return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")'
 
+    @staticmethod
+    def by_text_contains(text):
+        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{text}")'
+
     def wait_clickable(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
@@ -25,6 +33,19 @@ class BasePage:
         element = self.wait_clickable(locator, timeout)
         element.click()
         return element
+
+    def open_menu(self, text):
+        self.scroll_text_any(text)
+        return self.click(self.by_text(text))
+
+    def click_and_wait_gone(self, click_locator, gone_locator, timeout=15):
+        self.click(click_locator, timeout)
+        self.wait_invisibility(gone_locator, timeout)
+
+    def confirm_delete(self, delete_locator, gone_locator, timeout=15):
+        self.click(delete_locator, timeout)
+        self.click(self.CONFIRM_DELETE, timeout)
+        self.wait_invisibility(gone_locator, timeout)
 
     def write(self, locator, text, timeout=15):
         element = self.wait_visibility(locator, timeout)
@@ -82,6 +103,9 @@ class BasePage:
     def wait_invisibility(self, locator, timeout=15):
         WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
 
+    def wait_text(self, locator, text, timeout=15):
+        return WebDriverWait(self.driver, timeout).until(lambda d: text in d.find_element(*locator).text)
+
     def scroll_text(self, text):
         return self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text("{text}"))')
 
@@ -95,10 +119,8 @@ class BasePage:
                 return found[0]
             self.driver.execute_script("mobile: scrollGesture", {"elementId": self.wait_visibility(container).id, "direction": direction, "percent": percent})
         raise TimeoutException(f"No se ha podido llegar a {locator}")
-    
+
     def scroll_text_any(self, text, max_swipes=15):
-        # Igual que scroll_text, pero si el primer scrollable no es el del menú,
-        # prueba con los siguientes. El 0 es el comportamiento actual.
         try:
             if self.driver.is_keyboard_shown():
                 self.driver.hide_keyboard()

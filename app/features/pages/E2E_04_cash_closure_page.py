@@ -7,10 +7,9 @@ import time
 
 
 class CashClosurePage(BasePage):
-    CASH_CLOSURE_BUTTON = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cierre de Caja")')
-    FINALIZE_CLOSURE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Realizar Cierre")')
-    STAY_CONNECTED = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-cancel")')
-    LOGIN_USER = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
+    CASH_CLOSURE_BUTTON = BasePage.by_text("Cierre de Caja")
+    FINALIZE_CLOSURE = BasePage.by_text("Realizar Cierre")
+    STAY_CONNECTED = BasePage.by_id("confirm-modal-cancel")
 
     def open_cash_closure(self):
         self.click(self.CASH_CLOSURE_BUTTON)
@@ -25,11 +24,9 @@ class CashClosurePage(BasePage):
                     if re.fullmatch(r'\d{1,3}(?:\.\d{3})*,\d{2}\s*€', text):
                         print(f"Importe cierre encontrado: {text}")
                         return text
-
                 except Exception:
                     continue
             time.sleep(0.5)
-
         raise Exception("No se encontró ningún importe con € en el cierre de caja")
 
     def complete_cash_closure(self, context):

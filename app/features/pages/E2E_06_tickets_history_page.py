@@ -1,13 +1,13 @@
-from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 from features.utils.save_load_files import load_ticket
 from features.config.test_config import WAIT_TIMEOUT
 
 
 class TicketsHistoryPage(BasePage):
-    TICKET_HISTORY = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Historial de Tickets")')
-    DATE_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-2")')
-    AMOUNT_FIRST_TICKET = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-3")')
+    ROW = "tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-historial-tickets-page-1-tam-card-tam-card-1-div-tbody-1-div-row-1-span-col-"
+    TICKET_HISTORY = BasePage.by_text("Historial de Tickets")
+    DATE_FIRST_TICKET = BasePage.by_id(ROW + "2")
+    AMOUNT_FIRST_TICKET = BasePage.by_id(ROW + "3")
 
     def open_tickets_history(self):
         self.click(self.TICKET_HISTORY)

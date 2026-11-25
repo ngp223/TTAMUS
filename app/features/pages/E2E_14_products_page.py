@@ -6,14 +6,10 @@ from features.pages.base_page import BasePage
 
 
 class ProductsPage(BasePage):
-    PRODUCTS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Productos")')
-    NEW_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nuevo Producto")')
-    PRODUCT_NAME = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("product-edit-name")')
-    PRODUCTS_SEARCH = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("products-search")')
-    CREATE_SAVE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("product-edit-save")')
-    EDIT = (AppiumBy.ACCESSIBILITY_ID, "Editar")
-    DELETE = (AppiumBy.ACCESSIBILITY_ID, "Eliminar")
-    CONFIRM_DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("confirm-modal-accept")')
+    NEW_PRODUCT = BasePage.by_text("Nuevo Producto")
+    PRODUCT_NAME = BasePage.by_id("product-edit-name")
+    PRODUCTS_SEARCH = BasePage.by_id("products-search")
+    CREATE_SAVE = BasePage.by_id("product-edit-save")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -23,18 +19,15 @@ class ProductsPage(BasePage):
     def _row_locator(self, name):
         return (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{name}").className("android.widget.TextView")')
 
-    def _get_text(self, el):
-        return (el.get_attribute("text") or el.text or "").strip()
-
     def _write_clean(self, locator, text):
-        el = self.wait_visibility(locator, timeout=15)
+        el = self.wait_visibility(locator)
         el.click()
         el.clear()
-        if self._get_text(el):
+        if el.text.strip():
             el.send_keys(Keys.CONTROL, "a")
             el.send_keys(Keys.BACK_SPACE)
         el.send_keys(text)
-        current = self._get_text(el)
+        current = el.text.strip()
         if current != text:
             raise AssertionError(f"Error escribiendo '{text}' (actual: '{current}')")
 
@@ -48,15 +41,13 @@ class ProductsPage(BasePage):
             raise AssertionError(f"No aparece en listado: '{name}'")
 
     def access_products(self):
-        self.scroll_text_any("Productos")
-        self.click(self.PRODUCTS)
+        self.open_menu("Productos")
 
     def create_product(self):
         self.created_product = f"Producto QA{datetime.now():%d%m_%H%M%S}"
         self.click(self.NEW_PRODUCT)
         self._write_clean(self.PRODUCT_NAME, self.created_product)
-        self.click(self.CREATE_SAVE)
-        self.wait_invisibility(self.PRODUCT_NAME, timeout=15)
+        self.click_and_wait_gone(self.CREATE_SAVE, self.PRODUCT_NAME)
         self.wait_visibility(self.PRODUCTS_SEARCH, timeout=10)
 
     def check_product_created(self):
@@ -67,8 +58,7 @@ class ProductsPage(BasePage):
         self.click(self.EDIT)
         self.created_product += f"_modificado_{datetime.now():%H%M%S}"
         self._write_clean(self.PRODUCT_NAME, self.created_product)
-        self.click(self.CREATE_SAVE)
-        self.wait_invisibility(self.PRODUCT_NAME, timeout=15)
+        self.click_and_wait_gone(self.CREATE_SAVE, self.PRODUCT_NAME)
         self.modified_product = self.created_product
         self.wait_visibility(self.PRODUCTS_SEARCH, timeout=10)
 
@@ -86,5 +76,3 @@ class ProductsPage(BasePage):
             self.wait_invisibility(self._row_locator(target), timeout=10)
         except TimeoutException:
             raise AssertionError(f"Sigue apareciendo tras borrar: '{target}'")
-        if self.exists(self._row_locator(target), timeout=2):
-            raise AssertionError(f"Sigue existiendo tras borrar: '{target}'")

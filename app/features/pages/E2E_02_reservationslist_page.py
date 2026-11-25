@@ -5,19 +5,18 @@ from features.config.test_config import WAIT_TIMEOUT
 
 
 class ReservationPage(BasePage):
-    RESERVATIONS_MENU = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Reservas")')
-    RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Nueva reserva")')
+    RESERVATIONS_MENU = BasePage.by_text("Reservas")
+    RESERVATION = BasePage.by_text("Nueva reserva")
     NAME = (AppiumBy.CSS_SELECTOR, "input#reservation-name")
-    SEARCH_RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("reservations-search")')
-    SAVE_RESERVATION = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guardar reserva")')
-    RECORD_ARRIVAL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Marcar llegada")')
-    OPTIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-2")')
-    OPTIONS_SEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-1")')
-    EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Editar")')
-    CANCEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cancelar")')
-    NO_RESERVATIONS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("No hay reservas")')
+    SEARCH_RESERVATION = BasePage.by_id("reservations-search")
+    SAVE_RESERVATION = BasePage.by_text("Guardar reserva")
+    RECORD_ARRIVAL = BasePage.by_text("Marcar llegada")
+    OPTIONS = BasePage.by_id("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-2")
+    OPTIONS_SEL = BasePage.by_id("tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-reservations-page-1-div-layout-1-tam-card-tam-card-1-div-listbody-1-section-day-1-div-day__items-1-article-item-1-div-item__actions-1-button-tam-btn-1")
+    EDIT = BasePage.by_text("Editar")
+    CANCEL = BasePage.by_text("Cancelar")
+    NO_RESERVATIONS = BasePage.by_text("No hay reservas")
     DINERS = (AppiumBy.CSS_SELECTOR, "input#reservation-party-size")
-    RESERVATION_LOCATOR = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("{}")')
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -28,17 +27,14 @@ class ReservationPage(BasePage):
 
     def create_reservation(self):
         self.click(self.RESERVATION)
-        date_time = datetime.now().strftime('%H%M%S%d%m%Y')
-        self.created_reservation = f"ClienteQA_{date_time}"
+        self.created_reservation = f"ClienteQA_{datetime.now().strftime('%H%M%S%d%m%Y')}"
         self.write_webview(self.NAME, self.created_reservation, timeout=WAIT_TIMEOUT)
         self.click(self.SAVE_RESERVATION)
 
     def search_reservation(self):
         if not self.created_reservation:
             raise Exception("No existe reserva creada para comprobar")
-        self.write(self.SEARCH_RESERVATION, self.created_reservation, timeout=WAIT_TIMEOUT)
-        reservation_locator = (self.RESERVATION_LOCATOR[0], self.RESERVATION_LOCATOR[1].format(self.created_reservation))
-        self.wait_visibility(reservation_locator, timeout=WAIT_TIMEOUT)
+        self.search_and_find(self.SEARCH_RESERVATION, self.created_reservation, timeout=WAIT_TIMEOUT)
 
     def check_reservation(self):
         self.click(self.RECORD_ARRIVAL)

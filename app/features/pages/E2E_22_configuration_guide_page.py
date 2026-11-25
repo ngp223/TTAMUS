@@ -1,17 +1,14 @@
-from appium.webdriver.common.appiumby import AppiumBy
 from features.pages.base_page import BasePage
 
 
 class ConfigurationGuidePage(BasePage):
-    GUIDE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Guía de configuración")')
-    GUIDE_OPEN_WIZARD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("guide-open-wizard")')
-    GUIDE_WIZARD_SKIP = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("guide-wizard-skip")')
-    GUIDE_WIZARD_START_SELLING = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("guide-wizard-start-selling")')
-    GUIDE_WIZARD_OPEN_CERTIFICATE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("guide-wizard-open-certificate")')
+    GUIDE_OPEN_WIZARD = BasePage.by_id("guide-open-wizard")
+    GUIDE_WIZARD_SKIP = BasePage.by_id("guide-wizard-skip")
+    GUIDE_WIZARD_START_SELLING = BasePage.by_id("guide-wizard-start-selling")
+    GUIDE_WIZARD_OPEN_CERTIFICATE = BasePage.by_id("guide-wizard-open-certificate")
 
     def access_configurationguide(self):
-        self.scroll_text_any("Guía de configuración")
-        self.click(self.GUIDE)
+        self.open_menu("Guía de configuración")
 
     def configure(self):
         self.click(self.GUIDE_OPEN_WIZARD)

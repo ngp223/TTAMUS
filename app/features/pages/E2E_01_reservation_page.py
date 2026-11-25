@@ -12,37 +12,31 @@ from datetime import datetime
 class ReservationPage(BasePage):
     EXPECTED_AMOUNT = ORDER_AMOUNTS[-1]
     CHECK_AMOUNTS = ORDER_AMOUNTS
-    SEE_TABLES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Vista de mesas")')
-    MAIN_HALL = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_HALL}")')
-    TABLE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_TABLE}")')
-    DINERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_DINERS}")')
-    ACCEPT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Aceptar")')
-    MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_CATEGORY}")')
-    SELECT_MEATS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_PRODUCT}")')
-    SELECT_VEGETABLE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_SIDE}")')
-    RARE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_MEAT_COOKING}")')
-    ADD = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir")')
-    RICE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_RICE_CATEGORY}")')
-    SELECT_RICE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{ORDER_RICE_PRODUCT}")')
-    SEND_TO_KITCHEN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cocina")')
-    INCREASE_PRODUCT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("＋")')
-    CHARGE = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("Cobrar {EXPECTED_AMOUNT}")')
+    SEE_TABLES = BasePage.by_text("Vista de mesas")
+    MAIN_HALL = BasePage.by_text(ORDER_HALL)
+    TABLE = BasePage.by_text(ORDER_TABLE)
+    DINERS = BasePage.by_text(ORDER_DINERS)
+    ACCEPT = BasePage.by_text("Aceptar")
+    MEATS = BasePage.by_text(ORDER_MEAT_CATEGORY)
+    SELECT_MEATS = BasePage.by_text(ORDER_MEAT_PRODUCT)
+    SELECT_VEGETABLE = BasePage.by_text(ORDER_MEAT_SIDE)
+    RARE = BasePage.by_text(ORDER_MEAT_COOKING)
+    ADD = BasePage.by_text("Añadir")
+    RICE = BasePage.by_text(ORDER_RICE_CATEGORY)
+    SELECT_RICE = BasePage.by_text(ORDER_RICE_PRODUCT)
+    SEND_TO_KITCHEN = BasePage.by_text("Cocina")
+    INCREASE_PRODUCT = BasePage.by_text("＋")
+    CHARGE = BasePage.by_text(f"Cobrar {EXPECTED_AMOUNT}")
     CHARGE_BUTTON = (AppiumBy.ID, "tamus-pos-tam-layout-1-tam-shell-tam-shell-1-div-tam-shell__main-1-main-tam-shell__content-1-div-view-area-1-div-content-1-tam-sales-view-1-tam-payment-view-fill-1-div-pay-1-tam-card-tam-card-2-div-pay__actions-1-button-tam-btn-2")
-
-    def __init__(self, driver):
-        super().__init__(driver)
 
     def access_see_tables(self):
         return self.wait_visibility(self.SEE_TABLES, timeout=WAIT_TIMEOUT)
 
     def select_table(self):
         self.click(self.SEE_TABLES)
-        self.wait_visibility(self.MAIN_HALL, timeout=WAIT_TIMEOUT)
-        self.click(self.MAIN_HALL)
-        self.wait_visibility(self.TABLE, timeout=WAIT_TIMEOUT)
-        self.click(self.TABLE)
-        WebDriverWait(self.driver, WAIT_TIMEOUT).until(
-            lambda d: d.find_elements(*self.ACCEPT) or d.find_elements(*self.MEATS))
+        self.click(self.MAIN_HALL, WAIT_TIMEOUT)
+        self.click(self.TABLE, WAIT_TIMEOUT)
+        WebDriverWait(self.driver, WAIT_TIMEOUT).until(lambda d: d.find_elements(*self.ACCEPT) or d.find_elements(*self.MEATS))
 
     def select_guests(self):
         if self.exists(self.MEATS, timeout=3):
@@ -54,19 +48,13 @@ class ReservationPage(BasePage):
 
     def select_product(self):
         self.click(self.MEATS)
-        self.wait_visibility(self.SELECT_MEATS, timeout=WAIT_TIMEOUT)
-        self.click(self.SELECT_MEATS)
-        self.wait_visibility(self.SELECT_VEGETABLE, timeout=WAIT_TIMEOUT)
-        self.click(self.SELECT_VEGETABLE)
-        self.wait_visibility(self.RARE, timeout=WAIT_TIMEOUT)
-        self.click(self.RARE)
-        self.wait_visibility(self.ADD, timeout=WAIT_TIMEOUT)
-        self.click(self.ADD)
+        self.click(self.SELECT_MEATS, WAIT_TIMEOUT)
+        self.click(self.SELECT_VEGETABLE, WAIT_TIMEOUT)
+        self.click(self.RARE, WAIT_TIMEOUT)
+        self.click(self.ADD, WAIT_TIMEOUT)
         self.check_amount(self.CHECK_AMOUNTS[0])
-        self.wait_visibility(self.RICE, timeout=WAIT_TIMEOUT)
-        self.click(self.RICE)
-        self.wait_visibility(self.SELECT_RICE, timeout=WAIT_TIMEOUT)
-        self.click(self.SELECT_RICE)
+        self.click(self.RICE, WAIT_TIMEOUT)
+        self.click(self.SELECT_RICE, WAIT_TIMEOUT)
         self.check_amount(self.CHECK_AMOUNTS[1])
 
     def increase_product(self):
@@ -99,8 +87,7 @@ class ReservationPage(BasePage):
 
     def click_pay(self):
         self.click(self.SEND_TO_KITCHEN)
-        self.save_ticket_data()
-        self.click(self.CHARGE)
+        self.click_verify_pay()
 
     def click_verify_pay(self):
         self.save_ticket_data()

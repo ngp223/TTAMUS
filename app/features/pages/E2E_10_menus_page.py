@@ -6,7 +6,7 @@ from features.config.test_config import WAIT_TIMEOUT, WEBVIEW_CONTEXT
 
 
 class MenusPage(BasePage):
-    MENUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Menús")')
+    MENUS = BasePage.by_text("Menús")
     NEW_MENU = (AppiumBy.CSS_SELECTOR, '#menus-add')
     MENU_NAME = (AppiumBy.CSS_SELECTOR, '#menu-edit-name')
     NEXT = (AppiumBy.CSS_SELECTOR, '#menu-edit-next')
@@ -16,6 +16,7 @@ class MenusPage(BasePage):
     TRASH = (AppiumBy.CSS_SELECTOR, '[id*="menus-delete-"]')
     DELETE = (AppiumBy.CSS_SELECTOR, '#confirm-modal-accept')
     ADD_PRODUCT = (AppiumBy.CSS_SELECTOR, '[id^="cdk-dialog-"][id*="-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1"]')
+    MENU_NAME_XPATH = '//*[normalize-space(text())="{}"]'
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -55,12 +56,10 @@ class MenusPage(BasePage):
     def find_menu(self):
         if not self.created_menu:
             raise Exception("No existe menu")
-        locator = (AppiumBy.XPATH, f'//*[normalize-space(text())="{self.created_menu}"]')
-        return self.wait_visibility(locator, WAIT_TIMEOUT)
+        return self.wait_visibility((AppiumBy.XPATH, self.MENU_NAME_XPATH.format(self.created_menu)), WAIT_TIMEOUT)
 
     def find_menu_action(self, action):
-        menu_name = self.find_menu()
-        row = menu_name.find_element(AppiumBy.XPATH, './ancestor::*[starts-with(@id,"cdk-drop-list-") and contains(@id,"div-cdk-drag-")][last()]')
+        row = self.find_menu().find_element(AppiumBy.XPATH, './ancestor::*[starts-with(@id,"cdk-drop-list-") and contains(@id,"div-cdk-drag-")][last()]')
         return row.find_element(*action)
 
     def modify_menu(self):
@@ -72,10 +71,9 @@ class MenusPage(BasePage):
         self.created_menu = self.modified_description
 
     def verify_modified_menu(self):
-        self.created_menu = self.modified_description
         self.find_menu()
 
     def delete_menu(self):
         self.find_menu_action(self.TRASH).click()
         self.click(self.DELETE)
-        self.wait_invisibility((AppiumBy.XPATH, f'//*[normalize-space(text())="{self.created_menu}"]'))
+        self.wait_invisibility((AppiumBy.XPATH, self.MENU_NAME_XPATH.format(self.created_menu)))

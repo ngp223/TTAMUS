@@ -12,7 +12,6 @@ NEW_START_TIME = ("14", "30")
 
 
 class SchedulesPage(BasePage):
-    MENU = BasePage.by_text("Horarios")
     ADD_SHIFT = BasePage.by_text("Añadir turno")
     EMPLOYEE = BasePage.by_id("shift-edit-employee")
     DAY = BasePage.by_id("shift-edit-day")
@@ -20,7 +19,6 @@ class SchedulesPage(BasePage):
     END = BasePage.by_id("shift-edit-end")
     SAVE = BasePage.by_id("shift-edit-save")
     DELETE = BasePage.by_id("shift-edit-delete")
-    CONFIRM_DELETE = BasePage.by_id("confirm-modal-accept")
     EMPLOYEE_OPTION = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().resourceIdMatches(".*shift-edit-employee-opt.*").text("{SHIFT_EMPLOYEE}")')
     DIALOG = (AppiumBy.XPATH, '//*[contains(@resource-id,"cdk-dialog-")]')
     PICKER_PANEL = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceIdMatches(".*tam-time-picker__panel.*")')
@@ -29,7 +27,6 @@ class SchedulesPage(BasePage):
     DAY_CELL = 'new UiSelector().resourceIdMatches(".*tam-date-picker__day-{}$")'
     SHIFT = '(//*[contains(@resource-id,"span-cal__employee") and contains(@text,"{}")]/..//*[contains(@resource-id,"button-chip") and contains(@text,"{}:{}–")] | //*[contains(@resource-id,"button-person") and contains(@content-desc,"{} · {}:{}")])'
     ANY_SHIFT = '(//*[contains(@resource-id,"span-cal__employee") and contains(@text,"{}")]/..//*[contains(@resource-id,"button-chip")] | //*[contains(@resource-id,"button-person") and contains(@content-desc,"{} ·")])'
-
     PICK_JS = """
         const panels = document.querySelectorAll('.tam-time-picker__panel');
         const panel = panels[panels.length - 1];
@@ -44,21 +41,17 @@ class SchedulesPage(BasePage):
     """
 
     def _shifts(self, time):
-        locator = self.SHIFT.format(SHIFT_EMPLOYEE, time[0], time[1], SHIFT_EMPLOYEE, time[0], time[1])
-        return self.driver.find_elements(AppiumBy.XPATH, locator)
+        return self.driver.find_elements(AppiumBy.XPATH, self.SHIFT.format(SHIFT_EMPLOYEE, time[0], time[1], SHIFT_EMPLOYEE, time[0], time[1]))
 
     def _all_shifts(self):
-        locator = self.ANY_SHIFT.format(SHIFT_EMPLOYEE, SHIFT_EMPLOYEE)
-        return self.driver.find_elements(AppiumBy.XPATH, locator)
+        return self.driver.find_elements(AppiumBy.XPATH, self.ANY_SHIFT.format(SHIFT_EMPLOYEE, SHIFT_EMPLOYEE))
 
     def _first_shift(self, time):
         return WebDriverWait(self.driver, 20).until(lambda d: self._shifts(time))[0]
 
     def _delete_shift(self, shift):
         shift.click()
-        self.click(self.DELETE)
-        self.click(self.CONFIRM_DELETE)
-        self.wait_invisibility(self.EMPLOYEE)
+        self.confirm_delete(self.DELETE, self.EMPLOYEE)
 
     def _clear_shifts(self):
         shifts = self._all_shifts()
@@ -117,14 +110,9 @@ class SchedulesPage(BasePage):
         self._pick_cell(1, time[1])
         self._close_panel(self.PICKER_PANEL)
 
-    def _save(self):
-        self.click(self.SAVE)
-        self.wait_invisibility(self.EMPLOYEE)
-
     def access_schedules(self):
         self._close_overlays()
-        self.scroll_text_any("Horarios")
-        self.click(self.MENU)
+        self.open_menu("Horarios")
         self.wait_clickable(self.ADD_SHIFT)
 
     def create_shift(self):
@@ -135,7 +123,7 @@ class SchedulesPage(BasePage):
         self._pick_day()
         self._pick_time(self.START, START_TIME)
         self._pick_time(self.END, END_TIME)
-        self._save()
+        self.click_and_wait_gone(self.SAVE, self.EMPLOYEE)
 
     def check_shift_created(self):
         self._first_shift(START_TIME)
@@ -143,7 +131,7 @@ class SchedulesPage(BasePage):
     def modify_shift(self):
         self._first_shift(START_TIME).click()
         self._pick_time(self.START, NEW_START_TIME)
-        self._save()
+        self.click_and_wait_gone(self.SAVE, self.EMPLOYEE)
 
     def check_shift_modified(self):
         self._first_shift(NEW_START_TIME)
