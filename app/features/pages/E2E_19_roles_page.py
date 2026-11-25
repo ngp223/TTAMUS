@@ -1,4 +1,3 @@
-
 import random
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
@@ -6,11 +5,9 @@ from features.pages.base_page import BasePage
 
 
 class RolesPage(BasePage):
-    ROLES_MENU = BasePage.by_text("Roles")
     ROLE_CREATE = BasePage.by_id("roles-create")
     ROLE_NAME = BasePage.by_id("role-edit-name")
     ROLE_SAVE = BasePage.by_id("role-edit-save")
-    CONFIRM_DELETE = BasePage.by_id("confirm-modal-accept")
     PERM_GROUPS = [1, 2, 3, 4, 5]
     GROUP_CHECKBOXES = '//android.view.View[contains(@resource-id,"perms__group-{}")]//android.widget.CheckBox'
     DELETE_BTN = '//*[@text="{}"]/ancestor::*[.//*[@content-desc="Eliminar"]][1]//*[@content-desc="Eliminar"]'
@@ -39,18 +36,13 @@ class RolesPage(BasePage):
 
     def _in_list(self, name):
         try:
-            return self.wait_visibility(self.by_text(name))
+            return self.wait_visibility(self.by_text(name), timeout=5)
         except Exception:
-            self.scroll_text(name)
-            return self.wait_visibility(self.by_text(name))
-
-    def _save(self):
-        self.click(self.ROLE_SAVE)
-        self.wait_invisibility(self.ROLE_NAME)
+            self.scroll_text_any(name)
+            return self.wait_visibility(self.by_text(name), timeout=5)
 
     def access_roles(self):
-        self.scroll_text_any("Roles")
-        self.click(self.ROLES_MENU)
+        self.open_menu("Roles")
         self.wait_clickable(self.ROLE_CREATE)
 
     def create_role(self):
@@ -59,7 +51,7 @@ class RolesPage(BasePage):
         self.write(self.ROLE_NAME, self.created_role)
         if not [p for p in (self._check_random([g]) for g in self.PERM_GROUPS) if p]:
             raise Exception("No se ha podido marcar ningún permiso")
-        self._save()
+        self.click_and_wait_gone(self.ROLE_SAVE, self.ROLE_NAME)
 
     def check_role_created(self):
         self._in_list(self.created_role)
@@ -70,7 +62,7 @@ class RolesPage(BasePage):
         self.write(self.ROLE_NAME, self.modified_role)
         if not self._check_random(self.PERM_GROUPS, only_unchecked=True):
             raise Exception("No quedan permisos sin marcar para añadir")
-        self._save()
+        self.click_and_wait_gone(self.ROLE_SAVE, self.ROLE_NAME)
 
     def check_role_modified(self):
         self._in_list(self.modified_role)
@@ -79,8 +71,7 @@ class RolesPage(BasePage):
 
     def delete_role(self):
         self._in_list(self.modified_role)
-        self.click((AppiumBy.XPATH, self.DELETE_BTN.format(self.modified_role)))
-        self.click(self.CONFIRM_DELETE)
+        self.confirm_delete((AppiumBy.XPATH, self.DELETE_BTN.format(self.modified_role)), self.by_text(self.modified_role))
 
     def check_role_deleted(self):
         self.wait_invisibility(self.by_text(self.modified_role))
