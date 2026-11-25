@@ -2,25 +2,23 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from features.pages.base_page import BasePage
 from features.utils.mobile_utils import MobileUtils
-from features.config.test_config import (
-    WAIT_TIMEOUT, MENU_TYPE_STARTERS, MENU_TYPE_PEPPERS, MENU_TYPE_SALADS, MENU_TYPE_SALAD_CESAR)
+from features.config.test_config import WAIT_TIMEOUT, MENU_TYPE_STARTERS, MENU_TYPE_PEPPERS, MENU_TYPE_SALADS, MENU_TYPE_SALAD_CESAR
 from datetime import datetime
 import time
 
 
 class MenuTypesPage(BasePage):
-    MENU_TYPES = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Cartas")')
-    ADD_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Añadir Carta")')
-    NAME_MENU_TYPE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().resourceId("carta-wizard-name")')
-    NEXT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Siguiente")')
-    STARTERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_STARTERS}")')
-    PEPPERS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_PEPPERS}")')
-    SALADS = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_SALADS}")')
-    SALAD_CESAR = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{MENU_TYPE_SALAD_CESAR}")')
-    FINISH_AND_SAVE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Finalizar y Guardar")')
+    ADD_MENU_TYPE = BasePage.by_text("Añadir Carta")
+    NAME_MENU_TYPE = BasePage.by_id("carta-wizard-name")
+    NEXT = BasePage.by_text("Siguiente")
+    STARTERS = BasePage.by_text_contains(MENU_TYPE_STARTERS)
+    PEPPERS = BasePage.by_text_contains(MENU_TYPE_PEPPERS)
+    SALADS = BasePage.by_text_contains(MENU_TYPE_SALADS)
+    SALAD_CESAR = BasePage.by_text_contains(MENU_TYPE_SALAD_CESAR)
+    FINISH_AND_SAVE = BasePage.by_text("Finalizar y Guardar")
     BIN = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Eliminar")')
-    DELETE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Eliminar")')
-    PREVIOUS = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Anterior")')
+    DELETE = BasePage.by_text("Eliminar")
+    PREVIOUS = BasePage.by_text("Anterior")
     CLOSE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Cerrar")')
     EDIT = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Editar")')
     SEE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().description("Ver")')
@@ -33,20 +31,19 @@ class MenuTypesPage(BasePage):
         self.menu_type_created = None
 
     def open_menutypes(self):
-        self.scroll_text_any("Cartas")
-        self.click(self.MENU_TYPES)
+        self.open_menu("Cartas")
 
     def create_new_menutype(self, timeout=max(WAIT_TIMEOUT, 25)):
         self.menu_type_created = f"Carta QA {datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.click(self.ADD_MENU_TYPE, timeout=timeout)
         self.write(self.NAME_MENU_TYPE, self.menu_type_created)
-        for locator in (self.NEXT,self.STARTERS,self.PEPPERS,self.SALADS,self.SALAD_CESAR,self.NEXT,self.NEXT,self.FINISH_AND_SAVE,):
+        for locator in (self.NEXT, self.STARTERS, self.PEPPERS, self.SALADS, self.SALAD_CESAR, self.NEXT, self.NEXT, self.FINISH_AND_SAVE):
             self.click(locator)
 
     def click_menutype_action(self, action):
         if not self.menu_type_created:
             raise Exception("No existe carta creada para buscar")
-        locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{self.menu_type_created}")')
+        locator = self.by_text(self.menu_type_created)
         menu_type = None
         for _ in range(8):
             try:
