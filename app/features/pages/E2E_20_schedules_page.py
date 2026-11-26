@@ -61,11 +61,7 @@ class SchedulesPage(BasePage):
             WebDriverWait(self.driver, 20).until(lambda d: len(self._all_shifts()) < count)
             shifts = self._all_shifts()
 
-    def _close_overlays(self):
-        for _ in range(4):
-            if not self.exists(self.DIALOG, timeout=1):
-                return
-            self.driver.back()
+
 
     def _open_panel(self, button, panel):
         self.click(button)
@@ -111,7 +107,6 @@ class SchedulesPage(BasePage):
         self._close_panel(self.PICKER_PANEL)
 
     def access_schedules(self):
-        self._close_overlays()
         self.open_menu("Horarios")
         self.wait_clickable(self.ADD_SHIFT)
 

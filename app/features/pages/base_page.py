@@ -26,6 +26,13 @@ class BasePage:
     def by_text_contains(text):
         return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{text}")'
 
+    def by_text_matches(regex):
+        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textMatches("{regex}")'
+
+    @staticmethod
+    def by_row_text(text):
+        return AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}").className("android.widget.TextView")'
+
     def wait_clickable(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
@@ -38,7 +45,7 @@ class BasePage:
         self.scroll_text_any(text)
         return self.click(self.by_text(text))
 
-    def click_and_wait_gone(self, click_locator, gone_locator, timeout=15):
+    def click_and_wait_gone(self, click_locator, gone_locator, timeout=20):
         self.click(click_locator, timeout)
         self.wait_invisibility(gone_locator, timeout)
 

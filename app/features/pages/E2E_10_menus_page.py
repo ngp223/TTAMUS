@@ -1,6 +1,8 @@
 import random
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
 from features.pages.base_page import BasePage
 from features.config.test_config import WAIT_TIMEOUT, WEBVIEW_CONTEXT
 
@@ -17,23 +19,30 @@ class MenusPage(BasePage):
     DELETE = (AppiumBy.CSS_SELECTOR, '#confirm-modal-accept')
     ADD_PRODUCT = (AppiumBy.CSS_SELECTOR, '[id^="cdk-dialog-"][id*="-tam-menu-edit-modal-1-tam-dialog-layout-tam-dialog-1-div-tam-dialog__body-1-div-sections-1-section-section-{section}-div-section__body-1-button-link-1"]')
     MENU_NAME_XPATH = '//*[normalize-space(text())="{}"]'
+    ICONS = ("add", "check", "check_circle")
 
     def __init__(self, driver):
         super().__init__(driver)
         self.created_menu = None
         self.modified_description = None
 
+    def _pick_product(self, locator, selected_products):
+        items = []
+        for p in self.driver.find_elements(*locator):
+            lines = [l for l in p.text.strip().splitlines() if l.strip() and l.strip() not in self.ICONS]
+            if lines and lines[0].strip() not in selected_products:
+                items.append((p, lines[0].strip()))
+        if not items:
+            return False
+        product, name = random.choice(items)
+        product.click()
+        return name
+
     def select_product(self, section, selected_products):
         add_product = (self.ADD_PRODUCT[0], self.ADD_PRODUCT[1].format(section=section))
         self.click(add_product, timeout=45)
         locator = (AppiumBy.CSS_SELECTOR, f'[id*="section-section-{section}-"][id*="button-picker__item-"]')
-        products = self.driver.find_elements(*locator)
-        available = [p for p in products if p.text.strip().splitlines()[0] not in selected_products]
-        if not available:
-            raise Exception(f"No hay productos distintos disponibles en la sección {section}")
-        product = random.choice(available)
-        name = product.text.strip().splitlines()[0]
-        product.click()
+        name = WebDriverWait(self.driver, 15, ignored_exceptions=(StaleElementReferenceException,)).until(lambda d: self._pick_product(locator, selected_products))
         selected_products.append(name)
         print(f"Producto seleccionado en sección {section}: {name}")
 

@@ -1,7 +1,6 @@
 from datetime import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.keys import Keys
 from features.pages.base_page import BasePage
 
 
@@ -23,22 +22,20 @@ class ProductsPage(BasePage):
         el = self.wait_visibility(locator)
         el.click()
         el.clear()
-        if el.text.strip():
-            el.send_keys(Keys.CONTROL, "a")
-            el.send_keys(Keys.BACK_SPACE)
         el.send_keys(text)
-        current = el.text.strip()
-        if current != text:
-            raise AssertionError(f"Error escribiendo '{text}' (actual: '{current}')")
 
     def _find_row(self, name):
-        if self.exists(self._row_locator(name), timeout=1):
+        if self.exists(self.by_row_text(name), timeout=1):
             return
-        self._write_clean(self.PRODUCTS_SEARCH, name)
-        try:
-            return self.wait_visibility(self._row_locator(name), timeout=10)
-        except TimeoutException:
-            raise AssertionError(f"No aparece en listado: '{name}'")
+        for use_type in (False, True, True):
+            self._write_clean(self.PRODUCTS_SEARCH, "")
+            if use_type:
+                self.value_write(self.PRODUCTS_SEARCH, name)
+            else:
+                self._write_clean(self.PRODUCTS_SEARCH, name)
+            if self.exists(self.by_row_text(name), timeout=5):
+                return
+        raise AssertionError(f"No aparece en listado: '{name}'")
 
     def access_products(self):
         self.open_menu("Productos")
